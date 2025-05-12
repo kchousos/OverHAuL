@@ -6,9 +6,14 @@
 int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     kvstore_init();
 
-    // We will feed the input data as a sequence of commands separated by '\n'.
-    // Each command is null-terminated for kvstore_handle_command.
-    // To avoid modifying the input buffer, copy it to a modifiable buffer.
+    // We will split the input data into multiple commands separated by '\n'
+    // Each command is null-terminated before passing to kvstore_handle_command.
+    // To avoid modifying the input buffer, we copy it to a mutable buffer.
+    if (size == 0) {
+        kvstore_cleanup();
+        return 0;
+    }
+
     char *buf = malloc(size + 1);
     if (!buf) {
         kvstore_cleanup();
@@ -28,7 +33,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         }
     }
 
-    kvstore_cleanup();
     free(buf);
+    kvstore_cleanup();
     return 0;
 }
