@@ -52,6 +52,8 @@ class ProjectAnalyzer:
         Returns:
             ProjectInfo: Information about the project.
         """
+        logger.info("Reading project and collecting information...")
+
         files: list[ProjectFile] = []
 
         project_files = self._find_project_files()

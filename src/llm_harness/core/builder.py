@@ -56,6 +56,8 @@ class HarnessBuilder:
         Returns:
             str: Build output including success or error message.
         """
+        logger.info("Building harness...")
+
         if not harness_filename:
             harness_filename = Config().HARNESS_FILENAME
 

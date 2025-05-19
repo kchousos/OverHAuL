@@ -56,6 +56,8 @@ class HarnessGenerator:
         Returns:
             str: The generated harness code.
         """
+        logger.info("Calling LLM to generate a harness...")
+
         try:
             lm = dspy.LM(f"openai/{self.model}", cache=False)
             dspy.configure(lm=lm)

@@ -53,6 +53,8 @@ class FileManager:
         Returns:
             str: Path to the written harness file.
         """
+        logger.info("Writing harness to project...")
+
         os.makedirs(self.harness_dir, exist_ok=True)
 
         if not filename:

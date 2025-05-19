@@ -59,6 +59,8 @@ class HarnessEvaluator:
         Returns:
             bool: Returns whether the harness "passes" the evaluation.
         """
+        logger.info("Evaluating harness...")
+
         execution_command = f"./{self.executable}"
 
         before = self._list_crash_files()

@@ -39,23 +39,18 @@ def main() -> bool:
     args = parse_arguments()
     project_path, model = args.project_path, args.model
 
-    logger.info("Reading project and collecting information...")
     analyzer = ProjectAnalyzer(project_path)
     project_info = analyzer.collect_project_info()
 
-    logger.info("Calling LLM to generate a harness...")
     generator = HarnessGenerator(model=model)
     harness = generator.create_harness(project_info=project_info)
 
-    logger.info("Writing harness to project...")
     file_manager = FileManager(project_path)
     file_manager.write_harness(harness)
 
-    logger.info("Building harness...")
     builder = HarnessBuilder(project_path)
     builder.build_harness()
 
-    logger.info("Evaluating harness...")
     evaluator = HarnessEvaluator(project_path)
     accepted = evaluator.evaulate_harness()
 

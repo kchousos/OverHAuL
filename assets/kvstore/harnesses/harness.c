@@ -1,39 +1,38 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 #include "kvstore.h"
 
 int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     kvstore_init();
 
-    // We will split the input data into multiple commands separated by '\n'
-    // Each command is null-terminated before passing to kvstore_handle_command.
-    // To avoid modifying the input buffer, we copy it to a mutable buffer.
-    if (size == 0) {
-        kvstore_cleanup();
-        return 0;
-    }
+    // We will treat the input data as a sequence of commands separated by '\n'.
+    // Each command is a null-terminated string passed to kvstore_handle_command.
+    // To avoid excessive memory usage, limit the number of commands processed.
+    const size_t max_commands = 100;
+    size_t commands_processed = 0;
 
-    char *buf = malloc(size + 1);
-    if (!buf) {
-        kvstore_cleanup();
-        return 0;
-    }
-    memcpy(buf, data, size);
-    buf[size] = '\0';
+    size_t start = 0;
+    for (size_t i = 0; i <= size && commands_processed < max_commands; i++) {
+        if (i == size || data[i] == '\n') {
+            size_t len = i - start;
+            if (len > 0) {
+                // Allocate a buffer for the command string plus null terminator
+                char *cmd = (char *)malloc(len + 1);
+                if (!cmd) break;
+                memcpy(cmd, data + start, len);
+                cmd[len] = '\0';
 
-    char *start = buf;
-    for (size_t i = 0; i <= size; i++) {
-        if (buf[i] == '\n' || buf[i] == '\0') {
-            buf[i] = '\0';
-            if (start[0] != '\0') {
-                kvstore_handle_command(start);
+                kvstore_handle_command(cmd);
+
+                free(cmd);
+                commands_processed++;
             }
-            start = buf + i + 1;
+            start = i + 1;
         }
     }
 
-    free(buf);
     kvstore_cleanup();
     return 0;
 }
