@@ -21,6 +21,7 @@ Project analysis functionality.
 
 import os
 import glob
+import subprocess
 from typing import List, Optional
 from loguru import logger
 from llm_harness.models.project import ProjectFile, ProjectInfo
@@ -45,9 +46,9 @@ class ProjectAnalyzer:
         self.project_path = project_path
         self.file_patterns = file_patterns or Config.DEFAULT_FILES
 
-    def collect_project_info(self) -> ProjectInfo:
+    def collect_source_code(self) -> ProjectInfo:
         """
-        Collects information about the project by reading files.
+        Collects project's source code.
 
         Returns:
             ProjectInfo: Information about the project.
@@ -92,3 +93,34 @@ class ProjectAnalyzer:
             all_files.extend(matched_files)
 
         return all_files
+
+    def get_static_analysis(self, backend: str = "cppcheck") -> str:
+        if backend == "cppcheck":
+            static = subprocess.run(
+                [
+                    "cppcheck",
+                    "--enable=warning,performance,information,unusedFunction,missingInclude",
+                    "--std=c++17",
+                    self.project_path,
+                    "-i",
+                    Config.HARNESS_DIR,
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+            )
+
+            return static.stdout
+
+        return ""
+
+    def collect_project_info(self) -> ProjectInfo:
+        """
+        Collects information about the project by reading files.
+
+        Returns:
+            ProjectInfo: Information about the project.
+        """
+        info = self.collect_source_code()
+        info.static = self.get_static_analysis()
+        return info

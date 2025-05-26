@@ -63,6 +63,7 @@ class HarnessGenerator:
             dspy.configure(lm=lm)
 
             concatenated_content = project_info.get_concatenated_content()
+            static_analysis = project_info.get_static_analysis()
 
             response = lm(
                 f"""
@@ -78,6 +79,9 @@ class HarnessGenerator:
                 === Source Code ===
 
                 {concatenated_content}
+                
+                === CPPCheck (static analysis) output ===
+                {static_analysis}
                 """
             )
 

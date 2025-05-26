@@ -5,16 +5,21 @@
 #include "kvstore.h"
 
 int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+    // Initialize the kvstore
     kvstore_init();
 
-    // We will split the input data into multiple commands separated by '\n'
-    // Each command is null-terminated and passed to kvstore_handle_command.
-    // To avoid excessive memory usage, limit number of commands.
-    const size_t max_commands = 20;
-    size_t commands_count = 0;
+    // We will parse the input data into multiple commands separated by '\n'
+    // Each command is a null-terminated string passed to kvstore_handle_command.
+    // To avoid excessive allocations, we copy the input data into a buffer,
+    // replacing '\n' with '\0' to split commands.
 
-    // Make a writable copy of data to insert null terminators
-    char *buf = malloc(size + 1);
+    if (size == 0) {
+        kvstore_cleanup();
+        return 0;
+    }
+
+    // Allocate a buffer to hold a null-terminated copy of data
+    char *buf = (char *)malloc(size + 1);
     if (!buf) {
         kvstore_cleanup();
         return 0;
@@ -23,12 +28,11 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     buf[size] = '\0';
 
     char *start = buf;
-    for (size_t i = 0; i <= size && commands_count < max_commands; i++) {
+    for (size_t i = 0; i <= size; i++) {
         if (buf[i] == '\n' || buf[i] == '\0') {
             buf[i] = '\0';
             if (start[0] != '\0') {
                 kvstore_handle_command(start);
-                commands_count++;
             }
             start = buf + i + 1;
         }

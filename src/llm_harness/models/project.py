@@ -37,6 +37,7 @@ class ProjectInfo:
     """Contains information about a project."""
 
     source: List[ProjectFile]
+    static: str | None = None
 
     def get_concatenated_content(self) -> str:
         """
@@ -52,3 +53,6 @@ class ProjectInfo:
             file_contents.append(file.content)
 
         return "".join(file_contents)
+
+    def get_static_analysis(self) -> str | None:
+        return self.static
