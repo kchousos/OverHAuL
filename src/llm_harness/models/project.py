@@ -36,7 +36,7 @@ class ProjectFile:
 class ProjectInfo:
     """Contains information about a project."""
 
-    files: List[ProjectFile]
+    source: List[ProjectFile]
 
     def get_concatenated_content(self) -> str:
         """
@@ -47,7 +47,7 @@ class ProjectInfo:
         """
         file_contents = []
 
-        for file in self.files:
+        for file in self.source:
             file_contents.append(f"\n>>>> {file.name}\n")
             file_contents.append(file.content)
 

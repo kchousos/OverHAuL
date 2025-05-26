@@ -59,7 +59,7 @@ class ProjectAnalyzer:
         project_files = self._find_project_files()
         if not project_files:
             logger.error("No project files found!")
-            return ProjectInfo(files=files)
+            return ProjectInfo(source=files)
 
         for file_path in project_files:
             try:
@@ -77,7 +77,7 @@ class ProjectAnalyzer:
         if not files:
             logger.error("No project files found!")
 
-        return ProjectInfo(files=files)
+        return ProjectInfo(source=files)
 
     def _find_project_files(self) -> List[str]:
         """

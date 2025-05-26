@@ -88,20 +88,20 @@ class TestProjectAnalyzer:
 
         # Assertions
         assert isinstance(project_info, ProjectInfo)
-        print(project_info.files)
-        assert len(project_info.files) == 4
+        print(project_info.source)
+        assert len(project_info.source) == 4
 
         # Check file names are extracted correctly
-        assert project_info.files[0].name == "file1.c"
-        assert project_info.files[1].name == "header.h"
-        assert project_info.files[2].name == "file2.cpp"
-        assert project_info.files[3].name == "header2.hpp"
+        assert project_info.source[0].name == "file1.c"
+        assert project_info.source[1].name == "header.h"
+        assert project_info.source[2].name == "file2.cpp"
+        assert project_info.source[3].name == "header2.hpp"
 
         # Check content is read correctly
-        assert project_info.files[0].content == "test file content"
-        assert project_info.files[1].content == "test file content"
-        assert project_info.files[2].content == "test file content"
-        assert project_info.files[3].content == "test file content"
+        assert project_info.source[0].content == "test file content"
+        assert project_info.source[1].content == "test file content"
+        assert project_info.source[2].content == "test file content"
+        assert project_info.source[3].content == "test file content"
 
     def test_collect_project_info_empty(self, mock_glob):
         """Test collect_project_info with no matching files."""
@@ -113,7 +113,7 @@ class TestProjectAnalyzer:
 
         # Assertions
         assert isinstance(project_info, ProjectInfo)
-        assert len(project_info.files) == 0
+        assert len(project_info.source) == 0
 
     def test_collect_project_info_read_error(self, mock_glob):
         """Test collect_project_info with file read error."""
@@ -129,4 +129,4 @@ class TestProjectAnalyzer:
 
             # Assertions - should return empty ProjectInfo
             assert isinstance(project_info, ProjectInfo)
-            assert len(project_info.files) == 0
+            assert len(project_info.source) == 0

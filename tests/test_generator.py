@@ -49,7 +49,7 @@ class TestHarnessGenerator:
             name="file.c",
             content="int main() { return 0; }",
         )
-        project_info = ProjectInfo(files=[project_file])
+        project_info = ProjectInfo(source=[project_file])
 
         # Create generator and call method
         generator = HarnessGenerator("gpt-4o")
@@ -75,7 +75,7 @@ class TestHarnessGenerator:
             name="file.c",
             content="int main() { return 0; }",
         )
-        project_info = ProjectInfo(files=[project_file])
+        project_info = ProjectInfo(source=[project_file])
 
         # Create generator and call method - should raise exception
         generator = HarnessGenerator("gpt-4o")

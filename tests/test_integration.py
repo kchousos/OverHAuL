@@ -99,7 +99,7 @@ def test_end_to_end_flow(
         result_path = file_manager.write_harness(harness)
 
         # Assertions
-        assert len(project_info.files) == 2
+        assert len(project_info.source) == 2
         assert harness == "Generated harness code"
         assert result_path == os.path.join(
             project_path, "harnesses", "harness.c"
