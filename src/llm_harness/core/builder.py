@@ -78,7 +78,7 @@ class HarnessBuilder:
             *source_files,
             "-I.",
             "-o",
-            # self.executable,
+            self.executable,
         ]
 
         logger.info(f"Starting compilation of harness: {harness_filename}")
