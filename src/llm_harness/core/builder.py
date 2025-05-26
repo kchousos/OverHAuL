@@ -46,7 +46,7 @@ class HarnessBuilder:
 
     def build_harness(
         self, harness_filename: Optional[str] = Config().HARNESS_FILENAME
-    ) -> str:
+    ) -> tuple[str, bool]:
         """
         Builds the LLM-generated harness.
 
@@ -78,7 +78,7 @@ class HarnessBuilder:
             *source_files,
             "-I.",
             "-o",
-            self.executable,
+            # self.executable,
         ]
 
         logger.info(f"Starting compilation of harness: {harness_filename}")
@@ -91,11 +91,11 @@ class HarnessBuilder:
                 cwd=self.project_path,
             )
             logger.info("Harness compiled successfully")
-            return completed_process.stdout
+            return completed_process.stdout, True
 
         except subprocess.CalledProcessError as e:
             logger.error("Error during harness compilation")
             logger.error(
                 f"Standard Output:\n{e.stdout}\nStandard Error:\n{e.stderr}"
             )
-            return f"Error {e.returncode}: {e.stderr}"
+            return f"Error {e.returncode}: {e.stderr}", False

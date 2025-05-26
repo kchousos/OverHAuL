@@ -72,8 +72,8 @@ class HarnessEvaluator:
         try:
             subprocess.run(
                 execution_command,
+                stdout=subprocess.DEVNULL,
                 check=False,
-                text=True,
                 cwd=self.project_path,
                 timeout=Config().EXECUTION_TIMEOUT,
             )

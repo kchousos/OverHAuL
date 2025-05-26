@@ -49,7 +49,10 @@ def main() -> bool:
     file_manager.write_harness(harness)
 
     builder = HarnessBuilder(project_path)
-    builder.build_harness()
+    stdout, success = builder.build_harness()
+    if not success:
+        logger.error("Exiting...")
+        return False
 
     evaluator = HarnessEvaluator(project_path)
     accepted = evaluator.evaulate_harness()
