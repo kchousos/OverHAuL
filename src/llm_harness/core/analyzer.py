@@ -20,8 +20,10 @@ Project analysis functionality.
 """
 
 import os
+import sys
 import glob
 import subprocess
+import shutil
 from typing import List, Optional
 from loguru import logger
 from llm_harness.models.project import ProjectFile, ProjectInfo
@@ -96,6 +98,9 @@ class ProjectAnalyzer:
 
     def get_static_analysis(self, backend: str = "cppcheck") -> str:
         if backend == "cppcheck":
+            if shutil.which(backend) is None:
+                logger.error("cppcheck not in path. Exiting...")
+                sys.exit(1)
             static = subprocess.run(
                 [
                     "cppcheck",
