@@ -39,18 +39,16 @@ alt="type check: mypy" /></a></p>
 ### Dependencies
 
 - Python >=3.10
+- [Cppcheck](https://github.com/danmar/cppcheck)
 - [uv](https://docs.astral.sh/uv/)
-
-    ```bash
-    pipx install uv
-    ```
 
 ### Installation Steps
 
-1. Clone the repository:
+1. Clone the repository and cd into it:
 
     ```bash
-    git clone https://github.com/kchousos/llm-harness.git
+    git clone https://github.com/kchousos/llm-harness.git;
+    cd llm-harness
     ```
 
 2. Install the project:
