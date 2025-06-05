@@ -19,6 +19,7 @@
 Main function utilizing the llm_harness package.
 """
 
+import sys
 from loguru import logger
 from llm_harness.cli import parse_arguments
 from llm_harness.core.analyzer import ProjectAnalyzer
@@ -46,10 +47,10 @@ def main() -> bool:
     harness = generator.create_harness(project_info=project_info)
 
     file_manager = FileManager(project_path)
-    file_manager.write_harness(harness)
+    _ = file_manager.write_harness(harness)
 
     builder = HarnessBuilder(project_path)
-    stdout, success = builder.build_harness()
+    _, success = builder.build_harness()
     if not success:
         logger.error("Exiting...")
         return False
@@ -62,8 +63,8 @@ def main() -> bool:
         return False
 
     logger.info("All done!")
-    return True
+    return False
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(not main())
