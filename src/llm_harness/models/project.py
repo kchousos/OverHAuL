@@ -20,7 +20,6 @@ Data models for project analysis.
 """
 
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass
@@ -36,7 +35,7 @@ class ProjectFile:
 class ProjectInfo:
     """Contains information about a project."""
 
-    source: List[ProjectFile]
+    source: list[ProjectFile]
     static: str | None = None
 
     def get_concatenated_content(self) -> str:

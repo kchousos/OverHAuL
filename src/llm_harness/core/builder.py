@@ -22,10 +22,11 @@ Builds the generated harness.
 import os
 import subprocess
 from loguru import logger
-from typing import Optional
+from typing import final
 from llm_harness.config import Config
 
 
+@final
 class HarnessBuilder:
     """
     Builds a project's generated harness.
@@ -45,7 +46,7 @@ class HarnessBuilder:
         self.harness_dir = Config().HARNESS_DIR
 
     def build_harness(
-        self, harness_filename: Optional[str] = Config().HARNESS_FILENAME
+        self, harness_filename: str | None = Config().HARNESS_FILENAME
     ) -> tuple[str, bool]:
         """
         Builds the LLM-generated harness.

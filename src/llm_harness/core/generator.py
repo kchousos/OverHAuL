@@ -21,10 +21,12 @@ Harness generation functionality.
 
 import dspy
 from loguru import logger
+from typing import final
 from llm_harness.models.project import ProjectInfo
 from llm_harness.config import Config
 
 
+@final
 class HarnessGenerator:
     """
     Generates a harness for a project using an LLM.
@@ -69,12 +71,15 @@ class HarnessGenerator:
                 f"""
                 I have this C project, for which you will find the contents
                 below. Write me a fuzzing harness for it.
-                Respond **only** with the harness' code. Make sure to write all
-                the necessary includes etc. The harness will be located in the
+                Respond **only** with the harness' code. Make sure to write *all
+                the necessary includes* etc. The harness will be located in the
                 project root, so make sure the includes work appropriately.
+                Take into account each file's path.
 
                 Do not even wrap the code in markdown fences, e.g. ```, because
                 it will be automatically written to a .c file.
+
+                The function to be fuzzed **must** be part of the source code!
 
                 === Source Code ===
 
