@@ -61,7 +61,7 @@ class HarnessGenerator:
         logger.info("Calling LLM to generate a harness...")
 
         try:
-            lm = dspy.LM(f"openai/{self.model}", cache=False)
+            lm = dspy.LM(f"openai/{self.model}", cache=False, temperature=0.8)
             dspy.configure(lm=lm)
 
             concatenated_content = project_info.get_concatenated_content()
@@ -70,17 +70,19 @@ class HarnessGenerator:
             response = lm(
                 f"""
                 I have this C project, for which you will find the contents
-                below. Write me a fuzzing harness for it.
+                below. Write me a libFuzzer-compatible harness for it.
                 Respond **only** with the harness' code. Make sure to write *all
                 the necessary includes* etc. The harness will be located in the
                 project root, so make sure the includes work appropriately.
                 Take into account each file's path.
 
+                Try to write a new harness and not default to one from your
+                training dataset. It will be a .c file.
+
                 Do not even wrap the code in markdown fences, e.g. ```, because
                 it will be automatically written to a .c file.
 
                 The function to be fuzzed **must** be part of the source code!
-                Include its signature prototype in your code.
 
                 Do not add arbitrary checks for the input, like limiting input
                 size, or worrying about stack usage. These things must be
