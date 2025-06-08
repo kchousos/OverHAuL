@@ -80,6 +80,18 @@ class HarnessGenerator:
                 it will be automatically written to a .c file.
 
                 The function to be fuzzed **must** be part of the source code!
+                Include its signature prototype in your code.
+
+                Do not add arbitrary checks for the input, like limiting input
+                size, or worrying about stack usage. These things must be
+                accounted by the fuzzed library, this is why I need the harness.
+                On the other hand, do not write code that will most probably
+                crash, i.e. non-null terminated strings etc. The point is for a
+                function of the library under test to crash, not the harness
+                itself.
+
+                Use and take advantage of any custom structs that the library
+                declares.
 
                 === Source Code ===
 
