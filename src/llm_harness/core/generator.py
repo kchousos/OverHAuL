@@ -61,6 +61,7 @@ class HarnessGenerator:
         logger.info("Calling LLM to generate a harness...")
 
         try:
+<<<<<<< HEAD
             lm = dspy.LM(
                 f"openai/{self.model}",
                 cache=False,
@@ -88,6 +89,7 @@ class HarnessGenerator:
                 it will be automatically written to a .c file.
 
                 The function to be fuzzed **must** be part of the source code!
+
                 Select one function to fuzz at random.
 
                 Before generating the harness, think step by step about what
