@@ -82,7 +82,7 @@ class ProjectAnalyzer:
 
         return ProjectInfo(source=files)
 
-    def _find_project_files(self) -> List[str]:
+    def _find_project_files(self) -> list[str]:
         """
         Finds all project files matching the specified patterns.
 
@@ -96,20 +96,25 @@ class ProjectAnalyzer:
 
         return all_files
 
-    def get_static_analysis(self, backend: str = "cppcheck") -> str:
-        if backend == "cppcheck":
-            if shutil.which(backend) is None:
+    def get_static_analysis(
+        self, backend: list[str] = ["cppcheck", "flawfinder"]
+    ) -> str:
+        static = ""
+        if "cppcheck" in backend:
+            if shutil.which("cppcheck") is None:
                 logger.error("cppcheck not in path. Exiting...")
                 sys.exit(1)
-            static = subprocess.run(
+
+            static += "=== CPPCheck output ===\n\n"
+            output = subprocess.run(
                 [
                     "cppcheck",
                     "--enable=warning,performance,information,unusedFunction,missingInclude",
                     "--std=c++17",
-                    "-i",
                     "--suppress=missingIncludeSystem",
                     "--suppress=unusedFunction",
                     "--check-level=exhaustive",
+                    "-i",
                     Config.HARNESS_DIR,
                     ".",
                 ],
@@ -119,9 +124,24 @@ class ProjectAnalyzer:
                 text=True,
             )
 
-            return static.stdout
+            static += output.stdout
 
-        return ""
+        if "flawfinder" in backend:
+            static += "\n\n=== Flawfinder output ===\n\n"
+            output = subprocess.run(
+                [
+                    "flawfinder",
+                    "*.c",
+                ],
+                cwd=self.project_path,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+            )
+
+            static += output.stdout
+
+        return static
 
     def collect_project_info(self) -> ProjectInfo:
         """

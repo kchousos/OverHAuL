@@ -103,14 +103,21 @@ class HarnessGenerator:
                 function of the library under test to crash, not the harness
                 itself.
 
+                The point is to catch the Program Under Test "by surprise", so
+                do not format your input to make its job easier,
+                e.g. NULL-terminated strings or using specific keywords to the
+                program to help it.
+
                 Use and take advantage of any custom structs that the library
                 declares.
+
+                Again, Make sure to add **all the necessary includes**.
 
                 === Source Code ===
 
                 {concatenated_content}
                 
-                === CPPCheck (static analysis) output ===
+                === Static Analysis Output ===
                 {static_analysis}
                 """
             )
