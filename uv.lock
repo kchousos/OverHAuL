@@ -467,6 +467,14 @@ wheels = [
 ]
 
 [[package]]
+name = "flawfinder"
+version = "2.0.19"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/98/64/32f24ec56ea8603ccfc471549de2fb9957613fba75315e121108a9b80b51/flawfinder-2.0.19-py2.py3-none-any.whl", hash = "sha256:f18f0021d9a2f3ffc1c1e32aa7bb1bb5ca1bad91b82b32157f44e5d0a1a23ad0", size = 60518, upload_time = "2021-08-29T20:34:36.637Z" },
+]
+
+[[package]]
 name = "frozenlist"
 version = "1.5.0"
 source = { registry = "https://pypi.org/simple" }
@@ -793,6 +801,7 @@ source = { editable = "." }
 dependencies = [
     { name = "argparse" },
     { name = "dspy" },
+    { name = "flawfinder" },
     { name = "loguru" },
 ]
 
@@ -813,6 +822,7 @@ docs = [
 requires-dist = [
     { name = "argparse", specifier = ">=1.4.0,<2.0.0" },
     { name = "dspy", specifier = ">=2.6.17,<3.0.0" },
+    { name = "flawfinder", specifier = ">=2.0.19" },
     { name = "loguru", specifier = ">=0.7.3,<0.8.0" },
 ]
 

@@ -9,6 +9,7 @@ dependencies = [
     "dspy (>=2.6.17,<3.0.0)",
     "argparse (>=1.4.0,<2.0.0)",
     "loguru (>=0.7.3,<0.8.0)",
+    "flawfinder>=2.0.19",
 ]
 
 [dependency-groups]
