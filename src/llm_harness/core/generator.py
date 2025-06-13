@@ -95,13 +95,13 @@ class HarnessGenerator:
                 function might be interesting or nontrivial to fuzz.  Avoid
                 choosing the same kind of target as in previous attempts.
 
-                Do not add arbitrary checks for the input, like limiting input
+                **Do not add arbitrary checks for the input, like limiting input
                 size, or worrying about stack usage. These things must be
                 accounted by the fuzzed library, this is why I need the harness.
                 On the other hand, do not write code that will most probably
                 crash, i.e. non-null terminated strings etc. The point is for a
                 function of the library under test to crash, not the harness
-                itself.
+                itself.**
 
                 The point is to catch the Program Under Test "by surprise", so
                 do not format your input to make its job easier,
@@ -111,12 +111,17 @@ class HarnessGenerator:
                 Use and take advantage of any custom structs that the library
                 declares.
 
-                Again, Make sure to add **all the necessary includes**.
+                Again, Make sure to add **all the necessary includes**, like
+                e.g. <string.h>, <stdint.h> or <stdlib.h> if they are needed.
 
                 === Source Code ===
 
                 {concatenated_content}
                 
+                What follows is static analysis output. If you find it helpful,
+                write your harness so that it leverages some of the potential
+                vulnerabilities described below.
+
                 === Static Analysis Output ===
                 {static_analysis}
                 """

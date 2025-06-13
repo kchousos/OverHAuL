@@ -24,7 +24,6 @@ import sys
 import glob
 import subprocess
 import shutil
-from typing import List, Optional
 from loguru import logger
 from llm_harness.models.project import ProjectFile, ProjectInfo
 from llm_harness.config import Config
@@ -35,9 +34,7 @@ class ProjectAnalyzer:
     Analyzes project files and extracts relevant information.
     """
 
-    def __init__(
-        self, project_path: str, file_patterns: Optional[List[str]] = None
-    ):
+    def __init__(self, project_path: str, file_patterns: list[str] = []):
         """
         Initialize the project analyzer.
 
@@ -87,7 +84,7 @@ class ProjectAnalyzer:
         Finds all project files matching the specified patterns.
 
         Returns:
-            List[str]: List of file paths.
+            list[str]: List of file paths.
         """
         all_files = []
         for pattern in self.file_patterns:
@@ -97,10 +94,23 @@ class ProjectAnalyzer:
         return all_files
 
     def get_static_analysis(
-        self, backend: list[str] = ["cppcheck", "flawfinder"]
+        self, backends: list[str] = ["cppcheck", "flawfinder"]
     ) -> str:
+        """
+        Concatenates and returns the output of the static analysis backends
+        specified in `backends`.
+
+        Args:
+            backends (list[str], optional): A list of backends to use for static
+                analysis. Defaults to CPPCheck and Flawfinder.
+
+        Returns:
+            str: The concatenated output of all the enabled static analysis backends.
+
+        """
         static = ""
-        if "cppcheck" in backend:
+
+        if "cppcheck" in backends:
             if shutil.which("cppcheck") is None:
                 logger.error("cppcheck not in path. Exiting...")
                 sys.exit(1)
@@ -126,13 +136,13 @@ class ProjectAnalyzer:
 
             static += output.stdout
 
-        if "flawfinder" in backend:
-            static += "\n\n=== Flawfinder output ===\n\n"
+        if "flawfinder" in backends:
+            static += "=== Flawfinder output ===\n\n"
+
+            c_files = glob.glob("*.c", root_dir=self.project_path)
+
             output = subprocess.run(
-                [
-                    "flawfinder",
-                    "*.c",
-                ],
+                ["flawfinder"] + c_files,
                 cwd=self.project_path,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
