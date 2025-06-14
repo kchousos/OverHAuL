@@ -23,7 +23,6 @@ import os
 import argparse
 from dataclasses import dataclass
 from loguru import logger
-from typing import List
 from llm_harness.config import Config
 
 
@@ -33,7 +32,7 @@ class Arguments:
 
     project_path: str
     model: str
-    file_patterns: List[str]
+    file_patterns: list[str]
 
 
 def parse_arguments() -> Arguments:
@@ -50,7 +49,7 @@ def parse_arguments() -> Arguments:
     parser.add_argument(
         "project",
         help="Name of the project under the `assets/` directory, for which "
-        "harnesses are to be generated.",
+        + "harnesses are to be generated.",
     )
 
     parser.add_argument(
@@ -82,8 +81,8 @@ def parse_arguments() -> Arguments:
     if model not in Config.AVAILABLE_MODELS:
         logger.warning(
             f"Model {model} not available. Available models: "
-            f"{Config.AVAILABLE_MODELS}. "
-            f"Will use the default model ({Config.DEFAULT_MODEL})"
+            + f"{Config.AVAILABLE_MODELS}. "
+            + f"Will use the default model ({Config.DEFAULT_MODEL})"
         )
         model = Config.DEFAULT_MODEL
 
