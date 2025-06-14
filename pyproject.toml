@@ -68,3 +68,7 @@ filterwarnings = ["ignore::DeprecationWarning"]
 line-length = 79
 [tool.ruff.pydocstyle]
 convention = "google"
+
+[tool.basedpyright]
+reportUnusedCallResult = 'none'
+reportAny = 'none'
