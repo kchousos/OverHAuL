@@ -12,6 +12,9 @@ dependencies = [
     "flawfinder>=2.0.19",
 ]
 
+[project.scripts]
+llm-harness = "llm_harness.cli:main"
+
 [dependency-groups]
 docs = ["pdoc>=15.0.2,<16"]
 dev = [

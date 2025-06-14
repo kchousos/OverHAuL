@@ -78,7 +78,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     commit=$(echo "$line" | awk '{print $2}')
 
     # Build base command
-    cmd=(uv run python main.py "$repo")
+    cmd=(llm-harness "$repo")
 
     # Add commit if present
     if [[ -n "$commit" ]]; then
