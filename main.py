@@ -29,7 +29,7 @@ from llm_harness.core.evaluator import HarnessEvaluator
 from llm_harness.io.file_manager import FileManager
 
 
-def main() -> bool:
+def main() -> int:
     """
     Main entry point of the application. Collects project info, calls
     LLM to create and write a harness for the project.
@@ -53,18 +53,18 @@ def main() -> bool:
     _, success = builder.build_harness()
     if not success:
         logger.error("Exiting...")
-        return False
+        sys.exit(-1)
 
     evaluator = HarnessEvaluator(project_path)
     accepted = evaluator.evaulate_harness()
 
     if accepted is False:
         logger.error("The generated harness is not up to par.")
-        return False
+        sys.exit(-2)
 
     logger.info("All done!")
-    return True
+    sys.exit(0)
 
 
 if __name__ == "__main__":
-    sys.exit(not main())
+    main()
