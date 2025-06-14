@@ -198,7 +198,7 @@
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>        <span class="s2">&quot;--commit&quot;</span><span class="p">,</span>
 </span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>        <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A specific commit of the project&quot;</span><span class="p">,</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A specific commit of the project to check out&quot;</span><span class="p">,</span>
 </span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>    <span class="p">)</span>
 </span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
 </span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -221,22 +221,23 @@
 </span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>
 </span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>    <span class="c1"># Clone repo under the project&#39;s name</span>
 </span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>    <span class="n">project_path</span> <span class="o">=</span> <span class="n">get_repo_name</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">repo</span><span class="p">)</span>
-</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cloning project&#39;s repo in the </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2"> directory...&quot;</span><span class="p">)</span>
-</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>    <span class="n">shallow_clone</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">repo</span><span class="p">,</span> <span class="n">project_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">commit</span><span class="p">)</span>
-</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>    <span class="c1"># Validate model</span>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">model</span>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>    <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Config</span><span class="o">.</span><span class="n">AVAILABLE_MODELS</span><span class="p">:</span>
-</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>            <span class="sa">f</span><span class="s2">&quot;Model </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2"> not available. Available models: &quot;</span>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Config</span><span class="o">.</span><span class="n">AVAILABLE_MODELS</span><span class="si">}</span><span class="s2">. &quot;</span>
-</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Will use the default model (</span><span class="si">{</span><span class="n">Config</span><span class="o">.</span><span class="n">DEFAULT_MODEL</span><span class="si">}</span><span class="s2">)&quot;</span>
-</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>        <span class="p">)</span>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">DEFAULT_MODEL</span>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>    <span class="k">return</span> <span class="n">Arguments</span><span class="p">(</span>
-</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>        <span class="n">project_path</span><span class="o">=</span><span class="n">project_path</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">file_patterns</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">files</span>
-</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>    <span class="p">)</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>    <span class="n">project_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;projects&quot;</span><span class="p">,</span> <span class="n">project_path</span><span class="p">)</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cloning project&#39;s repo in the </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2"> directory...&quot;</span><span class="p">)</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>    <span class="n">shallow_clone</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">repo</span><span class="p">,</span> <span class="n">project_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">commit</span><span class="p">)</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>    <span class="c1"># Validate model</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">model</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>    <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Config</span><span class="o">.</span><span class="n">AVAILABLE_MODELS</span><span class="p">:</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>            <span class="sa">f</span><span class="s2">&quot;Model </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2"> not available. Available models: &quot;</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Config</span><span class="o">.</span><span class="n">AVAILABLE_MODELS</span><span class="si">}</span><span class="s2">. &quot;</span>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Will use the default model (</span><span class="si">{</span><span class="n">Config</span><span class="o">.</span><span class="n">DEFAULT_MODEL</span><span class="si">}</span><span class="s2">)&quot;</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="p">)</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">DEFAULT_MODEL</span>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>    <span class="k">return</span> <span class="n">Arguments</span><span class="p">(</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>        <span class="n">project_path</span><span class="o">=</span><span class="n">project_path</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">file_patterns</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">files</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
@@ -346,23 +347,14 @@
 
             <div class="docstring"><p>Gets a repo's name from its GitHub link.</p>
 
-<h6 id="arguments">Arguments:</h6>
+<p>Arguments:
+    url (str): The link to the repo.</p>
 
-<ul>
-<li><strong>url (str):</strong>  The link to the repo.</li>
-</ul>
+<p>Returns:
+    str: The repo's project name.</p>
 
-<h6 id="returns">Returns:</h6>
-
-<blockquote>
-  <p>str: The repo's project name.</p>
-</blockquote>
-
-<h6 id="raises">Raises:</h6>
-
-<ul>
-<li><strong>ValueError:</strong>  If the URL does not contain a valid repo name.</li>
-</ul>
+<p>Raises:
+    ValueError: If the URL does not contain a valid repo name.</p>
 </div>
 
 
@@ -419,13 +411,10 @@
 
             <div class="docstring"><p>Clone a Git repository with depth 1 and optionally checkout a specific commit.</p>
 
-<h6 id="arguments">Arguments:</h6>
-
-<ul>
-<li><strong>repo_url (str):</strong>  The repository URL.</li>
-<li><strong>destination (str):</strong>  Target directory to clone into.</li>
-<li><strong>commit (str, optional):</strong>  Commit hash to checkout after cloning.</li>
-</ul>
+<p>Args:
+    repo_url (str): The repository URL.
+    destination (str): Target directory to clone into.
+    commit (str, optional): Commit hash to checkout after cloning.</p>
 </div>
 
 
@@ -462,7 +451,7 @@
 </span><span id="parse_arguments-117"><a href="#parse_arguments-117"><span class="linenos">117</span></a>        <span class="s2">&quot;--commit&quot;</span><span class="p">,</span>
 </span><span id="parse_arguments-118"><a href="#parse_arguments-118"><span class="linenos">118</span></a>        <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="parse_arguments-119"><a href="#parse_arguments-119"><span class="linenos">119</span></a>        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-</span><span id="parse_arguments-120"><a href="#parse_arguments-120"><span class="linenos">120</span></a>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A specific commit of the project&quot;</span><span class="p">,</span>
+</span><span id="parse_arguments-120"><a href="#parse_arguments-120"><span class="linenos">120</span></a>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A specific commit of the project to check out&quot;</span><span class="p">,</span>
 </span><span id="parse_arguments-121"><a href="#parse_arguments-121"><span class="linenos">121</span></a>    <span class="p">)</span>
 </span><span id="parse_arguments-122"><a href="#parse_arguments-122"><span class="linenos">122</span></a>
 </span><span id="parse_arguments-123"><a href="#parse_arguments-123"><span class="linenos">123</span></a>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -485,32 +474,30 @@
 </span><span id="parse_arguments-140"><a href="#parse_arguments-140"><span class="linenos">140</span></a>
 </span><span id="parse_arguments-141"><a href="#parse_arguments-141"><span class="linenos">141</span></a>    <span class="c1"># Clone repo under the project&#39;s name</span>
 </span><span id="parse_arguments-142"><a href="#parse_arguments-142"><span class="linenos">142</span></a>    <span class="n">project_path</span> <span class="o">=</span> <span class="n">get_repo_name</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">repo</span><span class="p">)</span>
-</span><span id="parse_arguments-143"><a href="#parse_arguments-143"><span class="linenos">143</span></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cloning project&#39;s repo in the </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2"> directory...&quot;</span><span class="p">)</span>
-</span><span id="parse_arguments-144"><a href="#parse_arguments-144"><span class="linenos">144</span></a>    <span class="n">shallow_clone</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">repo</span><span class="p">,</span> <span class="n">project_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">commit</span><span class="p">)</span>
-</span><span id="parse_arguments-145"><a href="#parse_arguments-145"><span class="linenos">145</span></a>
-</span><span id="parse_arguments-146"><a href="#parse_arguments-146"><span class="linenos">146</span></a>    <span class="c1"># Validate model</span>
-</span><span id="parse_arguments-147"><a href="#parse_arguments-147"><span class="linenos">147</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">model</span>
-</span><span id="parse_arguments-148"><a href="#parse_arguments-148"><span class="linenos">148</span></a>    <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Config</span><span class="o">.</span><span class="n">AVAILABLE_MODELS</span><span class="p">:</span>
-</span><span id="parse_arguments-149"><a href="#parse_arguments-149"><span class="linenos">149</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-</span><span id="parse_arguments-150"><a href="#parse_arguments-150"><span class="linenos">150</span></a>            <span class="sa">f</span><span class="s2">&quot;Model </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2"> not available. Available models: &quot;</span>
-</span><span id="parse_arguments-151"><a href="#parse_arguments-151"><span class="linenos">151</span></a>            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Config</span><span class="o">.</span><span class="n">AVAILABLE_MODELS</span><span class="si">}</span><span class="s2">. &quot;</span>
-</span><span id="parse_arguments-152"><a href="#parse_arguments-152"><span class="linenos">152</span></a>            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Will use the default model (</span><span class="si">{</span><span class="n">Config</span><span class="o">.</span><span class="n">DEFAULT_MODEL</span><span class="si">}</span><span class="s2">)&quot;</span>
-</span><span id="parse_arguments-153"><a href="#parse_arguments-153"><span class="linenos">153</span></a>        <span class="p">)</span>
-</span><span id="parse_arguments-154"><a href="#parse_arguments-154"><span class="linenos">154</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">DEFAULT_MODEL</span>
-</span><span id="parse_arguments-155"><a href="#parse_arguments-155"><span class="linenos">155</span></a>
-</span><span id="parse_arguments-156"><a href="#parse_arguments-156"><span class="linenos">156</span></a>    <span class="k">return</span> <span class="n">Arguments</span><span class="p">(</span>
-</span><span id="parse_arguments-157"><a href="#parse_arguments-157"><span class="linenos">157</span></a>        <span class="n">project_path</span><span class="o">=</span><span class="n">project_path</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">file_patterns</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">files</span>
-</span><span id="parse_arguments-158"><a href="#parse_arguments-158"><span class="linenos">158</span></a>    <span class="p">)</span>
+</span><span id="parse_arguments-143"><a href="#parse_arguments-143"><span class="linenos">143</span></a>    <span class="n">project_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;projects&quot;</span><span class="p">,</span> <span class="n">project_path</span><span class="p">)</span>
+</span><span id="parse_arguments-144"><a href="#parse_arguments-144"><span class="linenos">144</span></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cloning project&#39;s repo in the </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s2"> directory...&quot;</span><span class="p">)</span>
+</span><span id="parse_arguments-145"><a href="#parse_arguments-145"><span class="linenos">145</span></a>    <span class="n">shallow_clone</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">repo</span><span class="p">,</span> <span class="n">project_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">commit</span><span class="p">)</span>
+</span><span id="parse_arguments-146"><a href="#parse_arguments-146"><span class="linenos">146</span></a>
+</span><span id="parse_arguments-147"><a href="#parse_arguments-147"><span class="linenos">147</span></a>    <span class="c1"># Validate model</span>
+</span><span id="parse_arguments-148"><a href="#parse_arguments-148"><span class="linenos">148</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">model</span>
+</span><span id="parse_arguments-149"><a href="#parse_arguments-149"><span class="linenos">149</span></a>    <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Config</span><span class="o">.</span><span class="n">AVAILABLE_MODELS</span><span class="p">:</span>
+</span><span id="parse_arguments-150"><a href="#parse_arguments-150"><span class="linenos">150</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+</span><span id="parse_arguments-151"><a href="#parse_arguments-151"><span class="linenos">151</span></a>            <span class="sa">f</span><span class="s2">&quot;Model </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2"> not available. Available models: &quot;</span>
+</span><span id="parse_arguments-152"><a href="#parse_arguments-152"><span class="linenos">152</span></a>            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Config</span><span class="o">.</span><span class="n">AVAILABLE_MODELS</span><span class="si">}</span><span class="s2">. &quot;</span>
+</span><span id="parse_arguments-153"><a href="#parse_arguments-153"><span class="linenos">153</span></a>            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Will use the default model (</span><span class="si">{</span><span class="n">Config</span><span class="o">.</span><span class="n">DEFAULT_MODEL</span><span class="si">}</span><span class="s2">)&quot;</span>
+</span><span id="parse_arguments-154"><a href="#parse_arguments-154"><span class="linenos">154</span></a>        <span class="p">)</span>
+</span><span id="parse_arguments-155"><a href="#parse_arguments-155"><span class="linenos">155</span></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">DEFAULT_MODEL</span>
+</span><span id="parse_arguments-156"><a href="#parse_arguments-156"><span class="linenos">156</span></a>
+</span><span id="parse_arguments-157"><a href="#parse_arguments-157"><span class="linenos">157</span></a>    <span class="k">return</span> <span class="n">Arguments</span><span class="p">(</span>
+</span><span id="parse_arguments-158"><a href="#parse_arguments-158"><span class="linenos">158</span></a>        <span class="n">project_path</span><span class="o">=</span><span class="n">project_path</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">file_patterns</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">files</span>
+</span><span id="parse_arguments-159"><a href="#parse_arguments-159"><span class="linenos">159</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Parses the command-line arguments.</p>
 
-<h6 id="returns">Returns:</h6>
-
-<blockquote>
-  <p>Arguments: The parsed arguments.</p>
-</blockquote>
+<p>Returns:
+    Arguments: The parsed arguments.</p>
 </div>
 
 

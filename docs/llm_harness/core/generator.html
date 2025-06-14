@@ -169,7 +169,7 @@
 </span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="s2">                size, or worrying about stack usage. These things must be</span>
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="s2">                accounted by the fuzzed library, this is why I need the harness.</span>
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="s2">                On the other hand, do not write code that will most probably</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="s2">                crash, i.e. non-null terminated strings etc. The point is for a</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="s2">                crash irregardless of the library under test. The point is for a</span>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="s2">                function of the library under test to crash, not the harness</span>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="s2">                itself.**</span>
 </span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>
@@ -181,7 +181,7 @@
 </span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="s2">                Use and take advantage of any custom structs that the library</span>
 </span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="s2">                declares.</span>
 </span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**, like</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**,</span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="s2">                e.g. &lt;string.h&gt;, &lt;stdint.h&gt; or &lt;stdlib.h&gt; if they are needed.</span>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
 </span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="s2">                === Source Code ===</span>
@@ -290,7 +290,7 @@
 </span><span id="HarnessGenerator-100"><a href="#HarnessGenerator-100"><span class="linenos">100</span></a><span class="s2">                size, or worrying about stack usage. These things must be</span>
 </span><span id="HarnessGenerator-101"><a href="#HarnessGenerator-101"><span class="linenos">101</span></a><span class="s2">                accounted by the fuzzed library, this is why I need the harness.</span>
 </span><span id="HarnessGenerator-102"><a href="#HarnessGenerator-102"><span class="linenos">102</span></a><span class="s2">                On the other hand, do not write code that will most probably</span>
-</span><span id="HarnessGenerator-103"><a href="#HarnessGenerator-103"><span class="linenos">103</span></a><span class="s2">                crash, i.e. non-null terminated strings etc. The point is for a</span>
+</span><span id="HarnessGenerator-103"><a href="#HarnessGenerator-103"><span class="linenos">103</span></a><span class="s2">                crash irregardless of the library under test. The point is for a</span>
 </span><span id="HarnessGenerator-104"><a href="#HarnessGenerator-104"><span class="linenos">104</span></a><span class="s2">                function of the library under test to crash, not the harness</span>
 </span><span id="HarnessGenerator-105"><a href="#HarnessGenerator-105"><span class="linenos">105</span></a><span class="s2">                itself.**</span>
 </span><span id="HarnessGenerator-106"><a href="#HarnessGenerator-106"><span class="linenos">106</span></a>
@@ -302,7 +302,7 @@
 </span><span id="HarnessGenerator-112"><a href="#HarnessGenerator-112"><span class="linenos">112</span></a><span class="s2">                Use and take advantage of any custom structs that the library</span>
 </span><span id="HarnessGenerator-113"><a href="#HarnessGenerator-113"><span class="linenos">113</span></a><span class="s2">                declares.</span>
 </span><span id="HarnessGenerator-114"><a href="#HarnessGenerator-114"><span class="linenos">114</span></a>
-</span><span id="HarnessGenerator-115"><a href="#HarnessGenerator-115"><span class="linenos">115</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**, like</span>
+</span><span id="HarnessGenerator-115"><a href="#HarnessGenerator-115"><span class="linenos">115</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**,</span>
 </span><span id="HarnessGenerator-116"><a href="#HarnessGenerator-116"><span class="linenos">116</span></a><span class="s2">                e.g. &lt;string.h&gt;, &lt;stdint.h&gt; or &lt;stdlib.h&gt; if they are needed.</span>
 </span><span id="HarnessGenerator-117"><a href="#HarnessGenerator-117"><span class="linenos">117</span></a>
 </span><span id="HarnessGenerator-118"><a href="#HarnessGenerator-118"><span class="linenos">118</span></a><span class="s2">                === Source Code ===</span>
@@ -359,11 +359,8 @@
 
             <div class="docstring"><p>Initialize the harness generator.</p>
 
-<h6 id="arguments">Arguments:</h6>
-
-<ul>
-<li><strong>model (str):</strong>  The model to be used for LLM.</li>
-</ul>
+<p>Args:
+    model (str): The model to be used for LLM.</p>
 </div>
 
 
@@ -441,7 +438,7 @@
 </span><span id="HarnessGenerator.create_harness-100"><a href="#HarnessGenerator.create_harness-100"><span class="linenos">100</span></a><span class="s2">                size, or worrying about stack usage. These things must be</span>
 </span><span id="HarnessGenerator.create_harness-101"><a href="#HarnessGenerator.create_harness-101"><span class="linenos">101</span></a><span class="s2">                accounted by the fuzzed library, this is why I need the harness.</span>
 </span><span id="HarnessGenerator.create_harness-102"><a href="#HarnessGenerator.create_harness-102"><span class="linenos">102</span></a><span class="s2">                On the other hand, do not write code that will most probably</span>
-</span><span id="HarnessGenerator.create_harness-103"><a href="#HarnessGenerator.create_harness-103"><span class="linenos">103</span></a><span class="s2">                crash, i.e. non-null terminated strings etc. The point is for a</span>
+</span><span id="HarnessGenerator.create_harness-103"><a href="#HarnessGenerator.create_harness-103"><span class="linenos">103</span></a><span class="s2">                crash irregardless of the library under test. The point is for a</span>
 </span><span id="HarnessGenerator.create_harness-104"><a href="#HarnessGenerator.create_harness-104"><span class="linenos">104</span></a><span class="s2">                function of the library under test to crash, not the harness</span>
 </span><span id="HarnessGenerator.create_harness-105"><a href="#HarnessGenerator.create_harness-105"><span class="linenos">105</span></a><span class="s2">                itself.**</span>
 </span><span id="HarnessGenerator.create_harness-106"><a href="#HarnessGenerator.create_harness-106"><span class="linenos">106</span></a>
@@ -453,7 +450,7 @@
 </span><span id="HarnessGenerator.create_harness-112"><a href="#HarnessGenerator.create_harness-112"><span class="linenos">112</span></a><span class="s2">                Use and take advantage of any custom structs that the library</span>
 </span><span id="HarnessGenerator.create_harness-113"><a href="#HarnessGenerator.create_harness-113"><span class="linenos">113</span></a><span class="s2">                declares.</span>
 </span><span id="HarnessGenerator.create_harness-114"><a href="#HarnessGenerator.create_harness-114"><span class="linenos">114</span></a>
-</span><span id="HarnessGenerator.create_harness-115"><a href="#HarnessGenerator.create_harness-115"><span class="linenos">115</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**, like</span>
+</span><span id="HarnessGenerator.create_harness-115"><a href="#HarnessGenerator.create_harness-115"><span class="linenos">115</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**,</span>
 </span><span id="HarnessGenerator.create_harness-116"><a href="#HarnessGenerator.create_harness-116"><span class="linenos">116</span></a><span class="s2">                e.g. &lt;string.h&gt;, &lt;stdint.h&gt; or &lt;stdlib.h&gt; if they are needed.</span>
 </span><span id="HarnessGenerator.create_harness-117"><a href="#HarnessGenerator.create_harness-117"><span class="linenos">117</span></a>
 </span><span id="HarnessGenerator.create_harness-118"><a href="#HarnessGenerator.create_harness-118"><span class="linenos">118</span></a><span class="s2">                === Source Code ===</span>
@@ -478,17 +475,11 @@
 
             <div class="docstring"><p>Calls the LLM to create a harness for the project.</p>
 
-<h6 id="arguments">Arguments:</h6>
+<p>Args:
+    project_info (ProjectInfo): The project information.</p>
 
-<ul>
-<li><strong>project_info (ProjectInfo):</strong>  The project information.</li>
-</ul>
-
-<h6 id="returns">Returns:</h6>
-
-<blockquote>
-  <p>str: The generated harness code.</p>
-</blockquote>
+<p>Returns:
+    str: The generated harness code.</p>
 </div>
 
 
