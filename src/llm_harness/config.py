@@ -51,7 +51,7 @@ class Config:
     DEFAULT_DIRS = [".", "src", "include", "lib", "deps", "dependencies"]
 
     # Default files to include if none specified
-    DEFAULT_FILES = ["*.c", "*.h"]
+    DEFAULT_FILES = ["*.c", "*.h", "*.h.in"]
 
     # Files to be ignored
     IGNORED_FILES = ["test.c", "main.c"]
