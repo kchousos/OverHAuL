@@ -12,6 +12,9 @@ dependencies = [
     "flawfinder>=2.0.19",
 ]
 
+[project.scripts]
+llm-harness = "llm_harness.cli:main"
+
 [dependency-groups]
 docs = ["pdoc>=15.0.2,<16"]
 dev = [
@@ -51,7 +54,7 @@ include = ["src/llm_harness"]
 include = ["src/llm_harness"]
 
 [tool.hatch.build.targets.wheel.sources]
-"src/llm_harness" = "llm_harness"
+"src" = ""
 
 [tool.hatch.build.targets.wheel.shared-data]
 "llm_harness/py.typed" = "llm_harness/py.typed"

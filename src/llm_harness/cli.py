@@ -21,12 +21,18 @@ Command-line interface for llm_harness.
 
 import os
 import re
+import sys
 import shutil
 import subprocess
 import argparse
 from dataclasses import dataclass
 from loguru import logger
 from llm_harness.config import Config
+from llm_harness.core.analyzer import ProjectAnalyzer
+from llm_harness.core.generator import HarnessGenerator
+from llm_harness.core.builder import HarnessBuilder
+from llm_harness.core.evaluator import HarnessEvaluator
+from llm_harness.io.file_manager import FileManager
 
 
 @dataclass
@@ -173,3 +179,44 @@ def parse_arguments() -> Arguments:
     return Arguments(
         project_path=project_path, model=model, file_patterns=args.files
     )
+
+
+def main() -> int:
+    """
+    Main entry point of the application. Collects project info, calls
+    LLM to create and write a harness for the project.
+
+    Returns:
+        bool: Whether the harness is up to par to be merged to the project.
+    """
+    args = parse_arguments()
+    project_path, model = args.project_path, args.model
+
+    analyzer = ProjectAnalyzer(project_path)
+    project_info = analyzer.collect_project_info()
+
+    generator = HarnessGenerator(model=model)
+    harness = generator.create_harness(project_info=project_info)
+
+    file_manager = FileManager(project_path)
+    _ = file_manager.write_harness(harness)
+
+    builder = HarnessBuilder(project_path)
+    _, success = builder.build_harness()
+    if not success:
+        logger.error("Exiting...")
+        sys.exit(-1)
+
+    evaluator = HarnessEvaluator(project_path)
+    accepted = evaluator.evaulate_harness()
+
+    if accepted is False:
+        logger.error("The generated harness is not up to par.")
+        sys.exit(-2)
+
+    logger.info("All done!")
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()
