@@ -115,4 +115,4 @@ done < "$INPUT_FILE"
 
 # Print summary
 echo
-log "Succeded for $((total - failures))/$total repos."
+echo "Succeded for $((total - failures))/$total repos."
