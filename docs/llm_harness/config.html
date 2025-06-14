@@ -40,7 +40,13 @@
                                 <a class="variable" href="#Config.DEFAULT_MODEL">DEFAULT_MODEL</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Config.DEFAULT_DIRS">DEFAULT_DIRS</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Config.DEFAULT_FILES">DEFAULT_FILES</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Config.IGNORED_FILES">IGNORED_FILES</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Config.HARNESS_DIR">HARNESS_DIR</a>
@@ -142,33 +148,38 @@
 </span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="c1"># Default model if none provided</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="n">DEFAULT_MODEL</span> <span class="o">=</span> <span class="s2">&quot;gpt-4.1-mini&quot;</span>
 </span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="c1"># Default files to include if none specified</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>    <span class="n">DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*.c&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h&quot;</span><span class="p">]</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="c1"># Harness directory name</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>    <span class="c1"># Defaults to project&#39;s root directory</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="n">HARNESS_DIR</span> <span class="o">=</span> <span class="s2">&quot;harnesses&quot;</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>    <span class="c1"># Harness default filename</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>    <span class="n">HARNESS_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness.c&quot;</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="c1"># Default C compilation options</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="n">CC</span> <span class="o">=</span> <span class="s2">&quot;clang&quot;</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>    <span class="n">CFLAGS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>        <span class="s2">&quot;-g&quot;</span><span class="p">,</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>        <span class="s2">&quot;-fsanitize=fuzzer,address,undefined&quot;</span><span class="p">,</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>    <span class="p">]</span>  <span class="c1"># needed for fuzzing</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>    <span class="n">EXECUTABLE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness&quot;</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># minutes</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># seconds</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load environment variables from .env file.&quot;&quot;&quot;</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>        <span class="n">load_dotenv</span><span class="p">()</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">)</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="n">DEFAULT_DIRS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="s2">&quot;lib&quot;</span><span class="p">]</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>    <span class="c1"># Default files to include if none specified</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="n">DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*.c&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h&quot;</span><span class="p">]</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="c1"># Files to be ignored</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>    <span class="n">IGNORED_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;test.c&quot;</span><span class="p">]</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>    <span class="c1"># Harness directory name</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>    <span class="c1"># Defaults to project&#39;s root directory</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="n">HARNESS_DIR</span> <span class="o">=</span> <span class="s2">&quot;harnesses&quot;</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>    <span class="c1"># Harness default filename</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="n">HARNESS_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness.c&quot;</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>    <span class="c1"># Default C compilation options</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>    <span class="n">CC</span> <span class="o">=</span> <span class="s2">&quot;clang&quot;</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>    <span class="n">CFLAGS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>        <span class="s2">&quot;-g&quot;</span><span class="p">,</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>        <span class="s2">&quot;-fsanitize=fuzzer,address,undefined&quot;</span><span class="p">,</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>    <span class="p">]</span>  <span class="c1"># needed for fuzzing</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>    <span class="n">EXECUTABLE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness&quot;</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># minutes</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># seconds</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>
+</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load environment variables from .env file.&quot;&quot;&quot;</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a>        <span class="n">load_dotenv</span><span class="p">()</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -209,33 +220,38 @@
 </span><span id="Config-49"><a href="#Config-49"><span class="linenos">49</span></a>    <span class="c1"># Default model if none provided</span>
 </span><span id="Config-50"><a href="#Config-50"><span class="linenos">50</span></a>    <span class="n">DEFAULT_MODEL</span> <span class="o">=</span> <span class="s2">&quot;gpt-4.1-mini&quot;</span>
 </span><span id="Config-51"><a href="#Config-51"><span class="linenos">51</span></a>
-</span><span id="Config-52"><a href="#Config-52"><span class="linenos">52</span></a>    <span class="c1"># Default files to include if none specified</span>
-</span><span id="Config-53"><a href="#Config-53"><span class="linenos">53</span></a>    <span class="n">DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*.c&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h&quot;</span><span class="p">]</span>
-</span><span id="Config-54"><a href="#Config-54"><span class="linenos">54</span></a>
-</span><span id="Config-55"><a href="#Config-55"><span class="linenos">55</span></a>    <span class="c1"># Harness directory name</span>
-</span><span id="Config-56"><a href="#Config-56"><span class="linenos">56</span></a>    <span class="c1"># Defaults to project&#39;s root directory</span>
-</span><span id="Config-57"><a href="#Config-57"><span class="linenos">57</span></a>    <span class="n">HARNESS_DIR</span> <span class="o">=</span> <span class="s2">&quot;harnesses&quot;</span>
-</span><span id="Config-58"><a href="#Config-58"><span class="linenos">58</span></a>
-</span><span id="Config-59"><a href="#Config-59"><span class="linenos">59</span></a>    <span class="c1"># Harness default filename</span>
-</span><span id="Config-60"><a href="#Config-60"><span class="linenos">60</span></a>    <span class="n">HARNESS_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness.c&quot;</span>
-</span><span id="Config-61"><a href="#Config-61"><span class="linenos">61</span></a>
-</span><span id="Config-62"><a href="#Config-62"><span class="linenos">62</span></a>    <span class="c1"># Default C compilation options</span>
-</span><span id="Config-63"><a href="#Config-63"><span class="linenos">63</span></a>    <span class="n">CC</span> <span class="o">=</span> <span class="s2">&quot;clang&quot;</span>
-</span><span id="Config-64"><a href="#Config-64"><span class="linenos">64</span></a>    <span class="n">CFLAGS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="Config-65"><a href="#Config-65"><span class="linenos">65</span></a>        <span class="s2">&quot;-g&quot;</span><span class="p">,</span>
-</span><span id="Config-66"><a href="#Config-66"><span class="linenos">66</span></a>        <span class="s2">&quot;-fsanitize=fuzzer,address,undefined&quot;</span><span class="p">,</span>
-</span><span id="Config-67"><a href="#Config-67"><span class="linenos">67</span></a>    <span class="p">]</span>  <span class="c1"># needed for fuzzing</span>
-</span><span id="Config-68"><a href="#Config-68"><span class="linenos">68</span></a>    <span class="n">EXECUTABLE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness&quot;</span>
-</span><span id="Config-69"><a href="#Config-69"><span class="linenos">69</span></a>
-</span><span id="Config-70"><a href="#Config-70"><span class="linenos">70</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># minutes</span>
-</span><span id="Config-71"><a href="#Config-71"><span class="linenos">71</span></a>
-</span><span id="Config-72"><a href="#Config-72"><span class="linenos">72</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># seconds</span>
-</span><span id="Config-73"><a href="#Config-73"><span class="linenos">73</span></a>
-</span><span id="Config-74"><a href="#Config-74"><span class="linenos">74</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Config-75"><a href="#Config-75"><span class="linenos">75</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Config-76"><a href="#Config-76"><span class="linenos">76</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load environment variables from .env file.&quot;&quot;&quot;</span>
-</span><span id="Config-77"><a href="#Config-77"><span class="linenos">77</span></a>        <span class="n">load_dotenv</span><span class="p">()</span>
-</span><span id="Config-78"><a href="#Config-78"><span class="linenos">78</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">)</span>
+</span><span id="Config-52"><a href="#Config-52"><span class="linenos">52</span></a>    <span class="n">DEFAULT_DIRS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;include&quot;</span><span class="p">,</span> <span class="s2">&quot;lib&quot;</span><span class="p">]</span>
+</span><span id="Config-53"><a href="#Config-53"><span class="linenos">53</span></a>
+</span><span id="Config-54"><a href="#Config-54"><span class="linenos">54</span></a>    <span class="c1"># Default files to include if none specified</span>
+</span><span id="Config-55"><a href="#Config-55"><span class="linenos">55</span></a>    <span class="n">DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*.c&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h&quot;</span><span class="p">]</span>
+</span><span id="Config-56"><a href="#Config-56"><span class="linenos">56</span></a>
+</span><span id="Config-57"><a href="#Config-57"><span class="linenos">57</span></a>    <span class="c1"># Files to be ignored</span>
+</span><span id="Config-58"><a href="#Config-58"><span class="linenos">58</span></a>    <span class="n">IGNORED_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;test.c&quot;</span><span class="p">]</span>
+</span><span id="Config-59"><a href="#Config-59"><span class="linenos">59</span></a>
+</span><span id="Config-60"><a href="#Config-60"><span class="linenos">60</span></a>    <span class="c1"># Harness directory name</span>
+</span><span id="Config-61"><a href="#Config-61"><span class="linenos">61</span></a>    <span class="c1"># Defaults to project&#39;s root directory</span>
+</span><span id="Config-62"><a href="#Config-62"><span class="linenos">62</span></a>    <span class="n">HARNESS_DIR</span> <span class="o">=</span> <span class="s2">&quot;harnesses&quot;</span>
+</span><span id="Config-63"><a href="#Config-63"><span class="linenos">63</span></a>
+</span><span id="Config-64"><a href="#Config-64"><span class="linenos">64</span></a>    <span class="c1"># Harness default filename</span>
+</span><span id="Config-65"><a href="#Config-65"><span class="linenos">65</span></a>    <span class="n">HARNESS_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness.c&quot;</span>
+</span><span id="Config-66"><a href="#Config-66"><span class="linenos">66</span></a>
+</span><span id="Config-67"><a href="#Config-67"><span class="linenos">67</span></a>    <span class="c1"># Default C compilation options</span>
+</span><span id="Config-68"><a href="#Config-68"><span class="linenos">68</span></a>    <span class="n">CC</span> <span class="o">=</span> <span class="s2">&quot;clang&quot;</span>
+</span><span id="Config-69"><a href="#Config-69"><span class="linenos">69</span></a>    <span class="n">CFLAGS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="Config-70"><a href="#Config-70"><span class="linenos">70</span></a>        <span class="s2">&quot;-g&quot;</span><span class="p">,</span>
+</span><span id="Config-71"><a href="#Config-71"><span class="linenos">71</span></a>        <span class="s2">&quot;-fsanitize=fuzzer,address,undefined&quot;</span><span class="p">,</span>
+</span><span id="Config-72"><a href="#Config-72"><span class="linenos">72</span></a>    <span class="p">]</span>  <span class="c1"># needed for fuzzing</span>
+</span><span id="Config-73"><a href="#Config-73"><span class="linenos">73</span></a>    <span class="n">EXECUTABLE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness&quot;</span>
+</span><span id="Config-74"><a href="#Config-74"><span class="linenos">74</span></a>
+</span><span id="Config-75"><a href="#Config-75"><span class="linenos">75</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># minutes</span>
+</span><span id="Config-76"><a href="#Config-76"><span class="linenos">76</span></a>
+</span><span id="Config-77"><a href="#Config-77"><span class="linenos">77</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># seconds</span>
+</span><span id="Config-78"><a href="#Config-78"><span class="linenos">78</span></a>
+</span><span id="Config-79"><a href="#Config-79"><span class="linenos">79</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Config-80"><a href="#Config-80"><span class="linenos">80</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Config-81"><a href="#Config-81"><span class="linenos">81</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load environment variables from .env file.&quot;&quot;&quot;</span>
+</span><span id="Config-82"><a href="#Config-82"><span class="linenos">82</span></a>        <span class="n">load_dotenv</span><span class="p">()</span>
+</span><span id="Config-83"><a href="#Config-83"><span class="linenos">83</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -267,6 +283,18 @@
     
 
                             </div>
+                            <div id="Config.DEFAULT_DIRS" class="classattr">
+                                <div class="attr variable">
+            <span class="name">DEFAULT_DIRS</span>        =
+<span class="default_value">[&#39;.&#39;, &#39;src&#39;, &#39;include&#39;, &#39;lib&#39;]</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Config.DEFAULT_DIRS"></a>
+    
+    
+
+                            </div>
                             <div id="Config.DEFAULT_FILES" class="classattr">
                                 <div class="attr variable">
             <span class="name">DEFAULT_FILES</span>        =
@@ -275,6 +303,18 @@
         
     </div>
     <a class="headerlink" href="#Config.DEFAULT_FILES"></a>
+    
+    
+
+                            </div>
+                            <div id="Config.IGNORED_FILES" class="classattr">
+                                <div class="attr variable">
+            <span class="name">IGNORED_FILES</span>        =
+<span class="default_value">[&#39;test.c&#39;]</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Config.IGNORED_FILES"></a>
     
     
 
@@ -375,11 +415,11 @@
 
     </div>
     <a class="headerlink" href="#Config.load_env"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.load_env-74"><a href="#Config.load_env-74"><span class="linenos">74</span></a>    <span class="nd">@staticmethod</span>
-</span><span id="Config.load_env-75"><a href="#Config.load_env-75"><span class="linenos">75</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Config.load_env-76"><a href="#Config.load_env-76"><span class="linenos">76</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load environment variables from .env file.&quot;&quot;&quot;</span>
-</span><span id="Config.load_env-77"><a href="#Config.load_env-77"><span class="linenos">77</span></a>        <span class="n">load_dotenv</span><span class="p">()</span>
-</span><span id="Config.load_env-78"><a href="#Config.load_env-78"><span class="linenos">78</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Config.load_env-79"><a href="#Config.load_env-79"><span class="linenos">79</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="Config.load_env-80"><a href="#Config.load_env-80"><span class="linenos">80</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Config.load_env-81"><a href="#Config.load_env-81"><span class="linenos">81</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load environment variables from .env file.&quot;&quot;&quot;</span>
+</span><span id="Config.load_env-82"><a href="#Config.load_env-82"><span class="linenos">82</span></a>        <span class="n">load_dotenv</span><span class="p">()</span>
+</span><span id="Config.load_env-83"><a href="#Config.load_env-83"><span class="linenos">83</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
