@@ -24,6 +24,7 @@ import sys
 import glob
 import subprocess
 import shutil
+import fnmatch
 from loguru import logger
 from llm_harness.models.project import ProjectFile, ProjectInfo
 from llm_harness.config import Config
@@ -62,7 +63,11 @@ class ProjectAnalyzer:
             sys.exit(-1)
 
         for file_path in project_files:
-            if os.path.basename(file_path) in Config.IGNORED_FILES:
+            basename = os.path.basename(file_path)
+            if any(
+                fnmatch.fnmatch(basename, pattern)
+                for pattern in Config.IGNORED_FILES
+            ):
                 continue
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
@@ -90,6 +95,8 @@ class ProjectAnalyzer:
         """
         all_files = []
         for subdir in Config.DEFAULT_DIRS:
+            if subdir in Config.IGNORED_DIRS:
+                continue
             search_root = os.path.join(self.project_path, subdir)
             for pattern in self.file_patterns:
                 search_pattern = os.path.join(search_root, pattern)
@@ -158,6 +165,32 @@ class ProjectAnalyzer:
 
         return static
 
+    def get_readme(self) -> str | None:
+        """
+        Reads the README file from a project directory if it exists.
+
+        Returns:
+            str | None: The project's README contents, or None if it doesn't exist.
+        """
+        readme_names = [
+            "README",
+            "README.md",
+            "README.txt",
+            "README.rst",
+            "readme",
+            "readme.md",
+            "readme.txt",
+            "readme.rst",
+        ]
+
+        for name in readme_names:
+            readme_path = os.path.join(self.project_path, name)
+            if os.path.isfile(readme_path):
+                with open(readme_path, "r", encoding="utf-8") as f:
+                    return f.read()
+
+        return None
+
     def collect_project_info(self) -> ProjectInfo:
         """
         Collects information about the project by reading files.
@@ -167,4 +200,5 @@ class ProjectAnalyzer:
         """
         info = self.collect_source_code()
         info.static = self.get_static_analysis()
+        info.readme = self.get_readme()
         return info

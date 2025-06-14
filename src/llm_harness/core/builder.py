@@ -73,6 +73,10 @@ class HarnessBuilder:
                     f not in Config.IGNORED_FILES
                     and f != os.path.basename(harness_filename)
                     and f.endswith(".c")
+                    and not any(
+                        ignored in os.path.join(root, f)
+                        for ignored in Config.IGNORED_DIRS
+                    )
                 ):  # Get the relative path of the file from project_path
                     full_path = os.path.relpath(
                         os.path.join(root, f), start=self.project_path

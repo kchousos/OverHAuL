@@ -62,6 +62,7 @@ def shallow_clone(
 ) -> None:
     """
     Clone a Git repository with depth 1 and optionally checkout a specific commit.
+    Also initializes and updates submodules.
 
     Args:
         repo_url (str): The repository URL.
@@ -93,6 +94,22 @@ def shallow_clone(
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
+
+    subprocess.run(
+        [
+            "git",
+            "submodule",
+            "update",
+            "--init",
+            "--recursive",
+            "--depth",
+            "1",
+        ],
+        check=True,
+        cwd=destination,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
 
 
 def parse_arguments() -> Arguments:
