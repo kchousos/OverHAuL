@@ -68,24 +68,26 @@ alt="type check: mypy" /></a></p>
 2. Execute the main script:
 
     ```bash
-    uv run python main.py <repo-name>
+    uv run python main.py <repo-link>
     ```
 
 ### Command-Line Options
 
 ```
-$ python main.py --help
-usage: main.py [-h] [-m MODEL] [-f FILES [FILES ...]] project
+$ uv run python main.py --help
+usage: main.py [-h] [-c COMMIT] [-m MODEL] [-f FILES [FILES ...]] repo
 
 Generate fuzzing harnesses for C/C++ projects
 
 positional arguments:
-  project               Name of the project under the `assets/` directory, for which harnesses are to be generated.
+  repo                  Link of a project's git repo, for which to generate a harness.
 
 options:
   -h, --help            show this help message and exit
+  -c COMMIT, --commit COMMIT
+                        A specific commit of the project to check out
   -m MODEL, --model MODEL
-                        LLM model to be used. Available: gpt-4.1-mini, o4-mini, o3-mini, gpt-4o, gpt-4o-mini
+                        LLM model to be used. Available: gpt-4.1-mini, o1, o1-pro, gpt-4o, gpt-4o-mini, gpt-4.1, gpt-4.1-mini
   -f FILES [FILES ...], --files FILES [FILES ...]
                         File patterns to include in analysis (e.g. *.c *.h)
 ```

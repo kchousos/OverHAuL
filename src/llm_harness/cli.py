@@ -116,7 +116,7 @@ def parse_arguments() -> Arguments:
         "--commit",
         required=False,
         type=str,
-        help="A specific commit of the project",
+        help="A specific commit of the project to check out",
     )
 
     parser.add_argument(
