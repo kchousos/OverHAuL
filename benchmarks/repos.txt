@@ -6,3 +6,4 @@ https://github.com/clibs/commander
 https://github.com/hkjels/slug.c
 # https://github.com/clehner/chains
 https://github.com/jwerle/libbeaufort
+https://github.com/jwerle/libbacon
