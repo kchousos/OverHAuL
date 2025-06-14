@@ -71,6 +71,7 @@ class HarnessGenerator:
 
             concatenated_content = project_info.get_concatenated_content()
             static_analysis = project_info.get_static_analysis()
+            readme = project_info.get_readme()
 
             response = lm(
                 f"""
@@ -111,8 +112,9 @@ class HarnessGenerator:
                 Use and take advantage of any custom structs that the library
                 declares.
 
-                Again, Make sure to add **all the necessary includes**,
-                e.g. <string.h>, <stdint.h> or <stdlib.h> if they are needed.
+                Again, Make sure to add **all the necessary includes**. Always
+                include <string.h>, <stdint.h> and <stdlib.h>. This is REALLY
+                IMPORTANT!
 
                 === Source Code ===
 
@@ -124,6 +126,11 @@ class HarnessGenerator:
 
                 === Static Analysis Output ===
                 {static_analysis}
+
+                Lastly, hear is the project's README.
+
+                === README ===
+                {readme}
                 """
             )
 

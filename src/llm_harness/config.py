@@ -32,7 +32,6 @@ class Config:
 
     # List of available models
     AVAILABLE_MODELS = [
-        "gpt-4.1-mini",
         # "o4-mini",
         # "o3-mini",
         # "o3",
@@ -48,13 +47,23 @@ class Config:
     # Default model if none provided
     DEFAULT_MODEL = "gpt-4.1-mini"
 
-    DEFAULT_DIRS = [".", "src", "include", "lib", "deps", "dependencies"]
+    DEFAULT_DIRS = [
+        ".",
+        "src",
+        "sources",
+        "include",
+        "lib",
+        "deps",
+        "dependencies",
+        "contrib",
+    ]
 
     # Default files to include if none specified
     DEFAULT_FILES = ["*.c", "*.h", "*.h.in"]
 
     # Files to be ignored
-    IGNORED_FILES = ["test.c", "main.c"]
+    IGNORED_FILES = ["*test.c", "*unit.c", "main.c"]
+    IGNORED_DIRS = ["test", "tests", "example", "examples", "demo", "demos"]
 
     # Harness directory name
     # Defaults to project's root directory

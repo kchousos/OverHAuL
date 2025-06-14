@@ -37,6 +37,7 @@ class ProjectInfo:
 
     source: list[ProjectFile]
     static: str | None = None
+    readme: str | None = None
 
     def get_concatenated_content(self) -> str:
         """
@@ -55,3 +56,6 @@ class ProjectInfo:
 
     def get_static_analysis(self) -> str | None:
         return self.static
+
+    def get_readme(self) -> str | None:
+        return self.readme

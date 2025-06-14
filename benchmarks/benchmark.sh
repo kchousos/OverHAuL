@@ -12,8 +12,8 @@ log() {
     local timestamp
 
     case "$level" in
-        DEBUG) color='\033[0;36m' ;;  # cyan
-        INFO)  color='\033[0;32m' ;;  # green
+        INFO) color='\033[0;36m' ;;  # cyan
+        SUCCESS)  color='\033[0;32m' ;;  # green
         WARN)  color='\033[0;33m' ;;  # yellow
         ERROR) color='\033[0;31m' ;;  # red
         *)
@@ -29,7 +29,7 @@ log() {
 
 # Function to run on Ctrl-C
 cleanup() {
-    echo -e "\nInterrupted by user (Ctrl-C). Exiting..."
+    log INFO "Interrupted by user (Ctrl-C). Exiting..."
     exit 130  # 130 is standard exit code for script terminated by Ctrl-C
 }
 
@@ -62,6 +62,9 @@ INPUT_FILE="benchmarks/repos.txt"
 # Counters for total repos and failures
 total=0
 failures=0
+new_crashes=0
+
+log INFO "Starting benchmark..."
 
 # Read each line of input file
 while IFS= read -r line || [[ -n "$line" ]]; do
@@ -98,21 +101,30 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     else
         # fallback, just basename if no match
         repo_name=$(basename "$repo_clean")
-        repo_name="${user_repo%.git}"
+        repo_name="${repo_name%.git}"
     fi
 
-    log INFO "Harnessing $repo_name..."
+    # run llm-harness
     "${cmd[@]}" > /dev/null 2>&1
     status=$?
 
     # Check command exit status and count failures
-    if [[ $status -ne 0 ]]; then
-        log ERROR "Command failed with exit code $status for $repo_name"
+    if [[ $status -eq 0 ]]; then
+        log SUCCESS "$repo_name harnessed"
+        ((new_crashes++))
+    elif [[ $status -eq 254 ]]; then
+        log WARN "The generated harness for $repo_name didn't produce a crash"
+    elif [[ $status -eq 255 ]]; then
+        log ERROR "The generated harness for $repo_name did not compile correctly"
         ((failures++))
     fi
 
 done < "$INPUT_FILE"
 
 # Print summary
+log INFO "Benchmark complete"
 echo
-echo "Succeded for $((total - failures))/$total repos."
+log INFO "$new_crashes projects harnessed succesfully"
+log INFO "$((total - new_crashes)) harnesses did not find a new crash"
+log INFO "$failures harnesses failed to compile"
+log INFO "$total projects total"

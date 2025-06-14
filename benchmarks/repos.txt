@@ -9,6 +9,34 @@ https://github.com/hkjels/slug.c
 # https://github.com/clehner/chains
 https://github.com/jwerle/libbeaufort
 https://github.com/jwerle/libbacon
+https://github.com/zserge/jsmn
+https://github.com/jwerle/chfreq.c
+https://github.com/stephenmathieson/occurrences.c
+https://github.com/clibs/inih
+# https://github.com/doches/progressbar
+https://github.com/jwerle/progress.c
+https://github.com/stephenmathieson/is-email.c
+https://github.com/thlorenz/log.h
+https://github.com/xythobuz/serial
+https://github.com/isty001/mem-pool
+https://github.com/Isty001/dotenv-c
+https://github.com/exbotanical/lib.chron
+https://github.com/mofosyne/sensor_smoother.c
+https://github.com/goodcleanfun/likely
+https://github.com/willemt/cbuffer
+https://github.com/willemt/torrent-reader
+https://github.com/orangeduck/mpc
+https://github.com/h2non/semver.c
+https://github.com/likle/cargs
+https://github.com/mofosyne/kv_get_value.c
+https://github.com/mofosyne/kv_parse.c
+https://github.com/aperezdc/sixpack/
+https://github.com/clibs/snappy
+https://github.com/mattn/locale-string.c
+https://github.com/cellularmitosis/hexify.c
+https://github.com/clibs/sha1
+https://github.com/4thel00z/libsniff
+https://github.com/tylertreat/chan
 
 # Local Variables:
 # mode: url-list
