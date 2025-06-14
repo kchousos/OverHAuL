@@ -63,7 +63,7 @@ def main() -> bool:
         return False
 
     logger.info("All done!")
-    return False
+    return True
 
 
 if __name__ == "__main__":

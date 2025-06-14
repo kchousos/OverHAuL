@@ -21,9 +21,11 @@ Configuration management for the llm_harness package.
 
 import os
 from dataclasses import dataclass
+from typing import final
 from dotenv import load_dotenv
 
 
+@final
 @dataclass
 class Config:
     """Configuration for llm_harness."""
@@ -31,8 +33,12 @@ class Config:
     # List of available models
     AVAILABLE_MODELS = [
         "gpt-4.1-mini",
-        "o4-mini",
-        "o3-mini",
+        # "o4-mini",
+        # "o3-mini",
+        # "o3",
+        # "o3-pro",
+        "o1",
+        "o1-pro",
         "gpt-4o",
         "gpt-4o-mini",
         "gpt-4.1",
@@ -43,7 +49,7 @@ class Config:
     DEFAULT_MODEL = "gpt-4.1-mini"
 
     # Default files to include if none specified
-    DEFAULT_FILES = ["*.c", "*.h", "*.cpp", "*.hpp", "Makefile"]
+    DEFAULT_FILES = ["*.c", "*.h"]
 
     # Harness directory name
     # Defaults to project's root directory

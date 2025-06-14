@@ -65,7 +65,7 @@ class HarnessGenerator:
                 f"openai/{self.model}",
                 cache=False,
                 temperature=1.0,
-                top_p=0.95,
+                max_tokens=5000,
             )
             dspy.configure(lm=lm)
 
