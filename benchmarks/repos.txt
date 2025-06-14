@@ -1,5 +1,15 @@
-https://github.com/kchousos/vulnerable_parser/
-https://github.com/kchousos/kvstore/
+# List of C libraries' repo links to be used with `benchmark.sh`
+
+# https://github.com/kchousos/vulnerable_parser/
+# https://github.com/kchousos/kvstore/
 https://github.com/dvhar/dateparse/ 3552f0ff88c510861cd2335f14258f4409621fe5
 https://github.com/clibs/buffer
 https://github.com/clibs/commander
+https://github.com/hkjels/slug.c
+# https://github.com/clehner/chains
+https://github.com/jwerle/libbeaufort
+https://github.com/jwerle/libbacon
+
+# Local Variables:
+# mode: url-list
+# End:

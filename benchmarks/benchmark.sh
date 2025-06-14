@@ -88,8 +88,19 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     fi
 
     # Run command hiding output
-    repo_name=$(basename "${repo%/}") # Remove trailing slash first, then basename
-    repo_name="${repo_name%.git}" # Remove .git suffix if present
+    # Remove trailing slash if any
+    repo_clean="${repo%/}"
+
+    # Extract the user/repo portion:
+
+    if [[ "$repo_clean" =~ github\.com[:/](.+/.+)(\.git)?$ ]]; then
+        repo_name="${BASH_REMATCH[1]}"
+    else
+        # fallback, just basename if no match
+        repo_name=$(basename "$repo_clean")
+        repo_name="${user_repo%.git}"
+    fi
+
     log INFO "Harnessing $repo_name..."
     "${cmd[@]}" > /dev/null 2>&1
     status=$?
@@ -104,4 +115,4 @@ done < "$INPUT_FILE"
 
 # Print summary
 echo
-log "Succeded for $((total - failures))/$total repos."
+echo "Succeded for $((total - failures))/$total repos."
