@@ -116,7 +116,7 @@ def parse_arguments() -> Arguments:
         "--commit",
         required=False,
         type=str,
-        help="A specific commit of the project",
+        help="A specific commit of the project to check out",
     )
 
     parser.add_argument(
@@ -139,6 +139,7 @@ def parse_arguments() -> Arguments:
 
     # Clone repo under the project's name
     project_path = get_repo_name(args.repo)
+    project_path = os.path.join("projects", project_path)
     logger.info(f"Cloning project's repo in the {project_path} directory...")
     shallow_clone(args.repo, project_path, args.commit)
 

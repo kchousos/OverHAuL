@@ -423,12 +423,9 @@
 
             <div class="docstring"><p>Initialize the project analyzer.</p>
 
-<h6 id="arguments">Arguments:</h6>
-
-<ul>
-<li><strong>project_path (str):</strong>  Path to the project directory.</li>
-<li><strong>file_patterns (List[str], optional):</strong>  File patterns to include.</li>
-</ul>
+<p>Args:
+    project_path (str): Path to the project directory.
+    file_patterns (List[str], optional): File patterns to include.</p>
 </div>
 
 
@@ -504,11 +501,8 @@
 
             <div class="docstring"><p>Collects project's source code.</p>
 
-<h6 id="returns">Returns:</h6>
-
-<blockquote>
-  <p>ProjectInfo: Information about the project.</p>
-</blockquote>
+<p>Returns:
+    ProjectInfo: Information about the project.</p>
 </div>
 
 
@@ -589,18 +583,12 @@
             <div class="docstring"><p>Concatenates and returns the output of the static analysis backends
 specified in <code>backends</code>.</p>
 
-<h6 id="arguments">Arguments:</h6>
+<p>Args:
+    backends (list[str], optional): A list of backends to use for static
+        analysis. Defaults to CPPCheck and Flawfinder.</p>
 
-<ul>
-<li><strong>backends (list[str], optional):</strong>  A list of backends to use for static
-analysis. Defaults to CPPCheck and Flawfinder.</li>
-</ul>
-
-<h6 id="returns">Returns:</h6>
-
-<blockquote>
-  <p>str: The concatenated output of all the enabled static analysis backends.</p>
-</blockquote>
+<p>Returns:
+    str: The concatenated output of all the enabled static analysis backends.</p>
 </div>
 
 
@@ -631,11 +619,8 @@ analysis. Defaults to CPPCheck and Flawfinder.</li>
 
             <div class="docstring"><p>Collects information about the project by reading files.</p>
 
-<h6 id="returns">Returns:</h6>
-
-<blockquote>
-  <p>ProjectInfo: Information about the project.</p>
-</blockquote>
+<p>Returns:
+    ProjectInfo: Information about the project.</p>
 </div>
 
 

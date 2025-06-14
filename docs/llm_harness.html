@@ -132,25 +132,27 @@ alt="type check: mypy" /></a></p>
 <li><p>Execute the main script:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>main.py<span class="w"> </span>&lt;repo-name&gt;
+<pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>main.py<span class="w"> </span>&lt;repo-link&gt;
 </code></pre>
 </div></li>
 </ol>
 
 <h3 id="command-line-options">Command-Line Options</h3>
 
-<pre><code>$ python main.py --help
-usage: main.py [-h] [-m MODEL] [-f FILES [FILES ...]] project
+<pre><code>$ uv run python main.py --help
+usage: main.py [-h] [-c COMMIT] [-m MODEL] [-f FILES [FILES ...]] repo
 
 Generate fuzzing harnesses for C/C++ projects
 
 positional arguments:
-  project               Name of the project under the `assets/` directory, for which harnesses are to be generated.
+  repo                  Link of a project's git repo, for which to generate a harness.
 
 options:
   -h, --help            show this help message and exit
+  -c COMMIT, --commit COMMIT
+                        A specific commit of the project to check out
   -m MODEL, --model MODEL
-                        LLM model to be used. Available: gpt-4.1-mini, o4-mini, o3-mini, gpt-4o, gpt-4o-mini
+                        LLM model to be used. Available: gpt-4.1-mini, o1, o1-pro, gpt-4o, gpt-4o-mini, gpt-4.1, gpt-4.1-mini
   -f FILES [FILES ...], --files FILES [FILES ...]
                         File patterns to include in analysis (e.g. *.c *.h)
 </code></pre>
