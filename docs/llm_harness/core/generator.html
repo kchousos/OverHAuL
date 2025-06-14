@@ -141,66 +141,73 @@
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>            <span class="n">concatenated_content</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_concatenated_content</span><span class="p">()</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>            <span class="n">static_analysis</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_static_analysis</span><span class="p">()</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="n">lm</span><span class="p">(</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="s2">                I have this C project, for which you will find the contents</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="s2">                below. Write me a libFuzzer-compatible harness for it.</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="s2">                Respond **only** with the harness&#39; code. Make sure to write *all</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="s2">                the necessary includes* etc. The harness will be located in the</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="s2">                project root, so make sure the includes work appropriately.</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="s2">                Take into account each file&#39;s path.</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="s2">                Try to write a new harness and not default to one from your</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="s2">                training dataset. It will be a .c file.</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="s2">                Do not even wrap the code in markdown fences, e.g. ```, because</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="s2">                it will be automatically written to a .c file.</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="s2">                The function to be fuzzed **must** be part of the source code!</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="s2">                Select one function to fuzz at random.</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="s2">                Before generating the harness, think step by step about what</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="s2">                function might be interesting or nontrivial to fuzz.  Avoid</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="s2">                choosing the same kind of target as in previous attempts.</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="s2">                **Do not add arbitrary checks for the input, like limiting input</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="s2">                size, or worrying about stack usage. These things must be</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="s2">                accounted by the fuzzed library, this is why I need the harness.</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="s2">                On the other hand, do not write code that will most probably</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="s2">                crash irregardless of the library under test. The point is for a</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="s2">                function of the library under test to crash, not the harness</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="s2">                itself.**</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="s2">                The point is to catch the Program Under Test &quot;by surprise&quot;, so</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="s2">                do not format your input to make its job easier,</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="s2">                e.g. NULL-terminated strings or using specific keywords to the</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="s2">                program to help it.</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="s2">                Use and take advantage of any custom structs that the library</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="s2">                declares.</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**,</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="s2">                e.g. &lt;string.h&gt;, &lt;stdint.h&gt; or &lt;stdlib.h&gt; if they are needed.</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="s2">                === Source Code ===</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>            <span class="n">readme</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_readme</span><span class="p">()</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="n">lm</span><span class="p">(</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="s2">                I have this C project, for which you will find the contents</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="s2">                below. Write me a libFuzzer-compatible harness for it.</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="s2">                Respond **only** with the harness&#39; code. Make sure to write *all</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="s2">                the necessary includes* etc. The harness will be located in the</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="s2">                project root, so make sure the includes work appropriately.</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="s2">                Take into account each file&#39;s path.</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="s2">                Try to write a new harness and not default to one from your</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="s2">                training dataset. It will be a .c file.</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="s2">                Do not even wrap the code in markdown fences, e.g. ```, because</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="s2">                it will be automatically written to a .c file.</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="s2">                The function to be fuzzed **must** be part of the source code!</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="s2">                Select one function to fuzz at random.</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="s2">                Before generating the harness, think step by step about what</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="s2">                function might be interesting or nontrivial to fuzz.  Avoid</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="s2">                choosing the same kind of target as in previous attempts.</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="s2">                **Do not add arbitrary checks for the input, like limiting input</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="s2">                size, or worrying about stack usage. These things must be</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="s2">                accounted by the fuzzed library, this is why I need the harness.</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="s2">                On the other hand, do not write code that will most probably</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="s2">                crash irregardless of the library under test. The point is for a</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="s2">                function of the library under test to crash, not the harness</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="s2">                itself.**</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="s2">                The point is to catch the Program Under Test &quot;by surprise&quot;, so</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="s2">                do not format your input to make its job easier,</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="s2">                e.g. NULL-terminated strings or using specific keywords to the</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="s2">                program to help it.</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="s2">                Use and take advantage of any custom structs that the library</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="s2">                declares.</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**. Always</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="s2">                include &lt;string.h&gt;, &lt;stdint.h&gt; and &lt;stdlib.h&gt;. This is REALLY</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="s2">                IMPORTANT!</span>
 </span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="s2">                </span><span class="si">{</span><span class="n">concatenated_content</span><span class="si">}</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="s2">                </span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="s2">                What follows is static analysis output. If you find it helpful,</span>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="s2">                write your harness so that it leverages some of the potential</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="s2">                vulnerabilities described below.</span>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="s2">                === Static Analysis Output ===</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a><span class="s2">                </span><span class="si">{</span><span class="n">static_analysis</span><span class="si">}</span>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a><span class="s2">                &quot;&quot;&quot;</span>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>            <span class="p">)</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="s2">                === Source Code ===</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="s2">                </span><span class="si">{</span><span class="n">concatenated_content</span><span class="si">}</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="s2">                </span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="s2">                What follows is static analysis output. If you find it helpful,</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="s2">                write your harness so that it leverages some of the potential</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="s2">                vulnerabilities described below.</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a><span class="s2">                === Static Analysis Output ===</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="s2">                </span><span class="si">{</span><span class="n">static_analysis</span><span class="si">}</span>
 </span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error creating harness: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>            <span class="k">raise</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="s2">                Lastly, hear is the project&#39;s README.</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="s2">                === README ===</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="s2">                </span><span class="si">{</span><span class="n">readme</span><span class="si">}</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="s2">                &quot;&quot;&quot;</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>            <span class="p">)</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error creating harness: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>            <span class="k">raise</span>
 </span></pre></div>
 
 
@@ -262,66 +269,73 @@
 </span><span id="HarnessGenerator-72"><a href="#HarnessGenerator-72"><span class="linenos"> 72</span></a>
 </span><span id="HarnessGenerator-73"><a href="#HarnessGenerator-73"><span class="linenos"> 73</span></a>            <span class="n">concatenated_content</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_concatenated_content</span><span class="p">()</span>
 </span><span id="HarnessGenerator-74"><a href="#HarnessGenerator-74"><span class="linenos"> 74</span></a>            <span class="n">static_analysis</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_static_analysis</span><span class="p">()</span>
-</span><span id="HarnessGenerator-75"><a href="#HarnessGenerator-75"><span class="linenos"> 75</span></a>
-</span><span id="HarnessGenerator-76"><a href="#HarnessGenerator-76"><span class="linenos"> 76</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="n">lm</span><span class="p">(</span>
-</span><span id="HarnessGenerator-77"><a href="#HarnessGenerator-77"><span class="linenos"> 77</span></a>                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-</span><span id="HarnessGenerator-78"><a href="#HarnessGenerator-78"><span class="linenos"> 78</span></a><span class="s2">                I have this C project, for which you will find the contents</span>
-</span><span id="HarnessGenerator-79"><a href="#HarnessGenerator-79"><span class="linenos"> 79</span></a><span class="s2">                below. Write me a libFuzzer-compatible harness for it.</span>
-</span><span id="HarnessGenerator-80"><a href="#HarnessGenerator-80"><span class="linenos"> 80</span></a><span class="s2">                Respond **only** with the harness&#39; code. Make sure to write *all</span>
-</span><span id="HarnessGenerator-81"><a href="#HarnessGenerator-81"><span class="linenos"> 81</span></a><span class="s2">                the necessary includes* etc. The harness will be located in the</span>
-</span><span id="HarnessGenerator-82"><a href="#HarnessGenerator-82"><span class="linenos"> 82</span></a><span class="s2">                project root, so make sure the includes work appropriately.</span>
-</span><span id="HarnessGenerator-83"><a href="#HarnessGenerator-83"><span class="linenos"> 83</span></a><span class="s2">                Take into account each file&#39;s path.</span>
-</span><span id="HarnessGenerator-84"><a href="#HarnessGenerator-84"><span class="linenos"> 84</span></a>
-</span><span id="HarnessGenerator-85"><a href="#HarnessGenerator-85"><span class="linenos"> 85</span></a><span class="s2">                Try to write a new harness and not default to one from your</span>
-</span><span id="HarnessGenerator-86"><a href="#HarnessGenerator-86"><span class="linenos"> 86</span></a><span class="s2">                training dataset. It will be a .c file.</span>
-</span><span id="HarnessGenerator-87"><a href="#HarnessGenerator-87"><span class="linenos"> 87</span></a>
-</span><span id="HarnessGenerator-88"><a href="#HarnessGenerator-88"><span class="linenos"> 88</span></a><span class="s2">                Do not even wrap the code in markdown fences, e.g. ```, because</span>
-</span><span id="HarnessGenerator-89"><a href="#HarnessGenerator-89"><span class="linenos"> 89</span></a><span class="s2">                it will be automatically written to a .c file.</span>
-</span><span id="HarnessGenerator-90"><a href="#HarnessGenerator-90"><span class="linenos"> 90</span></a>
-</span><span id="HarnessGenerator-91"><a href="#HarnessGenerator-91"><span class="linenos"> 91</span></a><span class="s2">                The function to be fuzzed **must** be part of the source code!</span>
-</span><span id="HarnessGenerator-92"><a href="#HarnessGenerator-92"><span class="linenos"> 92</span></a>
-</span><span id="HarnessGenerator-93"><a href="#HarnessGenerator-93"><span class="linenos"> 93</span></a><span class="s2">                Select one function to fuzz at random.</span>
-</span><span id="HarnessGenerator-94"><a href="#HarnessGenerator-94"><span class="linenos"> 94</span></a>
-</span><span id="HarnessGenerator-95"><a href="#HarnessGenerator-95"><span class="linenos"> 95</span></a><span class="s2">                Before generating the harness, think step by step about what</span>
-</span><span id="HarnessGenerator-96"><a href="#HarnessGenerator-96"><span class="linenos"> 96</span></a><span class="s2">                function might be interesting or nontrivial to fuzz.  Avoid</span>
-</span><span id="HarnessGenerator-97"><a href="#HarnessGenerator-97"><span class="linenos"> 97</span></a><span class="s2">                choosing the same kind of target as in previous attempts.</span>
-</span><span id="HarnessGenerator-98"><a href="#HarnessGenerator-98"><span class="linenos"> 98</span></a>
-</span><span id="HarnessGenerator-99"><a href="#HarnessGenerator-99"><span class="linenos"> 99</span></a><span class="s2">                **Do not add arbitrary checks for the input, like limiting input</span>
-</span><span id="HarnessGenerator-100"><a href="#HarnessGenerator-100"><span class="linenos">100</span></a><span class="s2">                size, or worrying about stack usage. These things must be</span>
-</span><span id="HarnessGenerator-101"><a href="#HarnessGenerator-101"><span class="linenos">101</span></a><span class="s2">                accounted by the fuzzed library, this is why I need the harness.</span>
-</span><span id="HarnessGenerator-102"><a href="#HarnessGenerator-102"><span class="linenos">102</span></a><span class="s2">                On the other hand, do not write code that will most probably</span>
-</span><span id="HarnessGenerator-103"><a href="#HarnessGenerator-103"><span class="linenos">103</span></a><span class="s2">                crash irregardless of the library under test. The point is for a</span>
-</span><span id="HarnessGenerator-104"><a href="#HarnessGenerator-104"><span class="linenos">104</span></a><span class="s2">                function of the library under test to crash, not the harness</span>
-</span><span id="HarnessGenerator-105"><a href="#HarnessGenerator-105"><span class="linenos">105</span></a><span class="s2">                itself.**</span>
-</span><span id="HarnessGenerator-106"><a href="#HarnessGenerator-106"><span class="linenos">106</span></a>
-</span><span id="HarnessGenerator-107"><a href="#HarnessGenerator-107"><span class="linenos">107</span></a><span class="s2">                The point is to catch the Program Under Test &quot;by surprise&quot;, so</span>
-</span><span id="HarnessGenerator-108"><a href="#HarnessGenerator-108"><span class="linenos">108</span></a><span class="s2">                do not format your input to make its job easier,</span>
-</span><span id="HarnessGenerator-109"><a href="#HarnessGenerator-109"><span class="linenos">109</span></a><span class="s2">                e.g. NULL-terminated strings or using specific keywords to the</span>
-</span><span id="HarnessGenerator-110"><a href="#HarnessGenerator-110"><span class="linenos">110</span></a><span class="s2">                program to help it.</span>
-</span><span id="HarnessGenerator-111"><a href="#HarnessGenerator-111"><span class="linenos">111</span></a>
-</span><span id="HarnessGenerator-112"><a href="#HarnessGenerator-112"><span class="linenos">112</span></a><span class="s2">                Use and take advantage of any custom structs that the library</span>
-</span><span id="HarnessGenerator-113"><a href="#HarnessGenerator-113"><span class="linenos">113</span></a><span class="s2">                declares.</span>
-</span><span id="HarnessGenerator-114"><a href="#HarnessGenerator-114"><span class="linenos">114</span></a>
-</span><span id="HarnessGenerator-115"><a href="#HarnessGenerator-115"><span class="linenos">115</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**,</span>
-</span><span id="HarnessGenerator-116"><a href="#HarnessGenerator-116"><span class="linenos">116</span></a><span class="s2">                e.g. &lt;string.h&gt;, &lt;stdint.h&gt; or &lt;stdlib.h&gt; if they are needed.</span>
-</span><span id="HarnessGenerator-117"><a href="#HarnessGenerator-117"><span class="linenos">117</span></a>
-</span><span id="HarnessGenerator-118"><a href="#HarnessGenerator-118"><span class="linenos">118</span></a><span class="s2">                === Source Code ===</span>
+</span><span id="HarnessGenerator-75"><a href="#HarnessGenerator-75"><span class="linenos"> 75</span></a>            <span class="n">readme</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_readme</span><span class="p">()</span>
+</span><span id="HarnessGenerator-76"><a href="#HarnessGenerator-76"><span class="linenos"> 76</span></a>
+</span><span id="HarnessGenerator-77"><a href="#HarnessGenerator-77"><span class="linenos"> 77</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="n">lm</span><span class="p">(</span>
+</span><span id="HarnessGenerator-78"><a href="#HarnessGenerator-78"><span class="linenos"> 78</span></a>                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="HarnessGenerator-79"><a href="#HarnessGenerator-79"><span class="linenos"> 79</span></a><span class="s2">                I have this C project, for which you will find the contents</span>
+</span><span id="HarnessGenerator-80"><a href="#HarnessGenerator-80"><span class="linenos"> 80</span></a><span class="s2">                below. Write me a libFuzzer-compatible harness for it.</span>
+</span><span id="HarnessGenerator-81"><a href="#HarnessGenerator-81"><span class="linenos"> 81</span></a><span class="s2">                Respond **only** with the harness&#39; code. Make sure to write *all</span>
+</span><span id="HarnessGenerator-82"><a href="#HarnessGenerator-82"><span class="linenos"> 82</span></a><span class="s2">                the necessary includes* etc. The harness will be located in the</span>
+</span><span id="HarnessGenerator-83"><a href="#HarnessGenerator-83"><span class="linenos"> 83</span></a><span class="s2">                project root, so make sure the includes work appropriately.</span>
+</span><span id="HarnessGenerator-84"><a href="#HarnessGenerator-84"><span class="linenos"> 84</span></a><span class="s2">                Take into account each file&#39;s path.</span>
+</span><span id="HarnessGenerator-85"><a href="#HarnessGenerator-85"><span class="linenos"> 85</span></a>
+</span><span id="HarnessGenerator-86"><a href="#HarnessGenerator-86"><span class="linenos"> 86</span></a><span class="s2">                Try to write a new harness and not default to one from your</span>
+</span><span id="HarnessGenerator-87"><a href="#HarnessGenerator-87"><span class="linenos"> 87</span></a><span class="s2">                training dataset. It will be a .c file.</span>
+</span><span id="HarnessGenerator-88"><a href="#HarnessGenerator-88"><span class="linenos"> 88</span></a>
+</span><span id="HarnessGenerator-89"><a href="#HarnessGenerator-89"><span class="linenos"> 89</span></a><span class="s2">                Do not even wrap the code in markdown fences, e.g. ```, because</span>
+</span><span id="HarnessGenerator-90"><a href="#HarnessGenerator-90"><span class="linenos"> 90</span></a><span class="s2">                it will be automatically written to a .c file.</span>
+</span><span id="HarnessGenerator-91"><a href="#HarnessGenerator-91"><span class="linenos"> 91</span></a>
+</span><span id="HarnessGenerator-92"><a href="#HarnessGenerator-92"><span class="linenos"> 92</span></a><span class="s2">                The function to be fuzzed **must** be part of the source code!</span>
+</span><span id="HarnessGenerator-93"><a href="#HarnessGenerator-93"><span class="linenos"> 93</span></a>
+</span><span id="HarnessGenerator-94"><a href="#HarnessGenerator-94"><span class="linenos"> 94</span></a><span class="s2">                Select one function to fuzz at random.</span>
+</span><span id="HarnessGenerator-95"><a href="#HarnessGenerator-95"><span class="linenos"> 95</span></a>
+</span><span id="HarnessGenerator-96"><a href="#HarnessGenerator-96"><span class="linenos"> 96</span></a><span class="s2">                Before generating the harness, think step by step about what</span>
+</span><span id="HarnessGenerator-97"><a href="#HarnessGenerator-97"><span class="linenos"> 97</span></a><span class="s2">                function might be interesting or nontrivial to fuzz.  Avoid</span>
+</span><span id="HarnessGenerator-98"><a href="#HarnessGenerator-98"><span class="linenos"> 98</span></a><span class="s2">                choosing the same kind of target as in previous attempts.</span>
+</span><span id="HarnessGenerator-99"><a href="#HarnessGenerator-99"><span class="linenos"> 99</span></a>
+</span><span id="HarnessGenerator-100"><a href="#HarnessGenerator-100"><span class="linenos">100</span></a><span class="s2">                **Do not add arbitrary checks for the input, like limiting input</span>
+</span><span id="HarnessGenerator-101"><a href="#HarnessGenerator-101"><span class="linenos">101</span></a><span class="s2">                size, or worrying about stack usage. These things must be</span>
+</span><span id="HarnessGenerator-102"><a href="#HarnessGenerator-102"><span class="linenos">102</span></a><span class="s2">                accounted by the fuzzed library, this is why I need the harness.</span>
+</span><span id="HarnessGenerator-103"><a href="#HarnessGenerator-103"><span class="linenos">103</span></a><span class="s2">                On the other hand, do not write code that will most probably</span>
+</span><span id="HarnessGenerator-104"><a href="#HarnessGenerator-104"><span class="linenos">104</span></a><span class="s2">                crash irregardless of the library under test. The point is for a</span>
+</span><span id="HarnessGenerator-105"><a href="#HarnessGenerator-105"><span class="linenos">105</span></a><span class="s2">                function of the library under test to crash, not the harness</span>
+</span><span id="HarnessGenerator-106"><a href="#HarnessGenerator-106"><span class="linenos">106</span></a><span class="s2">                itself.**</span>
+</span><span id="HarnessGenerator-107"><a href="#HarnessGenerator-107"><span class="linenos">107</span></a>
+</span><span id="HarnessGenerator-108"><a href="#HarnessGenerator-108"><span class="linenos">108</span></a><span class="s2">                The point is to catch the Program Under Test &quot;by surprise&quot;, so</span>
+</span><span id="HarnessGenerator-109"><a href="#HarnessGenerator-109"><span class="linenos">109</span></a><span class="s2">                do not format your input to make its job easier,</span>
+</span><span id="HarnessGenerator-110"><a href="#HarnessGenerator-110"><span class="linenos">110</span></a><span class="s2">                e.g. NULL-terminated strings or using specific keywords to the</span>
+</span><span id="HarnessGenerator-111"><a href="#HarnessGenerator-111"><span class="linenos">111</span></a><span class="s2">                program to help it.</span>
+</span><span id="HarnessGenerator-112"><a href="#HarnessGenerator-112"><span class="linenos">112</span></a>
+</span><span id="HarnessGenerator-113"><a href="#HarnessGenerator-113"><span class="linenos">113</span></a><span class="s2">                Use and take advantage of any custom structs that the library</span>
+</span><span id="HarnessGenerator-114"><a href="#HarnessGenerator-114"><span class="linenos">114</span></a><span class="s2">                declares.</span>
+</span><span id="HarnessGenerator-115"><a href="#HarnessGenerator-115"><span class="linenos">115</span></a>
+</span><span id="HarnessGenerator-116"><a href="#HarnessGenerator-116"><span class="linenos">116</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**. Always</span>
+</span><span id="HarnessGenerator-117"><a href="#HarnessGenerator-117"><span class="linenos">117</span></a><span class="s2">                include &lt;string.h&gt;, &lt;stdint.h&gt; and &lt;stdlib.h&gt;. This is REALLY</span>
+</span><span id="HarnessGenerator-118"><a href="#HarnessGenerator-118"><span class="linenos">118</span></a><span class="s2">                IMPORTANT!</span>
 </span><span id="HarnessGenerator-119"><a href="#HarnessGenerator-119"><span class="linenos">119</span></a>
-</span><span id="HarnessGenerator-120"><a href="#HarnessGenerator-120"><span class="linenos">120</span></a><span class="s2">                </span><span class="si">{</span><span class="n">concatenated_content</span><span class="si">}</span>
-</span><span id="HarnessGenerator-121"><a href="#HarnessGenerator-121"><span class="linenos">121</span></a><span class="s2">                </span>
-</span><span id="HarnessGenerator-122"><a href="#HarnessGenerator-122"><span class="linenos">122</span></a><span class="s2">                What follows is static analysis output. If you find it helpful,</span>
-</span><span id="HarnessGenerator-123"><a href="#HarnessGenerator-123"><span class="linenos">123</span></a><span class="s2">                write your harness so that it leverages some of the potential</span>
-</span><span id="HarnessGenerator-124"><a href="#HarnessGenerator-124"><span class="linenos">124</span></a><span class="s2">                vulnerabilities described below.</span>
-</span><span id="HarnessGenerator-125"><a href="#HarnessGenerator-125"><span class="linenos">125</span></a>
-</span><span id="HarnessGenerator-126"><a href="#HarnessGenerator-126"><span class="linenos">126</span></a><span class="s2">                === Static Analysis Output ===</span>
-</span><span id="HarnessGenerator-127"><a href="#HarnessGenerator-127"><span class="linenos">127</span></a><span class="s2">                </span><span class="si">{</span><span class="n">static_analysis</span><span class="si">}</span>
-</span><span id="HarnessGenerator-128"><a href="#HarnessGenerator-128"><span class="linenos">128</span></a><span class="s2">                &quot;&quot;&quot;</span>
-</span><span id="HarnessGenerator-129"><a href="#HarnessGenerator-129"><span class="linenos">129</span></a>            <span class="p">)</span>
+</span><span id="HarnessGenerator-120"><a href="#HarnessGenerator-120"><span class="linenos">120</span></a><span class="s2">                === Source Code ===</span>
+</span><span id="HarnessGenerator-121"><a href="#HarnessGenerator-121"><span class="linenos">121</span></a>
+</span><span id="HarnessGenerator-122"><a href="#HarnessGenerator-122"><span class="linenos">122</span></a><span class="s2">                </span><span class="si">{</span><span class="n">concatenated_content</span><span class="si">}</span>
+</span><span id="HarnessGenerator-123"><a href="#HarnessGenerator-123"><span class="linenos">123</span></a><span class="s2">                </span>
+</span><span id="HarnessGenerator-124"><a href="#HarnessGenerator-124"><span class="linenos">124</span></a><span class="s2">                What follows is static analysis output. If you find it helpful,</span>
+</span><span id="HarnessGenerator-125"><a href="#HarnessGenerator-125"><span class="linenos">125</span></a><span class="s2">                write your harness so that it leverages some of the potential</span>
+</span><span id="HarnessGenerator-126"><a href="#HarnessGenerator-126"><span class="linenos">126</span></a><span class="s2">                vulnerabilities described below.</span>
+</span><span id="HarnessGenerator-127"><a href="#HarnessGenerator-127"><span class="linenos">127</span></a>
+</span><span id="HarnessGenerator-128"><a href="#HarnessGenerator-128"><span class="linenos">128</span></a><span class="s2">                === Static Analysis Output ===</span>
+</span><span id="HarnessGenerator-129"><a href="#HarnessGenerator-129"><span class="linenos">129</span></a><span class="s2">                </span><span class="si">{</span><span class="n">static_analysis</span><span class="si">}</span>
 </span><span id="HarnessGenerator-130"><a href="#HarnessGenerator-130"><span class="linenos">130</span></a>
-</span><span id="HarnessGenerator-131"><a href="#HarnessGenerator-131"><span class="linenos">131</span></a>            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span id="HarnessGenerator-132"><a href="#HarnessGenerator-132"><span class="linenos">132</span></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="HarnessGenerator-133"><a href="#HarnessGenerator-133"><span class="linenos">133</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error creating harness: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="HarnessGenerator-134"><a href="#HarnessGenerator-134"><span class="linenos">134</span></a>            <span class="k">raise</span>
+</span><span id="HarnessGenerator-131"><a href="#HarnessGenerator-131"><span class="linenos">131</span></a><span class="s2">                Lastly, hear is the project&#39;s README.</span>
+</span><span id="HarnessGenerator-132"><a href="#HarnessGenerator-132"><span class="linenos">132</span></a>
+</span><span id="HarnessGenerator-133"><a href="#HarnessGenerator-133"><span class="linenos">133</span></a><span class="s2">                === README ===</span>
+</span><span id="HarnessGenerator-134"><a href="#HarnessGenerator-134"><span class="linenos">134</span></a><span class="s2">                </span><span class="si">{</span><span class="n">readme</span><span class="si">}</span>
+</span><span id="HarnessGenerator-135"><a href="#HarnessGenerator-135"><span class="linenos">135</span></a><span class="s2">                &quot;&quot;&quot;</span>
+</span><span id="HarnessGenerator-136"><a href="#HarnessGenerator-136"><span class="linenos">136</span></a>            <span class="p">)</span>
+</span><span id="HarnessGenerator-137"><a href="#HarnessGenerator-137"><span class="linenos">137</span></a>
+</span><span id="HarnessGenerator-138"><a href="#HarnessGenerator-138"><span class="linenos">138</span></a>            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="HarnessGenerator-139"><a href="#HarnessGenerator-139"><span class="linenos">139</span></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="HarnessGenerator-140"><a href="#HarnessGenerator-140"><span class="linenos">140</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error creating harness: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="HarnessGenerator-141"><a href="#HarnessGenerator-141"><span class="linenos">141</span></a>            <span class="k">raise</span>
 </span></pre></div>
 
 
@@ -413,66 +427,73 @@
 </span><span id="HarnessGenerator.create_harness-72"><a href="#HarnessGenerator.create_harness-72"><span class="linenos"> 72</span></a>
 </span><span id="HarnessGenerator.create_harness-73"><a href="#HarnessGenerator.create_harness-73"><span class="linenos"> 73</span></a>            <span class="n">concatenated_content</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_concatenated_content</span><span class="p">()</span>
 </span><span id="HarnessGenerator.create_harness-74"><a href="#HarnessGenerator.create_harness-74"><span class="linenos"> 74</span></a>            <span class="n">static_analysis</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_static_analysis</span><span class="p">()</span>
-</span><span id="HarnessGenerator.create_harness-75"><a href="#HarnessGenerator.create_harness-75"><span class="linenos"> 75</span></a>
-</span><span id="HarnessGenerator.create_harness-76"><a href="#HarnessGenerator.create_harness-76"><span class="linenos"> 76</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="n">lm</span><span class="p">(</span>
-</span><span id="HarnessGenerator.create_harness-77"><a href="#HarnessGenerator.create_harness-77"><span class="linenos"> 77</span></a>                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-</span><span id="HarnessGenerator.create_harness-78"><a href="#HarnessGenerator.create_harness-78"><span class="linenos"> 78</span></a><span class="s2">                I have this C project, for which you will find the contents</span>
-</span><span id="HarnessGenerator.create_harness-79"><a href="#HarnessGenerator.create_harness-79"><span class="linenos"> 79</span></a><span class="s2">                below. Write me a libFuzzer-compatible harness for it.</span>
-</span><span id="HarnessGenerator.create_harness-80"><a href="#HarnessGenerator.create_harness-80"><span class="linenos"> 80</span></a><span class="s2">                Respond **only** with the harness&#39; code. Make sure to write *all</span>
-</span><span id="HarnessGenerator.create_harness-81"><a href="#HarnessGenerator.create_harness-81"><span class="linenos"> 81</span></a><span class="s2">                the necessary includes* etc. The harness will be located in the</span>
-</span><span id="HarnessGenerator.create_harness-82"><a href="#HarnessGenerator.create_harness-82"><span class="linenos"> 82</span></a><span class="s2">                project root, so make sure the includes work appropriately.</span>
-</span><span id="HarnessGenerator.create_harness-83"><a href="#HarnessGenerator.create_harness-83"><span class="linenos"> 83</span></a><span class="s2">                Take into account each file&#39;s path.</span>
-</span><span id="HarnessGenerator.create_harness-84"><a href="#HarnessGenerator.create_harness-84"><span class="linenos"> 84</span></a>
-</span><span id="HarnessGenerator.create_harness-85"><a href="#HarnessGenerator.create_harness-85"><span class="linenos"> 85</span></a><span class="s2">                Try to write a new harness and not default to one from your</span>
-</span><span id="HarnessGenerator.create_harness-86"><a href="#HarnessGenerator.create_harness-86"><span class="linenos"> 86</span></a><span class="s2">                training dataset. It will be a .c file.</span>
-</span><span id="HarnessGenerator.create_harness-87"><a href="#HarnessGenerator.create_harness-87"><span class="linenos"> 87</span></a>
-</span><span id="HarnessGenerator.create_harness-88"><a href="#HarnessGenerator.create_harness-88"><span class="linenos"> 88</span></a><span class="s2">                Do not even wrap the code in markdown fences, e.g. ```, because</span>
-</span><span id="HarnessGenerator.create_harness-89"><a href="#HarnessGenerator.create_harness-89"><span class="linenos"> 89</span></a><span class="s2">                it will be automatically written to a .c file.</span>
-</span><span id="HarnessGenerator.create_harness-90"><a href="#HarnessGenerator.create_harness-90"><span class="linenos"> 90</span></a>
-</span><span id="HarnessGenerator.create_harness-91"><a href="#HarnessGenerator.create_harness-91"><span class="linenos"> 91</span></a><span class="s2">                The function to be fuzzed **must** be part of the source code!</span>
-</span><span id="HarnessGenerator.create_harness-92"><a href="#HarnessGenerator.create_harness-92"><span class="linenos"> 92</span></a>
-</span><span id="HarnessGenerator.create_harness-93"><a href="#HarnessGenerator.create_harness-93"><span class="linenos"> 93</span></a><span class="s2">                Select one function to fuzz at random.</span>
-</span><span id="HarnessGenerator.create_harness-94"><a href="#HarnessGenerator.create_harness-94"><span class="linenos"> 94</span></a>
-</span><span id="HarnessGenerator.create_harness-95"><a href="#HarnessGenerator.create_harness-95"><span class="linenos"> 95</span></a><span class="s2">                Before generating the harness, think step by step about what</span>
-</span><span id="HarnessGenerator.create_harness-96"><a href="#HarnessGenerator.create_harness-96"><span class="linenos"> 96</span></a><span class="s2">                function might be interesting or nontrivial to fuzz.  Avoid</span>
-</span><span id="HarnessGenerator.create_harness-97"><a href="#HarnessGenerator.create_harness-97"><span class="linenos"> 97</span></a><span class="s2">                choosing the same kind of target as in previous attempts.</span>
-</span><span id="HarnessGenerator.create_harness-98"><a href="#HarnessGenerator.create_harness-98"><span class="linenos"> 98</span></a>
-</span><span id="HarnessGenerator.create_harness-99"><a href="#HarnessGenerator.create_harness-99"><span class="linenos"> 99</span></a><span class="s2">                **Do not add arbitrary checks for the input, like limiting input</span>
-</span><span id="HarnessGenerator.create_harness-100"><a href="#HarnessGenerator.create_harness-100"><span class="linenos">100</span></a><span class="s2">                size, or worrying about stack usage. These things must be</span>
-</span><span id="HarnessGenerator.create_harness-101"><a href="#HarnessGenerator.create_harness-101"><span class="linenos">101</span></a><span class="s2">                accounted by the fuzzed library, this is why I need the harness.</span>
-</span><span id="HarnessGenerator.create_harness-102"><a href="#HarnessGenerator.create_harness-102"><span class="linenos">102</span></a><span class="s2">                On the other hand, do not write code that will most probably</span>
-</span><span id="HarnessGenerator.create_harness-103"><a href="#HarnessGenerator.create_harness-103"><span class="linenos">103</span></a><span class="s2">                crash irregardless of the library under test. The point is for a</span>
-</span><span id="HarnessGenerator.create_harness-104"><a href="#HarnessGenerator.create_harness-104"><span class="linenos">104</span></a><span class="s2">                function of the library under test to crash, not the harness</span>
-</span><span id="HarnessGenerator.create_harness-105"><a href="#HarnessGenerator.create_harness-105"><span class="linenos">105</span></a><span class="s2">                itself.**</span>
-</span><span id="HarnessGenerator.create_harness-106"><a href="#HarnessGenerator.create_harness-106"><span class="linenos">106</span></a>
-</span><span id="HarnessGenerator.create_harness-107"><a href="#HarnessGenerator.create_harness-107"><span class="linenos">107</span></a><span class="s2">                The point is to catch the Program Under Test &quot;by surprise&quot;, so</span>
-</span><span id="HarnessGenerator.create_harness-108"><a href="#HarnessGenerator.create_harness-108"><span class="linenos">108</span></a><span class="s2">                do not format your input to make its job easier,</span>
-</span><span id="HarnessGenerator.create_harness-109"><a href="#HarnessGenerator.create_harness-109"><span class="linenos">109</span></a><span class="s2">                e.g. NULL-terminated strings or using specific keywords to the</span>
-</span><span id="HarnessGenerator.create_harness-110"><a href="#HarnessGenerator.create_harness-110"><span class="linenos">110</span></a><span class="s2">                program to help it.</span>
-</span><span id="HarnessGenerator.create_harness-111"><a href="#HarnessGenerator.create_harness-111"><span class="linenos">111</span></a>
-</span><span id="HarnessGenerator.create_harness-112"><a href="#HarnessGenerator.create_harness-112"><span class="linenos">112</span></a><span class="s2">                Use and take advantage of any custom structs that the library</span>
-</span><span id="HarnessGenerator.create_harness-113"><a href="#HarnessGenerator.create_harness-113"><span class="linenos">113</span></a><span class="s2">                declares.</span>
-</span><span id="HarnessGenerator.create_harness-114"><a href="#HarnessGenerator.create_harness-114"><span class="linenos">114</span></a>
-</span><span id="HarnessGenerator.create_harness-115"><a href="#HarnessGenerator.create_harness-115"><span class="linenos">115</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**,</span>
-</span><span id="HarnessGenerator.create_harness-116"><a href="#HarnessGenerator.create_harness-116"><span class="linenos">116</span></a><span class="s2">                e.g. &lt;string.h&gt;, &lt;stdint.h&gt; or &lt;stdlib.h&gt; if they are needed.</span>
-</span><span id="HarnessGenerator.create_harness-117"><a href="#HarnessGenerator.create_harness-117"><span class="linenos">117</span></a>
-</span><span id="HarnessGenerator.create_harness-118"><a href="#HarnessGenerator.create_harness-118"><span class="linenos">118</span></a><span class="s2">                === Source Code ===</span>
+</span><span id="HarnessGenerator.create_harness-75"><a href="#HarnessGenerator.create_harness-75"><span class="linenos"> 75</span></a>            <span class="n">readme</span> <span class="o">=</span> <span class="n">project_info</span><span class="o">.</span><span class="n">get_readme</span><span class="p">()</span>
+</span><span id="HarnessGenerator.create_harness-76"><a href="#HarnessGenerator.create_harness-76"><span class="linenos"> 76</span></a>
+</span><span id="HarnessGenerator.create_harness-77"><a href="#HarnessGenerator.create_harness-77"><span class="linenos"> 77</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="n">lm</span><span class="p">(</span>
+</span><span id="HarnessGenerator.create_harness-78"><a href="#HarnessGenerator.create_harness-78"><span class="linenos"> 78</span></a>                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="HarnessGenerator.create_harness-79"><a href="#HarnessGenerator.create_harness-79"><span class="linenos"> 79</span></a><span class="s2">                I have this C project, for which you will find the contents</span>
+</span><span id="HarnessGenerator.create_harness-80"><a href="#HarnessGenerator.create_harness-80"><span class="linenos"> 80</span></a><span class="s2">                below. Write me a libFuzzer-compatible harness for it.</span>
+</span><span id="HarnessGenerator.create_harness-81"><a href="#HarnessGenerator.create_harness-81"><span class="linenos"> 81</span></a><span class="s2">                Respond **only** with the harness&#39; code. Make sure to write *all</span>
+</span><span id="HarnessGenerator.create_harness-82"><a href="#HarnessGenerator.create_harness-82"><span class="linenos"> 82</span></a><span class="s2">                the necessary includes* etc. The harness will be located in the</span>
+</span><span id="HarnessGenerator.create_harness-83"><a href="#HarnessGenerator.create_harness-83"><span class="linenos"> 83</span></a><span class="s2">                project root, so make sure the includes work appropriately.</span>
+</span><span id="HarnessGenerator.create_harness-84"><a href="#HarnessGenerator.create_harness-84"><span class="linenos"> 84</span></a><span class="s2">                Take into account each file&#39;s path.</span>
+</span><span id="HarnessGenerator.create_harness-85"><a href="#HarnessGenerator.create_harness-85"><span class="linenos"> 85</span></a>
+</span><span id="HarnessGenerator.create_harness-86"><a href="#HarnessGenerator.create_harness-86"><span class="linenos"> 86</span></a><span class="s2">                Try to write a new harness and not default to one from your</span>
+</span><span id="HarnessGenerator.create_harness-87"><a href="#HarnessGenerator.create_harness-87"><span class="linenos"> 87</span></a><span class="s2">                training dataset. It will be a .c file.</span>
+</span><span id="HarnessGenerator.create_harness-88"><a href="#HarnessGenerator.create_harness-88"><span class="linenos"> 88</span></a>
+</span><span id="HarnessGenerator.create_harness-89"><a href="#HarnessGenerator.create_harness-89"><span class="linenos"> 89</span></a><span class="s2">                Do not even wrap the code in markdown fences, e.g. ```, because</span>
+</span><span id="HarnessGenerator.create_harness-90"><a href="#HarnessGenerator.create_harness-90"><span class="linenos"> 90</span></a><span class="s2">                it will be automatically written to a .c file.</span>
+</span><span id="HarnessGenerator.create_harness-91"><a href="#HarnessGenerator.create_harness-91"><span class="linenos"> 91</span></a>
+</span><span id="HarnessGenerator.create_harness-92"><a href="#HarnessGenerator.create_harness-92"><span class="linenos"> 92</span></a><span class="s2">                The function to be fuzzed **must** be part of the source code!</span>
+</span><span id="HarnessGenerator.create_harness-93"><a href="#HarnessGenerator.create_harness-93"><span class="linenos"> 93</span></a>
+</span><span id="HarnessGenerator.create_harness-94"><a href="#HarnessGenerator.create_harness-94"><span class="linenos"> 94</span></a><span class="s2">                Select one function to fuzz at random.</span>
+</span><span id="HarnessGenerator.create_harness-95"><a href="#HarnessGenerator.create_harness-95"><span class="linenos"> 95</span></a>
+</span><span id="HarnessGenerator.create_harness-96"><a href="#HarnessGenerator.create_harness-96"><span class="linenos"> 96</span></a><span class="s2">                Before generating the harness, think step by step about what</span>
+</span><span id="HarnessGenerator.create_harness-97"><a href="#HarnessGenerator.create_harness-97"><span class="linenos"> 97</span></a><span class="s2">                function might be interesting or nontrivial to fuzz.  Avoid</span>
+</span><span id="HarnessGenerator.create_harness-98"><a href="#HarnessGenerator.create_harness-98"><span class="linenos"> 98</span></a><span class="s2">                choosing the same kind of target as in previous attempts.</span>
+</span><span id="HarnessGenerator.create_harness-99"><a href="#HarnessGenerator.create_harness-99"><span class="linenos"> 99</span></a>
+</span><span id="HarnessGenerator.create_harness-100"><a href="#HarnessGenerator.create_harness-100"><span class="linenos">100</span></a><span class="s2">                **Do not add arbitrary checks for the input, like limiting input</span>
+</span><span id="HarnessGenerator.create_harness-101"><a href="#HarnessGenerator.create_harness-101"><span class="linenos">101</span></a><span class="s2">                size, or worrying about stack usage. These things must be</span>
+</span><span id="HarnessGenerator.create_harness-102"><a href="#HarnessGenerator.create_harness-102"><span class="linenos">102</span></a><span class="s2">                accounted by the fuzzed library, this is why I need the harness.</span>
+</span><span id="HarnessGenerator.create_harness-103"><a href="#HarnessGenerator.create_harness-103"><span class="linenos">103</span></a><span class="s2">                On the other hand, do not write code that will most probably</span>
+</span><span id="HarnessGenerator.create_harness-104"><a href="#HarnessGenerator.create_harness-104"><span class="linenos">104</span></a><span class="s2">                crash irregardless of the library under test. The point is for a</span>
+</span><span id="HarnessGenerator.create_harness-105"><a href="#HarnessGenerator.create_harness-105"><span class="linenos">105</span></a><span class="s2">                function of the library under test to crash, not the harness</span>
+</span><span id="HarnessGenerator.create_harness-106"><a href="#HarnessGenerator.create_harness-106"><span class="linenos">106</span></a><span class="s2">                itself.**</span>
+</span><span id="HarnessGenerator.create_harness-107"><a href="#HarnessGenerator.create_harness-107"><span class="linenos">107</span></a>
+</span><span id="HarnessGenerator.create_harness-108"><a href="#HarnessGenerator.create_harness-108"><span class="linenos">108</span></a><span class="s2">                The point is to catch the Program Under Test &quot;by surprise&quot;, so</span>
+</span><span id="HarnessGenerator.create_harness-109"><a href="#HarnessGenerator.create_harness-109"><span class="linenos">109</span></a><span class="s2">                do not format your input to make its job easier,</span>
+</span><span id="HarnessGenerator.create_harness-110"><a href="#HarnessGenerator.create_harness-110"><span class="linenos">110</span></a><span class="s2">                e.g. NULL-terminated strings or using specific keywords to the</span>
+</span><span id="HarnessGenerator.create_harness-111"><a href="#HarnessGenerator.create_harness-111"><span class="linenos">111</span></a><span class="s2">                program to help it.</span>
+</span><span id="HarnessGenerator.create_harness-112"><a href="#HarnessGenerator.create_harness-112"><span class="linenos">112</span></a>
+</span><span id="HarnessGenerator.create_harness-113"><a href="#HarnessGenerator.create_harness-113"><span class="linenos">113</span></a><span class="s2">                Use and take advantage of any custom structs that the library</span>
+</span><span id="HarnessGenerator.create_harness-114"><a href="#HarnessGenerator.create_harness-114"><span class="linenos">114</span></a><span class="s2">                declares.</span>
+</span><span id="HarnessGenerator.create_harness-115"><a href="#HarnessGenerator.create_harness-115"><span class="linenos">115</span></a>
+</span><span id="HarnessGenerator.create_harness-116"><a href="#HarnessGenerator.create_harness-116"><span class="linenos">116</span></a><span class="s2">                Again, Make sure to add **all the necessary includes**. Always</span>
+</span><span id="HarnessGenerator.create_harness-117"><a href="#HarnessGenerator.create_harness-117"><span class="linenos">117</span></a><span class="s2">                include &lt;string.h&gt;, &lt;stdint.h&gt; and &lt;stdlib.h&gt;. This is REALLY</span>
+</span><span id="HarnessGenerator.create_harness-118"><a href="#HarnessGenerator.create_harness-118"><span class="linenos">118</span></a><span class="s2">                IMPORTANT!</span>
 </span><span id="HarnessGenerator.create_harness-119"><a href="#HarnessGenerator.create_harness-119"><span class="linenos">119</span></a>
-</span><span id="HarnessGenerator.create_harness-120"><a href="#HarnessGenerator.create_harness-120"><span class="linenos">120</span></a><span class="s2">                </span><span class="si">{</span><span class="n">concatenated_content</span><span class="si">}</span>
-</span><span id="HarnessGenerator.create_harness-121"><a href="#HarnessGenerator.create_harness-121"><span class="linenos">121</span></a><span class="s2">                </span>
-</span><span id="HarnessGenerator.create_harness-122"><a href="#HarnessGenerator.create_harness-122"><span class="linenos">122</span></a><span class="s2">                What follows is static analysis output. If you find it helpful,</span>
-</span><span id="HarnessGenerator.create_harness-123"><a href="#HarnessGenerator.create_harness-123"><span class="linenos">123</span></a><span class="s2">                write your harness so that it leverages some of the potential</span>
-</span><span id="HarnessGenerator.create_harness-124"><a href="#HarnessGenerator.create_harness-124"><span class="linenos">124</span></a><span class="s2">                vulnerabilities described below.</span>
-</span><span id="HarnessGenerator.create_harness-125"><a href="#HarnessGenerator.create_harness-125"><span class="linenos">125</span></a>
-</span><span id="HarnessGenerator.create_harness-126"><a href="#HarnessGenerator.create_harness-126"><span class="linenos">126</span></a><span class="s2">                === Static Analysis Output ===</span>
-</span><span id="HarnessGenerator.create_harness-127"><a href="#HarnessGenerator.create_harness-127"><span class="linenos">127</span></a><span class="s2">                </span><span class="si">{</span><span class="n">static_analysis</span><span class="si">}</span>
-</span><span id="HarnessGenerator.create_harness-128"><a href="#HarnessGenerator.create_harness-128"><span class="linenos">128</span></a><span class="s2">                &quot;&quot;&quot;</span>
-</span><span id="HarnessGenerator.create_harness-129"><a href="#HarnessGenerator.create_harness-129"><span class="linenos">129</span></a>            <span class="p">)</span>
+</span><span id="HarnessGenerator.create_harness-120"><a href="#HarnessGenerator.create_harness-120"><span class="linenos">120</span></a><span class="s2">                === Source Code ===</span>
+</span><span id="HarnessGenerator.create_harness-121"><a href="#HarnessGenerator.create_harness-121"><span class="linenos">121</span></a>
+</span><span id="HarnessGenerator.create_harness-122"><a href="#HarnessGenerator.create_harness-122"><span class="linenos">122</span></a><span class="s2">                </span><span class="si">{</span><span class="n">concatenated_content</span><span class="si">}</span>
+</span><span id="HarnessGenerator.create_harness-123"><a href="#HarnessGenerator.create_harness-123"><span class="linenos">123</span></a><span class="s2">                </span>
+</span><span id="HarnessGenerator.create_harness-124"><a href="#HarnessGenerator.create_harness-124"><span class="linenos">124</span></a><span class="s2">                What follows is static analysis output. If you find it helpful,</span>
+</span><span id="HarnessGenerator.create_harness-125"><a href="#HarnessGenerator.create_harness-125"><span class="linenos">125</span></a><span class="s2">                write your harness so that it leverages some of the potential</span>
+</span><span id="HarnessGenerator.create_harness-126"><a href="#HarnessGenerator.create_harness-126"><span class="linenos">126</span></a><span class="s2">                vulnerabilities described below.</span>
+</span><span id="HarnessGenerator.create_harness-127"><a href="#HarnessGenerator.create_harness-127"><span class="linenos">127</span></a>
+</span><span id="HarnessGenerator.create_harness-128"><a href="#HarnessGenerator.create_harness-128"><span class="linenos">128</span></a><span class="s2">                === Static Analysis Output ===</span>
+</span><span id="HarnessGenerator.create_harness-129"><a href="#HarnessGenerator.create_harness-129"><span class="linenos">129</span></a><span class="s2">                </span><span class="si">{</span><span class="n">static_analysis</span><span class="si">}</span>
 </span><span id="HarnessGenerator.create_harness-130"><a href="#HarnessGenerator.create_harness-130"><span class="linenos">130</span></a>
-</span><span id="HarnessGenerator.create_harness-131"><a href="#HarnessGenerator.create_harness-131"><span class="linenos">131</span></a>            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span id="HarnessGenerator.create_harness-132"><a href="#HarnessGenerator.create_harness-132"><span class="linenos">132</span></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="HarnessGenerator.create_harness-133"><a href="#HarnessGenerator.create_harness-133"><span class="linenos">133</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error creating harness: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="HarnessGenerator.create_harness-134"><a href="#HarnessGenerator.create_harness-134"><span class="linenos">134</span></a>            <span class="k">raise</span>
+</span><span id="HarnessGenerator.create_harness-131"><a href="#HarnessGenerator.create_harness-131"><span class="linenos">131</span></a><span class="s2">                Lastly, hear is the project&#39;s README.</span>
+</span><span id="HarnessGenerator.create_harness-132"><a href="#HarnessGenerator.create_harness-132"><span class="linenos">132</span></a>
+</span><span id="HarnessGenerator.create_harness-133"><a href="#HarnessGenerator.create_harness-133"><span class="linenos">133</span></a><span class="s2">                === README ===</span>
+</span><span id="HarnessGenerator.create_harness-134"><a href="#HarnessGenerator.create_harness-134"><span class="linenos">134</span></a><span class="s2">                </span><span class="si">{</span><span class="n">readme</span><span class="si">}</span>
+</span><span id="HarnessGenerator.create_harness-135"><a href="#HarnessGenerator.create_harness-135"><span class="linenos">135</span></a><span class="s2">                &quot;&quot;&quot;</span>
+</span><span id="HarnessGenerator.create_harness-136"><a href="#HarnessGenerator.create_harness-136"><span class="linenos">136</span></a>            <span class="p">)</span>
+</span><span id="HarnessGenerator.create_harness-137"><a href="#HarnessGenerator.create_harness-137"><span class="linenos">137</span></a>
+</span><span id="HarnessGenerator.create_harness-138"><a href="#HarnessGenerator.create_harness-138"><span class="linenos">138</span></a>            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="HarnessGenerator.create_harness-139"><a href="#HarnessGenerator.create_harness-139"><span class="linenos">139</span></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="HarnessGenerator.create_harness-140"><a href="#HarnessGenerator.create_harness-140"><span class="linenos">140</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error creating harness: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="HarnessGenerator.create_harness-141"><a href="#HarnessGenerator.create_harness-141"><span class="linenos">141</span></a>            <span class="k">raise</span>
 </span></pre></div>
 
 
