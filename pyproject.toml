@@ -70,5 +70,6 @@ line-length = 79
 convention = "google"
 
 [tool.basedpyright]
-reportUnusedCallResult = 'none'
-reportAny = 'none'
+reportUnusedCallResult = "none"
+reportAny = "none"
+reportMissingTypeStubs = "none"

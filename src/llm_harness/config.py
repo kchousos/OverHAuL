@@ -68,7 +68,7 @@ class Config:
 
     MIN_EXECUTION_TIME = 5  # minutes
 
-    EXECUTION_TIMEOUT = 20 * 60  # seconds
+    EXECUTION_TIMEOUT = 1 * 60  # seconds
 
     @staticmethod
     def load_env() -> str | None:

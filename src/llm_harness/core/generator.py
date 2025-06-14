@@ -99,7 +99,7 @@ class HarnessGenerator:
                 size, or worrying about stack usage. These things must be
                 accounted by the fuzzed library, this is why I need the harness.
                 On the other hand, do not write code that will most probably
-                crash, i.e. non-null terminated strings etc. The point is for a
+                crash irregardless of the library under test. The point is for a
                 function of the library under test to crash, not the harness
                 itself.**
 
@@ -111,7 +111,7 @@ class HarnessGenerator:
                 Use and take advantage of any custom structs that the library
                 declares.
 
-                Again, Make sure to add **all the necessary includes**, like
+                Again, Make sure to add **all the necessary includes**,
                 e.g. <string.h>, <stdint.h> or <stdlib.h> if they are needed.
 
                 === Source Code ===
