@@ -20,6 +20,9 @@ Command-line interface for llm_harness.
 """
 
 import os
+import re
+import shutil
+import subprocess
 import argparse
 from dataclasses import dataclass
 from loguru import logger
@@ -35,6 +38,63 @@ class Arguments:
     file_patterns: list[str]
 
 
+def get_repo_name(url: str) -> str:
+    """
+    Gets a repo's name from its GitHub link.
+
+    Arguments:
+        url (str): The link to the repo.
+
+    Returns:
+        str: The repo's project name.
+
+    Raises:
+        ValueError: If the URL does not contain a valid repo name.
+    """
+    match = re.search(r"/([^/]+?)(?:\.git)?/?$", url)
+    if match:
+        return match.group(1)
+    raise ValueError(f"Could not extract repo name from URL: {url}")
+
+
+def shallow_clone(
+    repo_url: str, destination: str = ".", commit: str | None = None
+) -> None:
+    """
+    Clone a Git repository with depth 1 and optionally checkout a specific commit.
+
+    Args:
+        repo_url (str): The repository URL.
+        destination (str): Target directory to clone into.
+        commit (str, optional): Commit hash to checkout after cloning.
+    """
+    if os.path.exists(destination):
+        shutil.rmtree(destination)
+
+    subprocess.run(
+        ["git", "clone", "--depth", "1", repo_url, destination],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
+    if commit:
+        subprocess.run(
+            ["git", "fetch", "--depth", "1", "origin", commit],
+            check=True,
+            cwd=destination,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        subprocess.run(
+            ["git", "checkout", commit],
+            check=True,
+            cwd=destination,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+
 def parse_arguments() -> Arguments:
     """
     Parses the command-line arguments.
@@ -47,9 +107,16 @@ def parse_arguments() -> Arguments:
     )
 
     parser.add_argument(
-        "project",
-        help="Name of the project under the `assets/` directory, for which "
-        + "harnesses are to be generated.",
+        "repo",
+        help="Link of a project's git repo, for which to generate a harness.",
+    )
+
+    parser.add_argument(
+        "-c",
+        "--commit",
+        required=False,
+        type=str,
+        help="A specific commit of the project",
     )
 
     parser.add_argument(
@@ -70,11 +137,10 @@ def parse_arguments() -> Arguments:
 
     args = parser.parse_args()
 
-    # Build the project path
-    project_path = os.path.join(".", "assets", args.project)
-    if not os.path.exists(project_path):
-        logger.error(f"Project path does not exist: {project_path}")
-        raise FileNotFoundError(f"Project path does not exist: {project_path}")
+    # Clone repo under the project's name
+    project_path = get_repo_name(args.repo)
+    logger.info(f"Cloning project's repo in the {project_path} directory...")
+    shallow_clone(args.repo, project_path, args.commit)
 
     # Validate model
     model = args.model
