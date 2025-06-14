@@ -79,9 +79,23 @@ class HarnessBuilder:
                     )
                     source_files.append(full_path)
 
-        include_flags = [
-            item for d in Config.DEFAULT_DIRS for item in ("-I", d)
-        ]
+        # Collect Include directories recursively
+        include_dirs = set(Config.DEFAULT_DIRS)
+        for root, dirs, files in os.walk(self.project_path):
+            if not any(
+                part.startswith(".")
+                for part in os.path.relpath(root, self.project_path).split(
+                    os.sep
+                )
+            ):
+                include_dirs.add(
+                    os.path.relpath(
+                        os.path.join(root), start=self.project_path
+                    )
+                )
+
+        # Convert to include flags
+        include_flags = [item for d in include_dirs for item in ("-I", d)]
 
         compilation_command = [
             self.cc,
