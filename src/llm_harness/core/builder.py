@@ -46,7 +46,7 @@ class HarnessBuilder:
         self.harness_dir = Config().HARNESS_DIR
 
     def build_harness(
-        self, harness_filename: str | None = Config().HARNESS_FILENAME
+        self, harness_filename: str | None = Config.HARNESS_FILENAME
     ) -> tuple[str, bool]:
         """
         Builds the LLM-generated harness.
@@ -66,18 +66,28 @@ class HarnessBuilder:
 
         # Collect source files recursively
         source_files = [harness_filename]
-        for _, _, files in os.walk(self.project_path):
+
+        for root, _, files in os.walk(self.project_path):
             for f in files:
-                if f != os.path.basename(harness_filename) and f.endswith(
-                    ".c"
-                ):
-                    source_files.append(f)
+                if (
+                    f not in Config.IGNORED_FILES
+                    and f != os.path.basename(harness_filename)
+                    and f.endswith(".c")
+                ):  # Get the relative path of the file from project_path
+                    full_path = os.path.relpath(
+                        os.path.join(root, f), start=self.project_path
+                    )
+                    source_files.append(full_path)
+
+        include_flags = [
+            item for d in Config.DEFAULT_DIRS for item in ("-I", d)
+        ]
 
         compilation_command = [
             self.cc,
             *self.cflags,
             *source_files,
-            "-I.",
+            *include_flags,
             "-o",
             self.executable,
         ]

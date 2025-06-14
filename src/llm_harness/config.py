@@ -48,8 +48,13 @@ class Config:
     # Default model if none provided
     DEFAULT_MODEL = "gpt-4.1-mini"
 
+    DEFAULT_DIRS = [".", "src", "include", "lib"]
+
     # Default files to include if none specified
     DEFAULT_FILES = ["*.c", "*.h"]
+
+    # Files to be ignored
+    IGNORED_FILES = ["test.c"]
 
     # Harness directory name
     # Defaults to project's root directory

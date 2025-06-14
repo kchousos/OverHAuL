@@ -59,9 +59,11 @@ class ProjectAnalyzer:
         project_files = self._find_project_files()
         if not project_files:
             logger.error("No project files found!")
-            return ProjectInfo(source=files)
+            sys.exit(-1)
 
         for file_path in project_files:
+            if os.path.basename(file_path) in Config.IGNORED_FILES:
+                continue
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
                     files.append(
@@ -87,9 +89,12 @@ class ProjectAnalyzer:
             list[str]: List of file paths.
         """
         all_files = []
-        for pattern in self.file_patterns:
-            matched_files = glob.glob(os.path.join(self.project_path, pattern))
-            all_files.extend(matched_files)
+        for subdir in Config.DEFAULT_DIRS:
+            search_root = os.path.join(self.project_path, subdir)
+            for pattern in self.file_patterns:
+                search_pattern = os.path.join(search_root, pattern)
+                matched_files = glob.glob(search_pattern)
+                all_files.extend(matched_files)
 
         return all_files
 
