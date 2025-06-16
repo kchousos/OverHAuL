@@ -51,10 +51,17 @@ alt="type check: mypy" /></a></p>
     cd llm-harness
     ```
 
-2. Install the project:
+2. Create a virtual environment (optional):
+
+```sh
+    python3.10 -m venv .venv;
+    source .venv/bin/activate # for bash
+```
+
+3. Install the project:
 
     ```bash
-    uv sync
+    uv pip install .
     ```
 
 ## Usage
@@ -68,13 +75,13 @@ alt="type check: mypy" /></a></p>
 2. Execute the main script:
 
     ```bash
-    uv run python main.py <repo-link>
+    llm-harness <repo-link>
     ```
 
 ### Command-Line Options
 
 ```
-$ uv run python main.py --help
+$ llm-harness --help
 usage: main.py [-h] [-c COMMIT] [-m MODEL] [-f FILES [FILES ...]] repo
 
 Generate fuzzing harnesses for C/C++ projects
