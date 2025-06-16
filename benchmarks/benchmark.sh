@@ -1,5 +1,25 @@
 #!/bin/bash
 
+
+# Benchmarking Script for LLM-Harness
+#
+# This script is intended for the evaluation of LLM-Harness.
+# It is not part of the project’s core implementation and should not be considered production code.
+#
+# This script reads repo links from ./repos.txt and runs LLM-Harness on them.
+# The result provides a count summary of:
+#     1. Projects where a crash was found.
+#     2. Projects where the harness compiled succesfully but did not find a crash.
+#     3. Projects where the harness did not compile.
+#
+# Note: Results may vary depending on the LLM model used and its variance in the harness generation.
+#
+# Usage:
+#     ./benchmark.sh
+#
+# Author: Konstantinos Chousos
+
+
 # Default values
 MODEL=""
 
