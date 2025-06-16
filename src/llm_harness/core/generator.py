@@ -19,6 +19,7 @@
 Harness generation functionality.
 """
 
+import sys
 import dspy
 from loguru import logger
 from typing import final
@@ -44,9 +45,10 @@ class HarnessGenerator:
         # Ensure environment variables are loaded
         api_key = Config.load_env()
         if not api_key:
-            logger.warning(
+            logger.error(
                 "No API key found. Make sure to set OPENAI_API_KEY in .env file."
             )
+            sys.exit(-3)
 
     def create_harness(self, project_info: ProjectInfo) -> str:
         """
