@@ -162,7 +162,7 @@ def parse_arguments() -> Arguments:
 
     # Clone repo under the project's name
     project_path = get_repo_name(args.repo)
-    project_path = os.path.join("projects", project_path)
+    project_path = os.path.join(Config.DEFAULT_CLONE_DIR, project_path)
     logger.info(f"Cloning project's repo in the {project_path} directory...")
     shallow_clone(args.repo, project_path, args.commit)
 

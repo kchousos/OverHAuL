@@ -65,6 +65,8 @@ class Config:
     IGNORED_FILES = ["*test.c", "*unit.c", "main.c"]
     IGNORED_DIRS = ["test", "tests", "example", "examples", "demo", "demos"]
 
+    DEFAULT_CLONE_DIR = "projects"
+
     # Harness directory name
     # Defaults to project's root directory
     HARNESS_DIR = "harnesses"
