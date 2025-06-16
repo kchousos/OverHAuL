@@ -53,10 +53,10 @@ alt="type check: mypy" /></a></p>
 
 2. Create a virtual environment (optional):
 
-```sh
+    ```bash
     python3.10 -m venv .venv;
     source .venv/bin/activate # for bash
-```
+    ```
 
 3. Install the project:
 
