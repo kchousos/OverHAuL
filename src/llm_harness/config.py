@@ -32,12 +32,8 @@ class Config:
 
     # List of available models
     AVAILABLE_MODELS = [
-        # "o4-mini",
-        # "o3-mini",
-        # "o3",
-        # "o3-pro",
-        "o1",
-        "o1-pro",
+        "o3-mini",
+        "o3",
         "gpt-4o",
         "gpt-4o-mini",
         "gpt-4.1",
@@ -82,9 +78,9 @@ class Config:
     ]  # needed for fuzzing
     EXECUTABLE_FILENAME = "harness"
 
-    MIN_EXECUTION_TIME = 5  # minutes
+    MIN_EXECUTION_TIME = 5 * 60  # seconds
 
-    EXECUTION_TIMEOUT = 20  # seconds
+    EXECUTION_TIMEOUT = 20 * 60  # seconds
 
     @staticmethod
     def load_env() -> str | None:

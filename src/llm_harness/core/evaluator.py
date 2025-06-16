@@ -101,7 +101,7 @@ class HarnessEvaluator:
             )
 
         # Minimum runtime
-        if runtime / 60 < Config().MIN_EXECUTION_TIME and testcases is None:
+        if runtime < Config().MIN_EXECUTION_TIME and len(testcases) == 0:
             logger.error("Harness does not execute correctly.")
             return False
 
