@@ -107,8 +107,8 @@ module="ChainOfThought"
 timeout="1"
 basename="${BENCHMARK}/${timestamp}__${module}__${model}__${timeout}m"
 OUT_DIR="benchmarks/results/${basename}"
-LOG_FILE="results.log"
 mkdir -p "$OUT_DIR"
+LOG_FILE="${OUT_DIR}/results.log"
 
 {
 
@@ -193,5 +193,3 @@ seconds=$((SECONDS % 60))
 log INFO "Total runtime: ${hours}h ${minutes}m ${seconds}s"
 
 } | tee /dev/tty | sed -e 's/\x1B\[0;3[0-9]m//g' -e 's/\x1B\[0m//g' >> "$LOG_FILE"
-
-mv $LOG_FILE $OUT_DIR

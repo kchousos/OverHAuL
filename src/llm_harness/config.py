@@ -58,13 +58,13 @@ class Config:
     # Default files to include if none specified
     DEFAULT_FILES = ["*.c", "*.h", "*.h.in"]
 
-    # Files to be ignored
+    # File regexps to be ignored
     IGNORED_FILES = [
         "*test.c",
         "*unit.c",
         "main.c",
-        "benchmark.c",
-        "benchmarks.c",
+        "*benchmark*.c",
+        "*example*.c",
     ]
     IGNORED_DIRS = [
         "test",

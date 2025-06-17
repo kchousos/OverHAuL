@@ -29,7 +29,7 @@ from dataclasses import dataclass
 from loguru import logger
 from llm_harness.config import Config
 from llm_harness.core.analyzer import ProjectAnalyzer
-from llm_harness.core.generator import HarnessGenerator
+from llm_harness.core.generator import HarnessGenerator, HarnessFixer
 from llm_harness.core.builder import HarnessBuilder
 from llm_harness.core.evaluator import HarnessEvaluator
 from llm_harness.io.file_manager import FileManager
@@ -206,28 +206,58 @@ def main() -> int:
     Returns:
         bool: Whether the harness is up to par to be merged to the project.
     """
+    # 1. Get user options
     args = parse_arguments()
     project_path, model = args.project_path, args.model
 
+    # 2. Read project source and analyze it
     analyzer = ProjectAnalyzer(project_path)
     project_info = analyzer.collect_project_info()
 
+    # 3. Generate a harness using an LLM
     generator = HarnessGenerator(model=model)
     harness = generator.create_harness(project_info=project_info)
 
-    project_info.harness = harness
-
+    # 4. Integrate harness to project
     file_manager = FileManager(project_path)
     file_manager.write_harness(harness)
 
+    # 5. Build harness
     builder = HarnessBuilder(project_path)
     compilation_output, success = builder.build_harness()
+
+    # 5a. If harness doesn't compile, reiterate
+    final_success: bool = True
     if not success:
+        logger.info(
+            "Could not compile original harness. Reiterating generation..."
+        )
+        final_success = False
         project_info.error = compilation_output
-    if not success:
-        logger.error("Exiting...")
+        fixer = HarnessFixer(model=model)
+
+        for i in range(Config.MAX_ITERATIONS):
+            logger.info(f"Reiteration {i + 1}")
+            new_harness = fixer.fix_harness(
+                project_info=project_info, runs=False
+            )
+
+            # Integrate harness to project
+            file_manager.write_harness(new_harness)
+
+            # Build harness
+            new_compilation_output, new_success = builder.build_harness()
+            if new_success:
+                final_success = True
+                break
+            else:
+                project_info.error = new_compilation_output
+
+    if not final_success:
+        logger.error("Could not generate a compilable harness. Exiting...")
         sys.exit(-1)
 
+    # 6. Evaluate harness
     evaluator = HarnessEvaluator(project_path)
     accepted = evaluator.evaulate_harness()
 

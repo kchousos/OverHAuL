@@ -1,0 +1,9 @@
+{
+  "name": "chfreq",
+  "version": "0.0.1",
+  "repo": "jwerle/chfreq.c",
+  "description": "Compute character frequency in a string",
+  "keywords": ["char", "frequency"],
+  "license": "MIT",
+  "src": [ "chfreq.h", "chfreq.c" ]
+}

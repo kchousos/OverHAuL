@@ -1,0 +1,83 @@
+.\" Generated with Ronnjs 0.3.8
+.\" http://github.com/kapouer/ronnjs/
+.
+.TH "BACON" "1" "May 2014" "" ""
+.
+.SH "NAME"
+\fBbacon\fR \-\- Command line Baconian Cipher utility
+.
+.SH "SYNOPSIS"
+\fBbacon\fR [\-hV] [\-\-encode|\-\-decode] [\-\-alphabet=\'ABC\']
+.
+.SH "OPTIONS"
+  \-V, \-\-version
+      output program version
+.
+.P
+  \-h, \-\-help
+      output help information
+.
+.P
+  \-\-encode
+      Encode stdin stream
+.
+.P
+  \-\-decode
+      Decode stdin stream
+.
+.P
+  \-\-alphabet=[ALPHA]
+      Cipher alphabet (Default: \'ABCDEFGHIKLMNOPQRSTUWXYZ\')
+.
+.SH "EXAMPLES"
+\fIencode:\fR
+.
+.P
+  $ echo abc | bacon \-\-encode
+  AAAAAAAAABAAABA
+.
+.P
+  $ { echo abc && echo def && echo ghi; }  | bacon \-\-encode
+  AAAAAAAAABAAABA
+  AAABBAABAAAABAB
+  AABBAAABBBABAAA
+.
+.P
+\fIdecode:\fR
+.
+.P
+  $ echo AAAAAAAAABAAABA | bacon \-\-decode
+  ABC
+.
+.P
+  $ { echo \'AAAAAAAAABAAABA\' && echo \'AAABBAABAAAABAB\' && echo \'AABBAAABBBABAAA\'; } | bacon \-\-decode
+  ABC
+  DEF
+  GHI
+.
+.SH "AUTHOR"
+.
+.IP "\(bu" 4
+Joseph Werle \fIjoseph\.werle@gmail\.com\fR
+.
+.IP "" 0
+.
+.SH "REPORTING BUGS"
+.
+.IP "\(bu" 4
+\fIhttps://github\.com/jwerle/libbacon/issues\fR
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+.
+.IP "\(bu" 4
+\fIhttps://github\.com/jwerle/libbacon\fR
+.
+.IP "\(bu" 4
+\fIhttps://github\.com/mathiasbynens/bacon\-cipher\fR
+.
+.IP "" 0
+.
+.SH "LICENSE"
+MIT

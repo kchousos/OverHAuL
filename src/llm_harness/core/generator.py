@@ -111,6 +111,7 @@ class HarnessGenerator:
 
             answer = harnesser(source=source, readme=readme, static=static)
 
+            project_info.harness = answer.harness
             return answer.harness
 
         except Exception as e:
@@ -120,14 +121,21 @@ class HarnessGenerator:
 
 class FixHarness(dspy.Signature):
     """
-    Fix the harness provided, given its compilation errors.
+    Fix the harness provided, given either its compilation errors or a
+    runtime error description.
+
     """
 
     source: str = dspy.InputField(
         desc="The source files of the project, concatenated."
     )
     old_harness: str = dspy.InputField(desc="The harnes to be fixed.")
-    error: str = dspy.InputField(desc="The compilaton error of the harness.")
+    comp_error: str = dspy.InputField(
+        desc="The compilaton error of the harness."
+    )
+    run_error: str = dspy.InputField(
+        desc="A runtime behavior that needs fixing."
+    )
     new_harness: str = dspy.OutputField(
         desc="The newly created harness with the necessary modifications for \
         correct compilation."
@@ -137,8 +145,9 @@ class FixHarness(dspy.Signature):
 @final
 class HarnessFixer:
     """
-    Given a libFuzzer-compatible harness and its compilation error, uses an LLM
-    with Chain of Thought prompting to correct it so that it compiles succesfully.
+    Given a libFuzzer-compatible harness and its errors, uses an LLM with
+    Chain of Thought prompting to correct it so that it compiles succesfully.
+
     """
 
     def __init__(self, model: str):
@@ -158,12 +167,13 @@ class HarnessFixer:
             )
             sys.exit(-3)
 
-    def fix_harness(self, project_info: ProjectInfo) -> str:
+    def fix_harness(self, project_info: ProjectInfo, runs: bool) -> str:
         """
         Calls the LLM to fix the harness of the project.
 
         Args:
             project_info (ProjectInfo): The project information.
+            runs (bool): Whether the problem is compilation or runtime-related.
 
         Returns:
             str: The fixed harness code.
@@ -180,15 +190,29 @@ class HarnessFixer:
             # dspy.configure(lm=lm)
 
             source = project_info.get_source()
-            error = project_info.get_error()
+
+            if runs:
+                comp_error = ""
+                run_error = (
+                    f"The provided harness does not find any bug/crash,\
+                even after running for {Config.EXECUTION_TIMEOUT} seconds."
+                )
+            else:
+                comp_error = project_info.get_error()
+                run_error = ""
+
             old_harness = project_info.get_harness()
 
             harnesser = dspy.ChainOfThought(FixHarness)
 
             answer = harnesser(
-                source=source, error=error, old_harness=old_harness
+                source=source,
+                comp_error=comp_error,
+                run_error=run_error,
+                old_harness=old_harness,
             )
 
+            project_info.harness = answer.new_harness
             return answer.new_harness
 
         except Exception as e:

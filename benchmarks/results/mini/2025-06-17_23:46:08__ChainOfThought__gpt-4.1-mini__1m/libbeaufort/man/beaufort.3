@@ -1,0 +1,81 @@
+.\" Generated with Ronnjs 0.3.8
+.\" http://github.com/kapouer/ronnjs/
+.
+.TH "BEAUFORT" "3" "May 2014" "" ""
+.
+.SH "NAME"
+\fBbeaufort\fR \-\- Beaufort cipher functions
+.
+.SH "LIBRARY"
+  libbeaufort (\-lbeaufort)
+.
+.SH "SYNOPSIS"
+  \fB#include <beaufort\.h>\fR
+.
+.P
+  char \fI
+  \fBbeaufort_encrypt\fR (const char \fRsrc, const char *key, char **tableau);
+.
+.P
+  char \fI
+  \fBbeaufort_decrypt\fR (const char \fRstr, const char *key, char **tableau);
+.
+.P
+  char **
+  \fBbeaufort_tableau\fR (const char *alphabet);
+.
+.P
+  #define \fBBEAUFORT_ALPHA\fR "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+.
+.SH "DESCRIPTION"
+  The function \fBbeaufort_encrypt()\fR encrypts plaintext using the beaufort cipher
+  and an alphabet table if provided\. The function will fallback to a table
+  generated using the default alphabet defined by \fBBEAUFORT_ALPHA\fR\|\.
+.
+.P
+  The function \fBbeaufort_decrypt()\fR decrypts plaintext using the beaufort cipher
+  and an alphabet table if provided\. The function will fallback to a table
+  generated using the default alphabet defined by \fBBEAUFORT_ALPHA\fR\|\.
+.
+.P
+  The function \fBbeaufort_tableau()\fR constructs a tableau of rows and columns
+  from a given alphabet using the following forumula to determine the row
+  index in each column during creation:
+.
+.P
+  \fB(j + y) % size\fR
+.
+.P
+  where \fBsize = strlen(alpha)\fR, \fBj = size \- 1\fR, and * \fBy = y + 1\fR\|\.
+.
+.SH "RETURN VALUES"
+  The functions \fBbeaufort_encrypt()\fR and \fBbeaufort_decrypt()\fR each
+return a pointer and should be freed with \fBfree()\fR\|\.
+.
+.P
+  The function \fBbeaufort_tableau()\fR returns a pointer to a pointer and
+thus each element in the array should be freed with \fBfree()\fR\|\.
+.
+.SH "AUTHOR"
+.
+.IP "\(bu" 4
+Joseph Werle \fIjoseph\.werle@gmail\.com\fR
+.
+.IP "" 0
+.
+.SH "REPORTING BUGS"
+.
+.IP "\(bu" 4
+\fIhttps://github\.com/jwerle/libbeaufort/issues\fR
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+.
+.IP "\(bu" 4
+\fIhttps://github\.com/jwerle/libbeaufort\fR
+.
+.IP "" 0
+.
+.SH "LICENSE"
+MIT

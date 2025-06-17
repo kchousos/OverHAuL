@@ -95,8 +95,6 @@ class HarnessBuilder:
                     )
                     source_files.append(full_path)
 
-        print(source_files)
-
         # Collect Include directories recursively
         include_dirs = set(Config.DEFAULT_DIRS)
         for root, _, files in os.walk(self.project_path):
@@ -138,7 +136,7 @@ class HarnessBuilder:
 
         except subprocess.CalledProcessError as e:
             logger.error("Error during harness compilation")
-            logger.error(
-                f"Standard Output:\n{e.stdout}\nStandard Error:\n{e.stderr}"
-            )
+            # logger.error(
+            #     f"Standard Output:\n{e.stdout}\nStandard Error:\n{e.stderr}"
+            # )
             return f"Error {e.returncode}: {e.stderr}", False
