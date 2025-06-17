@@ -1,0 +1,82 @@
+.\" Generated with Ronnjs 0.3.8
+.\" http://github.com/kapouer/ronnjs/
+.
+.TH "CHFREQ" "1" "May 2014" "" ""
+.
+.SH "NAME"
+\fBchfreq\fR \-\- Character frequency utility
+.
+.SH "SYNOPSIS"
+\fBchfreq\fR [\-hV] [\-f format]
+.
+.SH "OPTIONS"
+  \-V, \-\-version
+      output program version
+.
+.P
+  \-h, \-\-help
+      output help information
+.
+.P
+  \-f [format]
+      set output format (Default: \'%c | %d\')
+.
+.SH "EXAMPLES"
+  \fB
+  $ echo \-n aabbcc | chfreq
+  a | 2
+  b | 2
+  c | 2
+  \fR
+.
+.P
+  \fB
+  $ echo \-n \'kinkajous are awesome !\'| chfreq
+  k | 2
+  i | 1
+  n | 1
+  a | 3
+  j | 1
+  o | 2
+  u | 1
+  s | 2
+    | 3
+  r | 1
+  e | 3
+  w | 1
+  m | 1
+  ! | 1
+  \fR
+.
+.P
+  \fB
+  $ echo \-n werle | chfreq \-f \'%c(%d)\'
+  w(1)
+  e(2)
+  r(1)
+  l(1)
+  \fR
+.
+.SH "AUTHOR"
+.
+.IP "\(bu" 4
+Joseph Werle \fIjoseph\.werle@gmail\.com\fR
+.
+.IP "" 0
+.
+.SH "REPORTING BUGS"
+.
+.IP "\(bu" 4
+\fIhttps://github\.com/jwerle/chfreq\.c/issues\fR
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+.
+.IP "\(bu" 4
+\fIhttps://github\.com/jwerle/chfreq\.c\fR
+.
+.IP "" 0
+.
+.SH "LICENSE"
+MIT

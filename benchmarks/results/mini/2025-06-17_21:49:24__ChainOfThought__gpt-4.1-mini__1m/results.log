@@ -1,0 +1,35 @@
+2025-06-17 21:49:24 [INFO] Benchmark used: mini
+2025-06-17 21:49:24 [INFO] LLM model used: gpt-4.1-mini
+2025-06-17 21:49:24 [INFO] Max duration for harness execution: 1 min
+2025-06-17 21:49:24 [INFO] Prompting technique (DSPy module): ChainOfThought
+
+==================== Benchmark start =======================
+
+2025-06-17 21:49:24 [INFO] Generating harness for dvhar/dateparse...
+2025-06-17 21:49:40 [SUCCESS] Harness successful
+2025-06-17 21:49:40 [INFO] Generating harness for clibs/buffer...
+2025-06-17 21:49:54 [SUCCESS] Harness successful
+2025-06-17 21:49:54 [INFO] Generating harness for clibs/commander...
+2025-06-17 21:50:15 [SUCCESS] Harness successful
+2025-06-17 21:50:15 [INFO] Generating harness for jwerle/libbeaufort...
+2025-06-17 21:50:34 [SUCCESS] Harness successful
+2025-06-17 21:50:34 [INFO] Generating harness for jwerle/libbacon...
+2025-06-17 21:50:47 [SUCCESS] Harness successful
+2025-06-17 21:50:47 [INFO] Generating harness for jwerle/chfreq.c...
+2025-06-17 21:51:01 [SUCCESS] Harness successful
+2025-06-17 21:51:01 [INFO] Generating harness for stephenmathieson/is-email.c...
+2025-06-17 21:52:14 [WARN] The generated harness didn't produce a crash
+2025-06-17 21:52:14 [INFO] Generating harness for h2non/semver.c...
+2025-06-17 21:52:32 [WARN] The generated harness didn't produce a crash
+2025-06-17 21:52:32 [INFO] Generating harness for mofosyne/kv_parse.c...
+2025-06-17 21:53:52 [WARN] The generated harness didn't produce a crash
+2025-06-17 21:53:52 [INFO] Generating harness for mattn/locale-string.c...
+2025-06-17 21:54:02 [WARN] The generated harness didn't produce a crash
+
+==================== Benchmark complete ====================
+
+2025-06-17 21:54:02 [INFO] 6 projects harnessed succesfully
+2025-06-17 21:54:02 [INFO] 4 harnesses did not find a new crash
+2025-06-17 21:54:02 [INFO] 0 harnesses failed to compile
+2025-06-17 21:54:02 [INFO] 10 projects total
+2025-06-17 21:54:02 [INFO] Total runtime: 0h 4m 38s
