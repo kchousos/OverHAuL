@@ -27,6 +27,31 @@ from llm_harness.models.project import ProjectInfo
 from llm_harness.config import Config
 
 
+class GenerateHarness(dspy.Signature):
+    """
+    Generate a libFuzzer-compatible harness for the given C project that is
+    ready for compilation and finds succesfully a bug in the project.
+    """
+
+    source: str = dspy.InputField(
+        desc="The source files of the project, concatenated."
+    )
+    readme: str = dspy.InputField(desc="The README of the project.")
+    static: str = dspy.InputField(
+        desc="Output of static analysis tools for the project"
+    )
+    harness: str = dspy.OutputField(
+        desc="C code for a libFuzzer-compatible harness with **all** the necessary\
+        includes, either project-specific or standard libraries like <string.h>,\
+        <stdint.h> and <stdlib.h>, that will be ready for compilation. The function\
+        to be fuzzed must be part of the source code. Do not limit in any way the\
+        input to the library or format it in a specific way or cap its length for\
+        any reason.These edge cases should be handled by the library itself, not\
+        the harness. Output only the C code, do not format it in a markdown code\
+        cell with backticks."
+    )
+
+
 @final
 class HarnessGenerator:
     """
@@ -71,72 +96,16 @@ class HarnessGenerator:
             )
             dspy.configure(lm=lm)
 
-            concatenated_content = project_info.get_concatenated_content()
-            static_analysis = project_info.get_static_analysis()
+            source = project_info.get_concatenated_content()
+            static = project_info.get_static_analysis()
             readme = project_info.get_readme()
 
-            response = lm(
-                f"""
-                I have this C project, for which you will find the contents
-                below. Write me a libFuzzer-compatible harness for it.
-                Respond **only** with the harness' code. Make sure to write *all
-                the necessary includes* etc. The harness will be located in the
-                project root, so make sure the includes work appropriately.
-                Take into account each file's path.
+            harnesser = dspy.ChainOfThought(GenerateHarness)
 
-                Try to write a new harness and not default to one from your
-                training dataset. It will be a .c file.
+            answer = harnesser(source=source, readme=readme, static=static)
 
-                Do not even wrap the code in markdown fences, e.g. ```, because
-                it will be automatically written to a .c file.
+            return answer.harness
 
-                The function to be fuzzed **must** be part of the source code!
-
-                Select one function to fuzz at random.
-
-                Before generating the harness, think step by step about what
-                function might be interesting or nontrivial to fuzz.  Avoid
-                choosing the same kind of target as in previous attempts.
-
-                **Do not add arbitrary checks for the input, like limiting input
-                size, or worrying about stack usage. These things must be
-                accounted by the fuzzed library, this is why I need the harness.
-                On the other hand, do not write code that will most probably
-                crash irregardless of the library under test. The point is for a
-                function of the library under test to crash, not the harness
-                itself.**
-
-                The point is to catch the Program Under Test "by surprise", so
-                do not format your input to make its job easier,
-                e.g. NULL-terminated strings or using specific keywords to the
-                program to help it.
-
-                Use and take advantage of any custom structs that the library
-                declares.
-
-                Again, Make sure to add **all the necessary includes**. Always
-                include <string.h>, <stdint.h> and <stdlib.h>. This is REALLY
-                IMPORTANT!
-
-                === Source Code ===
-
-                {concatenated_content}
-                
-                What follows is static analysis output. If you find it helpful,
-                write your harness so that it leverages some of the potential
-                vulnerabilities described below.
-
-                === Static Analysis Output ===
-                {static_analysis}
-
-                Lastly, hear is the project's README.
-
-                === README ===
-                {readme}
-                """
-            )
-
-            return str(response[0])
         except Exception as e:
             logger.error(f"Error creating harness: {e}")
             raise
