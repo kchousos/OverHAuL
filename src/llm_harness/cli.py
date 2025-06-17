@@ -158,11 +158,19 @@ def parse_arguments() -> Arguments:
         help="File patterns to include in analysis (e.g. *.c *.h)",
     )
 
+    parser.add_argument(
+        "-o",
+        "--output-dir",
+        default=Config.DEFAULT_CLONE_DIR,
+        type=str,
+        help=f"Directory to clone the project into. Defaults to {Config.DEFAULT_CLONE_DIR}",
+    )
+
     args = parser.parse_args()
 
     # Clone repo under the project's name
     project_path = get_repo_name(args.repo)
-    project_path = os.path.join(Config.DEFAULT_CLONE_DIR, project_path)
+    project_path = os.path.join(args.output_dir, project_path)
     logger.info(f"Cloning project's repo in the {project_path} directory...")
     shallow_clone(args.repo, project_path, args.commit)
 
