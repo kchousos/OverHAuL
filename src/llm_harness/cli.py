@@ -69,6 +69,7 @@ def shallow_clone(
     """
     Clone a Git repository with depth 1 and optionally checkout a specific commit.
     Also initializes and updates submodules.
+    After cloning and all operations, deletes the .git directory.
 
     Args:
         repo_url (str): The repository URL.
@@ -116,6 +117,10 @@ def shallow_clone(
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
+
+    git_dir = os.path.join(destination, ".git")
+    if os.path.exists(git_dir):
+        shutil.rmtree(git_dir)
 
 
 def parse_arguments() -> Arguments:
