@@ -1,0 +1,5 @@
+.idea/
+*vim*
+*ycm*
+*.o
+*.so

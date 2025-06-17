@@ -38,17 +38,23 @@ class GenerateHarness(dspy.Signature):
     )
     readme: str = dspy.InputField(desc="The README of the project.")
     static: str = dspy.InputField(
-        desc="Output of static analysis tools for the project"
+        desc=""" Output of static analysis tools for the project. If you find it
+        helpful, write your harness so that it leverages some of the potential
+        vulnerabilities described below.  """
     )
     harness: str = dspy.OutputField(
-        desc="C code for a libFuzzer-compatible harness with **all** the necessary\
-        includes, either project-specific or standard libraries like <string.h>,\
-        <stdint.h> and <stdlib.h>, that will be ready for compilation. The function\
-        to be fuzzed must be part of the source code. Do not limit in any way the\
-        input to the library or format it in a specific way or cap its length for\
-        any reason.These edge cases should be handled by the library itself, not\
-        the harness. Output only the C code, do not format it in a markdown code\
-        cell with backticks."
+        desc=""" C code for a libFuzzer-compatible harness. Output only the C
+        code, do not format it in a markdown code cell with backticks, so that
+        it will be ready for compilation. Add **all** the necessary includes,
+        either project-specific or standard libraries like <string.h>,
+        <stdint.h> and <stdlib.h>. The function to be fuzzed must be part of the
+        source code. Do not limit in any way the input to the library or format
+        it in a specific way or cap its length for any reason. These edge cases
+        should be handled by the library itself, not the harness. On the other
+        hand, do not write code that will most probably crash irregardless of
+        the library under test. The point is for a function of the library under
+        test to crash, not the harness itself. Use and take advantage of any
+        custom structs that the library declares.  """
     )
 
 

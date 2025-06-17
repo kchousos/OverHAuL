@@ -1,0 +1,6 @@
+# Using colons and commas
+person{name:"Peter",lastname:"Parker",male:True}
+# Using whitespace
+person{name "Peter" lastname "Parker" male True}
+# Mixing, using some extra optional colons
+person:{name:"Peter" lastname:"Parker",male True}

@@ -1,0 +1,18 @@
+# Valid numbers
+decimal {
+	zero: 0
+	minus-zero: -0
+	the-answer-to-everything: 42
+	I: -1
+	fibonacci [ 1 2 3 5 8 13 21 ]
+}
+octal {
+	mode: 0755  # Typical usage for file permission bits.
+	negative: -034
+}
+hex {
+	num-chars [ 0x1234 0x5678 0x9abc 0xdef0 ]
+	negative: -0x8
+	caps: 0xCAFE
+	mixed-caps: 0xCaFe
+}

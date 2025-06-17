@@ -1,0 +1,16 @@
+{
+  "name": "slug",
+  "version": "0.0.1",
+  "repo": "hkjels/slug.c",
+  "description": "String -> Slug",
+  "keywords": [ "string", "slug", "replace" ],
+  "license": "MIT",
+  "src": [
+    "src/slug.c",
+    "src/slug.h",
+    "deps/case.c",
+    "deps/case.h",
+    "deps/trim.c",
+    "deps/trim.h"
+  ]
+}

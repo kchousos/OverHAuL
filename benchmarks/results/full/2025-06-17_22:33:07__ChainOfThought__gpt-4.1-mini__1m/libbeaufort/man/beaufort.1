@@ -1,0 +1,76 @@
+.\" Generated with Ronnjs 0.3.8
+.\" http://github.com/kapouer/ronnjs/
+.
+.TH "BEAUFORT" "1" "May 2014" "" ""
+.
+.SH "NAME"
+\fBbeaufort\fR \-\- Command line Beaufort Cipher utility
+.
+.SH "SYNOPSIS"
+\fBbeaufort\fR [\-hV] [options]
+.
+.SH "OPTIONS"
+  \fB\-V, \-\-version\fR
+      output program version
+.
+.P
+  \fB\-h, \-\-help\fR
+      output help information
+.
+.P
+  \fB\-\-encrypt\fR
+      encrypt stdin stream
+.
+.P
+  \fB\-\-decrypt\fR
+      decrypt stdin stream
+.
+.P
+  \fB\-\-key=[key]\fR
+      cipher key (required)
+.
+.P
+  \fB\-\-alphabet=[alpha]\fR
+    cipher tableau alphabet (Default: \'abcdefghijklmnopqrstuvwxyz\')
+.
+.SH "EXAMPLES"
+  \fBencrypt:\fR
+.
+.P
+  \fB
+  $ echo kinkajous are awesome | beaufort \-\-encrypt \-\-key=panda
+  5s0t06mtl 0yw Dhwxm1z
+  \fR
+.
+.P
+  \fBdecrypt:\fR
+.
+.P
+  \fB
+  $ echo 5s0t06mtl 0yw Dhwxm1z | beaufort \-\-decrypt \-\-key=panda
+  kinkajous are awesome
+  \fR
+.
+.SH "AUTHOR"
+.
+.IP "\(bu" 4
+Joseph Werle \fIjoseph\.werle@gmail\.com\fR
+.
+.IP "" 0
+.
+.SH "REPORTING BUGS"
+.
+.IP "\(bu" 4
+\fIhttps://github\.com/jwerle/libbeaufort/issues\fR
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+.
+.IP "\(bu" 4
+\fIhttps://github\.com/jwerle/libbeaufort\fR
+.
+.IP "" 0
+.
+.SH "LICENSE"
+MIT

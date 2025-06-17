@@ -1,0 +1,9 @@
+#! /bin/sh
+set -e
+rm -f *.gc{da,no}
+gcc -fprofile-arcs -O0 -ftest-coverage -g -o sixpack sixpack.c -DSIXPACK_MAIN
+./sixpack -h
+./sixpack < test/oneline.hi
+./sixpack -t test/single-*.hi
+./sixpack -v test/single-*.hi
+./tools/run-tests

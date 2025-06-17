@@ -1,0 +1,9 @@
+{
+  "name": "hexify",
+  "version": "0.0.1",
+  "repo": "pepaslabs/hexify.c",
+  "description": "Convert binary data (unsigned char*) into a hexidecimal string",
+  "keywords": ["hex", "hexidecimal"],
+  "license": "MIT",
+  "src": ["hexify.h", "hexify.c"]
+}

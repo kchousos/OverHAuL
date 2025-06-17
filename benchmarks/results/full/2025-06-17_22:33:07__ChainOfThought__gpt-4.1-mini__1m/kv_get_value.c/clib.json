@@ -1,0 +1,43 @@
+{
+  "name": "kv_get_value",
+  "version": "1.0.1",
+  "repo": "mofosyne/kv_get_value.c",
+  "description": "Very simple C library for parsing key value strings with zero-copy and no mallocs.",
+  "license": "PUBLIC DOMAIN",
+  "src": [
+    "kv_get_value.c",
+    "kv_get_value.h",
+    "kv_file_get_value.c",
+    "kv_file_get_value.h"
+  ],
+  "flags": [
+    {
+      "name": "Whitespace Skip",
+      "disable flag": "KV_PARSE_DISABLE_WHITESPACE_SKIP",
+      "description": "Ignores spaces and tabs around keys and values"
+    },
+    {
+      "name": "Disable Quoted String",
+      "disable flag": "KV_PARSE_DISABLE_QUOTED_STRINGS",
+      "description": "Handles values enclosed in single (`'`) or double (`\"`) quotes"
+    }
+  ],
+  "profiles": [
+    {
+      "name": "File Stream Only",
+      "src": [
+        "kv_file_get_value.c",
+        "kv_file_get_value.h"
+      ],
+      "description": "Use File Stream Only"
+    },
+    {
+      "name": "Buffer Only",
+      "src": [
+        "kv_get_value.c",
+        "kv_get_value.h"
+      ],
+      "description": "Use Buffer Only"
+    }
+  ]
+}

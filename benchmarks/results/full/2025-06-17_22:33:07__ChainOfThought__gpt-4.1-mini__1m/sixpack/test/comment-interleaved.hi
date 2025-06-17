@@ -1,0 +1,9 @@
+# Only a comment, empty otherwise
+authors? True
+
+# List of HiPack authors
+authors [
+	"Adrián Pérez"   # Main developer
+	"Óscar G. Amor"  # Contributor
+	"Andrés J. Díaz" # Another contributor
+]

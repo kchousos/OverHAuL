@@ -1,0 +1,37 @@
+---
+BasedOnStyle: LLVM
+AlignAfterOpenBracket: DontAlign
+BinPackArguments: true
+BinPackParameters: true
+BreakBeforeBraces: Custom
+IndentWidth: 2
+ContinuationIndentWidth: 2
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowAllArgumentsOnNextLine: false
+AllowShortBlocksOnASingleLine: 'Never'
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: 'None'
+AllowShortIfStatementsOnASingleLine: 'false'
+AllowShortLoopsOnASingleLine: false
+PenaltyBreakAssignment: 10000
+PenaltyBreakBeforeFirstCallParameter: 100000
+IndentExternBlock: false
+BraceWrapping:
+  AfterExternBlock: false
+  AfterCaseLabel: false
+  AfterClass: true
+  AfterControlStatement: Never
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: false
+  AfterObjCDeclaration: false
+  AfterStruct: true
+  AfterUnion: true
+  BeforeCatch: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: true

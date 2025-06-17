@@ -1,0 +1,28 @@
+empty: { }
+empty-no-colon { }
+empty-no-spaces: {}
+empty-no-spaces-no-colon {}
+empty-no-space-after-colon:{}
+single-item: { item: True }
+single-item-dangling-comma: { item: True, }
+multiple-items: { item1: True, Item2: True }
+multiple-items-no-commas: { item1: True item2: True }
+multiple-items-some-commas: { item1: True, item2: True item3: True }
+nested-empty: { nested: {} }
+nested-empties: { nested1: {}, nested2 {} }
+mixed-values: { list: [], nested: {}, bool: True }
+multiline: {
+	list: [],
+	nested: {},
+	bool: True
+}
+multiline-dangling-comma: {
+	list: [],
+	nested: {},
+	bool: True,
+}
+multiline-no-commas: {
+	list: []
+	nested: {}
+	bool: True
+}

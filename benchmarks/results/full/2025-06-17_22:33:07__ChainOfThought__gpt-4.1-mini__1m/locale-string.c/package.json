@@ -1,0 +1,22 @@
+{
+  "name": "locale-string",
+  "version": "0.0.1",
+  "description": "Convert locale string and utf-8 string",
+  "repo": "mattn/locale-string.c",
+  "src": ["locale-string.h", "locale-string.c"],
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattn/locale-string.c.git"
+  },
+  "keywords": [
+    "locale-string", "utf-8", "string"
+  ],
+  "author": "Yasuhiro Matsumoto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mattn/locale-string.c/issues"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "lib.chron",
+  "version": "0.0.1",
+  "author": "Matthew Zito (goldmund)",
+  "repo": "MatthewZito/lib.chron",
+  "license": "MIT",
+  "description": "Schedulers, timers, and time-contingent eventing for the C programming language",
+  "keywords": [
+    "timers",
+    "hierarchical wheel",
+    "scheduler"
+  ],
+  "src": [
+    "src/libchron.h",
+    "src/timer.c",
+    "src/wheel.c"
+  ],
+  "dependencies": {
+    "MatthewZito/lib.cartilage": "*"
+  }
+}

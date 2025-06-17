@@ -1,0 +1,9 @@
+{
+  "name": "libsniff",
+  "version": "0.1.2",
+  "repo": "4thel00z/libsniff",
+  "description": "A simple library that helps you set up raw sockets for sniffing",
+  "keywords": ["net", "sniff", "raw", "socket"],
+  "license": "GPL-3",
+  "src": ["libsniff.c", "libsniff.h"]
+}

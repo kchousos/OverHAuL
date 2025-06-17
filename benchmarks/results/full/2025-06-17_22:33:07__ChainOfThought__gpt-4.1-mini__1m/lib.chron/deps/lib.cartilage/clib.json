@@ -1,0 +1,19 @@
+{
+  "name": "lib.cartilage",
+  "version": "0.0.2",
+  "author": "Matthew Zito (goldmund)",
+  "repo": "MatthewZito/lib.cartilage",
+  "license": "MIT",
+  "description": "A library of various linked list data structures",
+  "keywords": [
+    "linked list",
+    "data structures"
+  ],
+  "src": [
+    "src/libcartilage.h",
+    "src/glthread.c",
+    "src/circular_singly_ll.c",
+    "Makefile",
+    "LICENSE"
+  ]
+}

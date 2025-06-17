@@ -1,0 +1,136 @@
+#! /bin/bash
+set -e
+
+abspath () {
+	pushd "$1" > /dev/null
+	local path=$(pwd)
+	popd > /dev/null
+	echo "${path}"
+}
+
+
+declare -r srcdir=$(abspath "${0%/*}/../")
+declare -a tests=( )
+declare -a fails=( )
+declare -a okays=( )
+declare -i current=0
+
+for hi in "${srcdir}/test"/*.hi ; do
+	name=${hi##*/}
+	name=${name%.hi}
+	tests=( "${tests[@]}" "${name}" )
+	if [[ ${name} != fail-* ]] ; then
+		tests=( "${tests[@]}" "${name}" )
+	fi
+done
+
+declare -ir total=${#tests[@]}
+
+: ${TEST_TIMEOUT:=10}
+GOT_TIMEOUT=false
+if timeout --version 2> /dev/null | grep -qF 'GNU coreutils'
+then
+	function with_timeout () {
+		local code=0
+		GOT_TIMEOUT=false
+		timeout ${TEST_TIMEOUT} "$@"
+		code=$?
+		if [[ ${code} -eq 124 ]] ; then
+			GOT_TIMEOUT=true
+		fi
+		return ${code}
+	}
+else
+	function with_timeout () {
+		"$@"
+	}
+fi
+
+LAST_CMD=''
+function run_cmd () {
+	LAST_CMD="$*"
+	with_timeout "$@"
+}
+
+if [[ -z ${DUMB_CONSOLE} || ${DUMB_CONSOLE} -eq 0 ]] ; then
+	echo
+	report_progress () {
+		printf '[1F[K[%%%3i|+[1;32m%2i[0;0m|-[1;31m%2i[0;0m] %s\n' \
+			$(( 100 * ++current / total )) ${#okays[@]} ${#fails[@]} "$1"
+	}
+else
+	report_progress () {
+		local status='ok'
+		if ! $2 ; then
+			if ${GOT_TIMEOUT} ; then
+				status='timeout'
+			else
+				status='failed'
+			fi
+		fi
+		printf '[%i/%i] %s (%s)\n' \ $(( ++current )) ${total} "$1" ${status}
+	}
+fi
+
+
+for name in "${tests[@]}" ; do
+	if [[ ${name} = fail-* ]] ; then
+		expect_fail=true
+	else
+		expect_fail=false
+	fi
+
+	if run_cmd \
+	   "${srcdir}/sixpack" \
+	   "${srcdir}/test/${name}.hi" \
+	   &> "/tmp/hipack-$$-${name//\//-}.err"
+	then
+		if ${expect_fail} ; then passed=false ; else passed=true ; fi
+	else
+		if ${expect_fail} ; then passed=true ; else passed=false ; fi
+	fi
+
+	diff_text=''
+	if ${passed} && [[ -r ${srcdir}/test/${name}.err ]] ; then
+		# Show diff
+		if ! diff -q \
+			"${srcdir}/test/${name}.err" \
+			"/tmp/hipack-$$-${name//\//-}.err" \
+			&> /dev/null
+		then
+			# Diffs don't match, show 'em
+			diff_text=$(diff -ud \
+				"${srcdir}/test/${name}.err" \
+				"/tmp/hipack-$$-${name//\//-}.err" \
+				|| true)
+			passed=false
+		fi
+	fi
+
+	report_progress "${name}" ${passed}
+
+	if ${passed} ; then
+		okays=( "${okays[@]}" "${name}" )
+	else
+		fails=( "${fails[@]}" "${name}" )
+		if [[ -n ${diff_text} ]] ; then
+			echo "${diff_text}"
+		elif [[ -s /tmp/hipack-$$-${name//\//-}.err ]] ; then
+			cat "/tmp/hipack-$$-${name//\//-}.err"
+		fi
+		echo "Command: ${LAST_CMD}"
+		echo
+		echo
+	fi
+	rm -f "/tmp/hipack-$$-${name//\//-}.err"
+done
+
+echo "Total: ${total}"
+echo "Passed: ${#okays[@]} ($(( 100 * ${#okays[@]} / total ))%)"
+if [[ ${#fails[@]} -gt 0 ]] ; then
+	echo "Failed: ${#fails[@]} ($(( 100 * ${#fails[@]} / total ))%)"
+	for name in "${fails[@]}" ; do
+		echo "  ${name}"
+	done
+fi
+[[ ${#fails[@]} -eq 0 ]] || exit 1

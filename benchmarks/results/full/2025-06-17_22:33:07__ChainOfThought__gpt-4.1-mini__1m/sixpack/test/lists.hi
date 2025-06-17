@@ -1,0 +1,31 @@
+empty: [ ]
+empty-no-colon [ ]
+empty-no-separator[ ]
+empty-no-spaces: []
+empty-no-spaces-no-colon []
+empty-no-spaces-no-separator[]
+empty-no-space-after-colon:[]
+single-item: [True]
+single-item-dangling-comma: [True,]
+multiple-items: [True, True]
+multiple-items-no-commas: [True False]
+multiple-items-some-commas: [True, False True]
+multiple-items-dangling-comma: [True, True,]
+nested-empty: [[]]
+nested-empties: [[], [], []]
+mixed-values: [{}, True, "a string"]
+multiline: [
+	True,
+	False,
+	True
+]
+multiline-dangling-comma: [
+	True,
+	False,
+	True,
+]
+multiline-no-commas: [
+	True
+	False
+	False
+]

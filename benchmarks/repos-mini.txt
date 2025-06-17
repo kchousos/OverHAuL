@@ -3,14 +3,14 @@
 
 https://github.com/dvhar/dateparse/ 3552f0ff88c510861cd2335f14258f4409621fe5
 https://github.com/clibs/buffer
-https://github.com/clibs/commander
 https://github.com/jwerle/libbeaufort
 https://github.com/jwerle/libbacon
 https://github.com/jwerle/chfreq.c
-https://github.com/stephenmathieson/is-email.c
+https://github.com/jwerle/progress.c
+https://github.com/willemt/cbuffer
+https://github.com/willemt/torrent-reader
+https://github.com/orangeduck/mpc
 https://github.com/h2non/semver.c
-https://github.com/mofosyne/kv_parse.c
-https://github.com/mattn/locale-string.c
 
 # Local Variables:
 # mode: url-list
