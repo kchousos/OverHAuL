@@ -1,4 +1,4 @@
-# List of C libraries' repo links to be used with `benchmark.sh`
+# List of C libraries for testing LLM-Harness. Used by `benchmark.sh`.
 
 # https://github.com/kchousos/vulnerable_parser/
 # https://github.com/kchousos/kvstore/

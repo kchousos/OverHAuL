@@ -78,26 +78,34 @@ done
 # Change to project root (assumes script is in benchmarks/)
 cd "$(dirname "$0")/.."
 
-INPUT_FILE="benchmarks/repos.txt"
-timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
-LOG_FILE="benchmarks/results_$timestamp.log"
-
 # Counters for total repos and failures
 total=0
 failures=0
 new_crashes=0
 
-{
-
-log INFO "Starting benchmark..."
+INPUT_FILE="benchmarks/repos.txt"
 model=""
 if [[ -n "$MODEL" ]]; then
     model="$MODEL"
 else
     model="gpt-4.1-mini"
 fi
+timestamp=$(date +"%Y-%m-%d_%H:%M:%S")
+module="ChainOfThought"
+timeout="1"
+basename="results__${timestamp}__${module}__${model}__${timeout}min"
+OUT_DIR="benchmarks/${basename}"
+LOG_FILE="results.log"
+mkdir -p "$OUT_DIR"
+
+{
+
 log INFO "LLM model used: $model"
-log INFO "Max duration for harness execution: 10 min"
+log INFO "Max duration for harness execution: ${timeout}min"
+log INFO "Prompting technique (DSPy module): $module"
+echo 
+echo "==================== Benchmark start ======================="
+echo 
 
 # Read each line of input file
 while IFS= read -r line || [[ -n "$line" ]]; do
@@ -137,31 +145,40 @@ while IFS= read -r line || [[ -n "$line" ]]; do
         repo_name="${repo_name%.git}"
     fi
 
+    log INFO "Generating harness for $repo_name..."
+
     # run llm-harness
     "${cmd[@]}" > /dev/null 2>&1
     status=$?
 
     # Check command exit status and count failures
     if [[ $status -eq 0 ]]; then
-        log SUCCESS "$repo_name harnessed"
+        log SUCCESS "Harness successful"
         ((new_crashes++))
     elif [[ $status -eq 254 ]]; then
-        log WARN "The generated harness for $repo_name didn't produce a crash"
+        log WARN "The generated harness didn't produce a crash"
     elif [[ $status -eq 255 ]]; then
-        log ERROR "The generated harness for $repo_name did not compile correctly"
+        log ERROR "The generated harness did not compile correctly"
         ((failures++))
     fi
 
 done < "$INPUT_FILE"
 
 # Print summary
-log INFO "Benchmark complete"
+echo 
+echo "==================== Benchmark complete ===================="
 echo
 log INFO "$new_crashes projects harnessed succesfully"
-log INFO "$((total - new_crashes)) harnesses did not find a new crash"
+log INFO "$((total - new_crashes - failures)) harnesses did not find a new crash"
 log INFO "$failures harnesses failed to compile"
 log INFO "$total projects total"
-duration=$SECONDS
-log INFO "Total runtime: $((duration / 60))m $((duration % 60))s"
+hours=$((SECONDS / 3600))
+minutes=$(( (SECONDS % 3600) / 60 ))
+seconds=$((SECONDS % 60))
+log INFO "Total runtime: ${hours}h ${minutes}m ${seconds}s"
 
-} | tee -a "$LOG_FILE"
+} | tee /dev/tty | sed -e 's/\x1B\[0;3[0-9]m//g' -e 's/\x1B\[0m//g' >> "$LOG_FILE"
+
+mv harnessed/* $OUT_DIR
+mv $LOG_FILE $OUT_DIR
+rm -rf harnessed/
