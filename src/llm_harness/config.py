@@ -46,6 +46,7 @@ class Config:
     DEFAULT_DIRS = [
         ".",
         "src",
+        "source",
         "sources",
         "include",
         "lib",
@@ -58,8 +59,23 @@ class Config:
     DEFAULT_FILES = ["*.c", "*.h", "*.h.in"]
 
     # Files to be ignored
-    IGNORED_FILES = ["*test.c", "*unit.c", "main.c"]
-    IGNORED_DIRS = ["test", "tests", "example", "examples", "demo", "demos"]
+    IGNORED_FILES = [
+        "*test.c",
+        "*unit.c",
+        "main.c",
+        "benchmark.c",
+        "benchmarks.c",
+    ]
+    IGNORED_DIRS = [
+        "test",
+        "tests",
+        "example",
+        "examples",
+        "demo",
+        "demos",
+        "benchmark",
+        "benchmarks",
+    ]
 
     DEFAULT_CLONE_DIR = "output"
 
