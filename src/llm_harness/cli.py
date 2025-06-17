@@ -122,6 +122,10 @@ def shallow_clone(
     if os.path.exists(git_dir):
         shutil.rmtree(git_dir)
 
+    github_dir = os.path.join(destination, ".github")
+    if os.path.exists(github_dir):
+        shutil.rmtree(github_dir)
+
 
 def parse_arguments() -> Arguments:
     """
