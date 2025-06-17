@@ -21,10 +21,11 @@ File operations for the llm_harness package.
 
 import os
 from loguru import logger
-from typing import Optional
+from typing import final
 from llm_harness.config import Config
 
 
+@final
 class FileManager:
     """
     Handles file operations for the harness generator.
@@ -40,9 +41,7 @@ class FileManager:
         self.project_path = project_path
         self.harness_dir = os.path.join(project_path, Config.HARNESS_DIR)
 
-    def write_harness(
-        self, harness: str, filename: Optional[str] = None
-    ) -> str:
+    def write_harness(self, harness: str, filename: str = "") -> None:
         """
         Writes the harness to the harnesses directory.
 
@@ -57,7 +56,7 @@ class FileManager:
 
         os.makedirs(self.harness_dir, exist_ok=True)
 
-        if not filename:
+        if filename == "":
             filename = Config.HARNESS_FILENAME
 
         harness_path = os.path.join(self.harness_dir, filename)
@@ -66,7 +65,6 @@ class FileManager:
             with open(harness_path, "w", encoding="utf-8") as f:
                 f.write(harness)
             logger.info(f"Harness written to {harness_path}")
-            return harness_path
         except IOError as e:
             logger.error(f"Error writing harness to {harness_path}: {e}")
             raise

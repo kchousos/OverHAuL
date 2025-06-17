@@ -82,6 +82,9 @@ class Config:
 
     EXECUTION_TIMEOUT = 20 * 60  # seconds
 
+    # Max iterations for the feedback loop between LLM and compilation/harness output
+    MAX_ITERATIONS = 3
+
     @staticmethod
     def load_env() -> str | None:
         """Load environment variables from .env file."""

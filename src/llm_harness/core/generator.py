@@ -55,7 +55,8 @@ class GenerateHarness(dspy.Signature):
 @final
 class HarnessGenerator:
     """
-    Generates a harness for a project using an LLM.
+    Generates a libFuzzer-compatible harness for the given project using an
+    LLM and Chain of Thought prompting.
     """
 
     def __init__(self, model: str):
@@ -96,7 +97,7 @@ class HarnessGenerator:
             )
             dspy.configure(lm=lm)
 
-            source = project_info.get_concatenated_content()
+            source = project_info.get_source()
             static = project_info.get_static_analysis()
             readme = project_info.get_readme()
 
@@ -108,4 +109,82 @@ class HarnessGenerator:
 
         except Exception as e:
             logger.error(f"Error creating harness: {e}")
+            raise
+
+
+class FixHarness(dspy.Signature):
+    """
+    Fix the harness provided, given its compilation errors.
+    """
+
+    source: str = dspy.InputField(
+        desc="The source files of the project, concatenated."
+    )
+    old_harness: str = dspy.InputField(desc="The harnes to be fixed.")
+    error: str = dspy.InputField(desc="The compilaton error of the harness.")
+    new_harness: str = dspy.OutputField(
+        desc="The newly created harness with the necessary modifications for \
+        correct compilation."
+    )
+
+
+@final
+class HarnessFixer:
+    """
+    Given a libFuzzer-compatible harness and its compilation error, uses an LLM
+    with Chain of Thought prompting to correct it so that it compiles succesfully.
+    """
+
+    def __init__(self, model: str):
+        """
+        Initialize the harness fixer.
+
+        Args:
+            model (str): The model to be used for LLM.
+        """
+        self.model = model
+
+        # Ensure environment variables are loaded
+        api_key = Config.load_env()
+        if not api_key:
+            logger.error(
+                "No API key found. Make sure to set OPENAI_API_KEY in .env file."
+            )
+            sys.exit(-3)
+
+    def fix_harness(self, project_info: ProjectInfo) -> str:
+        """
+        Calls the LLM to fix the harness of the project.
+
+        Args:
+            project_info (ProjectInfo): The project information.
+
+        Returns:
+            str: The fixed harness code.
+        """
+        logger.info("Calling LLM to fix harness...")
+
+        try:
+            # lm = dspy.LM(
+            #     f"openai/{self.model}",
+            #     cache=False,
+            #     temperature=1.0,
+            #     max_tokens=5000,
+            # )
+            # dspy.configure(lm=lm)
+
+            source = project_info.get_source()
+            error = project_info.get_error()
+            old_harness = project_info.get_harness()
+
+            harnesser = dspy.ChainOfThought(FixHarness)
+
+            answer = harnesser(
+                source=source, error=error, old_harness=old_harness
+            )
+
+            return answer.new_harness
+
+        except Exception as e:
+            logger.error(f"Error fixing harness: {e}")
             raise

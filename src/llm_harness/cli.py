@@ -198,11 +198,15 @@ def main() -> int:
     generator = HarnessGenerator(model=model)
     harness = generator.create_harness(project_info=project_info)
 
+    project_info.harness = harness
+
     file_manager = FileManager(project_path)
-    _ = file_manager.write_harness(harness)
+    file_manager.write_harness(harness)
 
     builder = HarnessBuilder(project_path)
-    _, success = builder.build_harness()
+    compilation_output, success = builder.build_harness()
+    if not success:
+        project_info.error = compilation_output
     if not success:
         logger.error("Exiting...")
         sys.exit(-1)
