@@ -23,6 +23,7 @@
 # Default values
 MODEL=""
 SECONDS=0
+BENCHMARK="mini"
 
 log() {
     local level="$1"
@@ -64,12 +65,16 @@ while [[ $# -gt 0 ]]; do
             MODEL="$2"
             shift 2
             ;;
+        -b|--benchmark)
+            BENCHMARK="$2"
+            shift 2
+            ;;
         -h|--help)
-            echo "Usage: $0 [-m|--model <model_name>]"
+            echo "Usage: $0 [-m|--model <model_name>] [-b|--benchmark [mini|full]]"
             exit 1
             ;;
         *)
-            echo "Usage: $0 [-m|--model <model_name>]"
+            echo "Usage: $0 [-m|--model <model_name>] [-b|--benchmark [mini|full]]"
             exit 1
             ;;
     esac
@@ -83,25 +88,33 @@ total=0
 failures=0
 new_crashes=0
 
-INPUT_FILE="benchmarks/repos.txt"
 model=""
 if [[ -n "$MODEL" ]]; then
     model="$MODEL"
 else
     model="gpt-4.1-mini"
 fi
+
+benchmark=""
+if [[ "$BENCHMARK" == "full" ]]; then
+    benchmark="benchmarks/repos.txt"
+else
+    benchmark="benchmarks/repos-mini.txt"
+fi
+
 timestamp=$(date +"%Y-%m-%d_%H:%M:%S")
 module="ChainOfThought"
 timeout="1"
-basename="results__${timestamp}__${module}__${model}__${timeout}min"
-OUT_DIR="benchmarks/${basename}"
+basename="${BENCHMARK}/${timestamp}__${module}__${model}__${timeout}m"
+OUT_DIR="benchmarks/results/${basename}"
 LOG_FILE="results.log"
 mkdir -p "$OUT_DIR"
 
 {
 
+log INFO "Benchmark used: $BENCHMARK"
 log INFO "LLM model used: $model"
-log INFO "Max duration for harness execution: ${timeout}min"
+log INFO "Max duration for harness execution: ${timeout} min"
 log INFO "Prompting technique (DSPy module): $module"
 echo 
 echo "==================== Benchmark start ======================="
@@ -145,6 +158,8 @@ while IFS= read -r line || [[ -n "$line" ]]; do
         repo_name="${repo_name%.git}"
     fi
 
+    cmd+=(-o "$OUT_DIR")
+
     log INFO "Generating harness for $repo_name..."
 
     # run llm-harness
@@ -162,7 +177,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
         ((failures++))
     fi
 
-done < "$INPUT_FILE"
+done < "$benchmark"
 
 # Print summary
 echo 
@@ -179,6 +194,4 @@ log INFO "Total runtime: ${hours}h ${minutes}m ${seconds}s"
 
 } | tee /dev/tty | sed -e 's/\x1B\[0;3[0-9]m//g' -e 's/\x1B\[0m//g' >> "$LOG_FILE"
 
-mv harnessed/* $OUT_DIR
 mv $LOG_FILE $OUT_DIR
-rm -rf harnessed/
