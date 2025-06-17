@@ -22,6 +22,7 @@
 
 # Default values
 MODEL=""
+SECONDS=0
 
 log() {
     local level="$1"
@@ -78,13 +79,25 @@ done
 cd "$(dirname "$0")/.."
 
 INPUT_FILE="benchmarks/repos.txt"
+timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+LOG_FILE="benchmarks/results_$timestamp.log"
 
 # Counters for total repos and failures
 total=0
 failures=0
 new_crashes=0
 
+{
+
 log INFO "Starting benchmark..."
+model=""
+if [[ -n "$MODEL" ]]; then
+    model="$MODEL"
+else
+    model="gpt-4.1-mini"
+fi
+log INFO "LLM model used: $model"
+log INFO "Max duration for harness execution: 10 min"
 
 # Read each line of input file
 while IFS= read -r line || [[ -n "$line" ]]; do
@@ -148,3 +161,7 @@ log INFO "$new_crashes projects harnessed succesfully"
 log INFO "$((total - new_crashes)) harnesses did not find a new crash"
 log INFO "$failures harnesses failed to compile"
 log INFO "$total projects total"
+duration=$SECONDS
+log INFO "Total runtime: $((duration / 60))m $((duration % 60))s"
+
+} | tee -a "$LOG_FILE"
