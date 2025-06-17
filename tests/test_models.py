@@ -38,7 +38,7 @@ class TestProjectModels:
         project_info = ProjectInfo(source=[])
 
         assert len(project_info.source) == 0
-        assert project_info.get_concatenated_content() == ""
+        assert project_info.get_source() == ""
 
     def test_project_info_single_file(self):
         """Test ProjectInfo model with a single file."""
@@ -50,7 +50,7 @@ class TestProjectModels:
         project_info = ProjectInfo(source=[file])
 
         assert len(project_info.source) == 1
-        concatenated = project_info.get_concatenated_content()
+        concatenated = project_info.get_source()
 
         # Check that the content contains the expected header and file content
         assert "file.c" in concatenated
@@ -69,7 +69,7 @@ class TestProjectModels:
         project_info = ProjectInfo(source=[file1, file2])
 
         assert len(project_info.source) == 2
-        concatenated = project_info.get_concatenated_content()
+        concatenated = project_info.get_source()
 
         # Check that the content contains both files with their headers
         assert "file1.c" in concatenated
