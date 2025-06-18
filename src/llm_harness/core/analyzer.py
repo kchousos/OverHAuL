@@ -105,16 +105,14 @@ class ProjectAnalyzer:
 
         return all_files
 
-    def get_static_analysis(
-        self, backends: list[str] = ["cppcheck", "flawfinder"]
-    ) -> str:
-        """
-        Concatenates and returns the output of the static analysis backends
+    def get_static_analysis(self, backends: list[str] = ["flawfinder"]) -> str:
+        """Concatenates and returns the output of the static analysis backends
         specified in `backends`.
 
         Args:
-            backends (list[str], optional): A list of backends to use for static
-                analysis. Defaults to CPPCheck and Flawfinder.
+            backends (list[str], optional): A list of backends to use for
+            static analysis. Defaults to Flawfinder. Available options: CPPCheck
+            and Flawfinder.
 
         Returns:
             str: The concatenated output of all the enabled static analysis backends.
@@ -151,10 +149,8 @@ class ProjectAnalyzer:
         if "flawfinder" in backends:
             static += "=== Flawfinder output ===\n\n"
 
-            c_files = glob.glob("*.c", root_dir=self.project_path)
-
             output = subprocess.run(
-                ["flawfinder"] + c_files,
+                ["flawfinder", "."],
                 cwd=self.project_path,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
