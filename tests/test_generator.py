@@ -17,7 +17,7 @@
 
 import pytest
 from unittest import mock
-from llm_harness.core.generator import Harnesser
+from llm_harness.core.harnesser import Harnesser
 from llm_harness.models.project import ProjectInfo, ProjectFile
 
 

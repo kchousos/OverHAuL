@@ -41,15 +41,17 @@ class HarnessEvaluator:
         self.project_path = project_path
         self.executable = Config().EXECUTABLE_FILENAME
 
-    def _list_crash_files(self) -> set[str]:
+    def _list_crash_files(self) -> set[tuple[str, float]]:
         """
-        List all crash-* files in the given directory.
+        List all crash-* files in the given directory along with their creation time.
 
-        Args:
-            directory (str): The directory to search for crash files.
+        Returns:
+            Set[Tuple[str, float]]: A set of tuples (filename, creation_time).
         """
         return {
-            f for f in os.listdir(self.project_path) if f.startswith("crash-")
+            (f, os.path.getctime(os.path.join(self.project_path, f)))
+            for f in os.listdir(self.project_path)
+            if f.startswith("crash-")
         }
 
     def evaulate_harness(self) -> tuple[str, bool]:
@@ -94,11 +96,16 @@ class HarnessEvaluator:
         testcases = after - before
 
         empty = False
-        # first testcase
         if len(testcases) > 0:
-            case = next(iter(testcases))
+            # newest testcase
+            case, _ = max(
+                testcases, key=lambda x: x[1]
+            )  # x[0] is filename, x[1] is ctime
             result = subprocess.run(
-                ["xxd", case], capture_output=True, text=True
+                ["xxd", case],
+                capture_output=True,
+                text=True,
+                cwd=self.project_path,
             )
             if result.stdout.strip() == "":
                 empty = True
