@@ -1,0 +1,30 @@
+name: Upload Benchmarks Results
+
+on:
+  push:
+    branches:
+      - '**'  # Triggers on all branches
+
+jobs:
+  upload-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get short commit SHA
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Compress benchmark results
+        run: |
+          mkdir -p artifacts
+          zip -r artifacts/benchmark-results.zip benchmarks/results
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results-${{ steps.vars.outputs.sha_short }}
+          path: artifacts/benchmark-results.zip
+          
