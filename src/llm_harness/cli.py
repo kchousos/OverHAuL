@@ -232,19 +232,20 @@ def main() -> int:
         file_manager.write_harness(harness)
 
         # 3c. Build harness
-        output, compiled = builder.build_harness()
+        error, compiled = builder.build_harness()
         project_info.compiles = compiled
         # 3c1. If harness does not compile correctly, regenerate it
         if not compiled:
             logger.warning("Could not compile harness. Reiterating...")
-            project_info.error = output
+            project_info.error = error
             continue  # Go to 3a again
 
         # 3d. Run and evaluate harness
-        accepted = evaluator.evaulate_harness()
+        output, accepted = evaluator.evaulate_harness()
         # 3d1. If harness does not pass evaluation, regenerate it
         if not accepted:
             logger.warning("Harness does not pass evaluation. Reiterating...")
+            project_info.output = output
             continue  # Go to 3a again
         else:
             acceptable = True

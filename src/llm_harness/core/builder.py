@@ -136,7 +136,4 @@ class HarnessBuilder:
 
         except subprocess.CalledProcessError as e:
             logger.error("Error during harness compilation")
-            # logger.error(
-            #     f"Standard Output:\n{e.stdout}\nStandard Error:\n{e.stderr}"
-            # )
             return f"Error {e.returncode}: {e.stderr}", False

@@ -40,6 +40,7 @@ class ProjectInfo:
     readme: str | None = None
     error: str | None = None
     harness: str | None = None
+    output: str | None = None
     compiles: bool = False
 
     def get_source(self) -> str:
@@ -68,6 +69,9 @@ class ProjectInfo:
 
     def get_harness(self) -> str | None:
         return self.harness
+
+    def get_output(self) -> str | None:
+        return self.output
 
     def get_compilation_status(self) -> bool:
         return self.compiles

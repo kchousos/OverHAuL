@@ -84,8 +84,9 @@ class ImproveHarness(dspy.Signature):
         desc="The source files of the project, concatenated."
     )
     old_harness: str = dspy.InputField(
-        desc="The harnes to be improved so it can find a bug more quickly."
+        desc="The harness to be improved so it can find a bug more quickly."
     )
+    output: str = dspy.InputField(desc="The output of the harness' execution.")
     new_harness: str = dspy.OutputField(
         desc="The newly created harness with the necessary modifications for \
         quicker bug-finding."
@@ -154,6 +155,7 @@ class Harnesser:
         static = project_info.get_static_analysis()
         readme = project_info.get_readme()
         error = project_info.get_error()
+        output = project_info.get_output()
         old_harness = project_info.get_harness()
         compiles = project_info.get_compilation_status()
 
@@ -186,6 +188,7 @@ class Harnesser:
             try:
                 answer = self.improver(
                     source=source,
+                    output=output,
                     old_harness=old_harness,
                 )
             except Exception as e:
