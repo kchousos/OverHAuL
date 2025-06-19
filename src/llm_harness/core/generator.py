@@ -16,7 +16,7 @@
 # along with LLM-Harness.  If not, see <https://www.gnu.org/licenses/>.
 
 """
-Harness generation functionality.
+Harness generation and fixing functionality.
 """
 
 import sys
@@ -42,7 +42,7 @@ class GenerateHarness(dspy.Signature):
         helpful, write your harness so that it leverages some of the potential
         vulnerabilities described below.  """
     )
-    harness: str = dspy.OutputField(
+    new_harness: str = dspy.OutputField(
         desc=""" C code for a libFuzzer-compatible harness. Output only the C
         code, do not format it in a markdown code cell with backticks, so that
         it will be ready for compilation. Add **all** the necessary includes,
@@ -58,11 +58,49 @@ class GenerateHarness(dspy.Signature):
     )
 
 
-@final
-class HarnessGenerator:
+class FixHarness(dspy.Signature):
     """
-    Generates a libFuzzer-compatible harness for the given project using an
-    LLM and Chain of Thought prompting.
+    Fix the harness provided, given its compilation errors.
+    """
+
+    source: str = dspy.InputField(
+        desc="The source files of the project, concatenated."
+    )
+    old_harness: str = dspy.InputField(desc="The harnes to be fixed.")
+    error: str = dspy.InputField(desc="The compilaton error of the harness.")
+    new_harness: str = dspy.OutputField(
+        desc="The newly created harness with the necessary modifications for \
+        correct compilation."
+    )
+
+
+class ImproveHarness(dspy.Signature):
+    f"""
+    The provided harness does not find any bug/crash, even after running
+    for {Config.EXECUTION_TIMEOUT} seconds. Improve it so that it does.
+    """
+
+    source: str = dspy.InputField(
+        desc="The source files of the project, concatenated."
+    )
+    old_harness: str = dspy.InputField(
+        desc="The harnes to be improved so it can find a bug more quickly."
+    )
+    new_harness: str = dspy.OutputField(
+        desc="The newly created harness with the necessary modifications for \
+        quicker bug-finding."
+    )
+
+
+@final
+class Harnesser:
+    """
+    Given a project:
+    1) Generates a libFuzzer-compatible harness for it, or
+    2) Fixes an existing one that does not compile, or
+    3) Improves an existing one that does not find a bug quickly enough.
+
+    All of the above are done by an LLM using Chain of Thought prompting.
     """
 
     def __init__(self, model: str):
@@ -82,6 +120,8 @@ class HarnessGenerator:
             )
             sys.exit(-3)
 
+        logger.info("Initializing LLM...")
+
         try:
             lm = dspy.LM(
                 f"openai/{self.model}",
@@ -95,9 +135,13 @@ class HarnessGenerator:
             logger.error(f"Error instantiating LLM: {e}")
             raise
 
-    def create_harness(self, project_info: ProjectInfo) -> str:
+        self.generator = dspy.ChainOfThought(GenerateHarness)
+        self.fixer = dspy.ChainOfThought(FixHarness)
+        self.improver = dspy.ChainOfThought(ImproveHarness)
+
+    def harness(self, project_info: ProjectInfo) -> str:
         """
-        Calls the LLM to create a harness for the project.
+        Calls the LLM to create a (new) harness for the project.
 
         Args:
             project_info (ProjectInfo): The project information.
@@ -105,113 +149,48 @@ class HarnessGenerator:
         Returns:
             str: The generated harness code.
         """
-        logger.info("Calling LLM to generate a harness...")
 
-        try:
-            source = project_info.get_source()
-            static = project_info.get_static_analysis()
-            readme = project_info.get_readme()
+        source = project_info.get_source()
+        static = project_info.get_static_analysis()
+        readme = project_info.get_readme()
+        error = project_info.get_error()
+        old_harness = project_info.get_harness()
+        compiles = project_info.get_compilation_status()
 
-            harnesser = dspy.ChainOfThought(GenerateHarness)
-
-            answer = harnesser(source=source, readme=readme, static=static)
-
-            project_info.harness = answer.harness
-            return answer.harness
-
-        except Exception as e:
-            logger.error(f"Error creating harness: {e}")
-            raise
-
-
-class FixHarness(dspy.Signature):
-    """
-    Fix the harness provided, given either its compilation errors or a
-    runtime error description.
-
-    """
-
-    source: str = dspy.InputField(
-        desc="The source files of the project, concatenated."
-    )
-    old_harness: str = dspy.InputField(desc="The harnes to be fixed.")
-    comp_error: str = dspy.InputField(
-        desc="The compilaton error of the harness."
-    )
-    run_error: str = dspy.InputField(
-        desc="A runtime behavior that needs fixing."
-    )
-    new_harness: str = dspy.OutputField(
-        desc="The newly created harness with the necessary modifications for \
-        correct compilation."
-    )
-
-
-@final
-class HarnessFixer:
-    """
-    Given a libFuzzer-compatible harness and its errors, uses an LLM with
-    Chain of Thought prompting to correct it so that it compiles succesfully.
-
-    """
-
-    def __init__(self, model: str):
-        """
-        Initialize the harness fixer.
-
-        Args:
-            model (str): The model to be used for LLM.
-        """
-        self.model = model
-
-        # Ensure environment variables are loaded
-        api_key = Config.load_env()
-        if not api_key:
-            logger.error(
-                "No API key found. Make sure to set OPENAI_API_KEY in .env file."
-            )
-            sys.exit(-3)
-
-    def fix_harness(self, project_info: ProjectInfo, runs: bool) -> str:
-        """
-        Calls the LLM to fix the harness of the project.
-
-        Args:
-            project_info (ProjectInfo): The project information.
-            runs (bool): Whether the problem is compilation or runtime-related.
-
-        Returns:
-            str: The fixed harness code.
-        """
-        logger.info("Calling LLM to fix harness...")
-
-        try:
-            source = project_info.get_source()
-
-            if runs:
-                comp_error = ""
-                run_error = (
-                    f"The provided harness does not find any bug/crash,\
-                even after running for {Config.EXECUTION_TIMEOUT} seconds."
+        # Harness generation
+        if not old_harness:
+            logger.info("Calling LLM to generate a harness...")
+            try:
+                answer = self.generator(
+                    source=source, readme=readme, static=static
                 )
-            else:
-                comp_error = project_info.get_error()
-                run_error = ""
+            except Exception as e:
+                logger.error(f"Error generating harness: {e}")
+                raise
 
-            old_harness = project_info.get_harness()
+        # Harness fixing
+        elif old_harness and not compiles:
+            logger.info("Calling LLM to fix harness...")
+            try:
+                answer = self.fixer(
+                    source=source,
+                    error=error,
+                    old_harness=old_harness,
+                )
+            except Exception as e:
+                logger.error(f"Error fixing harness: {e}")
+                raise
+        # Harness improving
+        else:
+            logger.info("Calling LLM to improve harness...")
+            try:
+                answer = self.improver(
+                    source=source,
+                    old_harness=old_harness,
+                )
+            except Exception as e:
+                logger.error(f"Error improving harness: {e}")
+                raise
 
-            harnesser = dspy.ChainOfThought(FixHarness)
-
-            answer = harnesser(
-                source=source,
-                comp_error=comp_error,
-                run_error=run_error,
-                old_harness=old_harness,
-            )
-
-            project_info.harness = answer.new_harness
-            return answer.new_harness
-
-        except Exception as e:
-            logger.error(f"Error fixing harness: {e}")
-            raise
+        project_info.harness = answer.new_harness
+        return answer.new_harness

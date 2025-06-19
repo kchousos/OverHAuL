@@ -17,7 +17,7 @@
 
 import pytest
 from unittest import mock
-from llm_harness.core.generator import HarnessGenerator
+from llm_harness.core.generator import Harnesser
 from llm_harness.models.project import ProjectInfo, ProjectFile
 
 
@@ -28,7 +28,7 @@ class TestHarnessGenerator:
     def test_init(self, mock_load_env):
         """Test initializing HarnessGenerator."""
         mock_load_env.return_value = "test-api-key"
-        generator = HarnessGenerator("gpt-4o")
+        generator = Harnesser("gpt-4o")
         assert generator.model == "gpt-4o"
         mock_load_env.assert_called_once()
 
@@ -52,8 +52,8 @@ class TestHarnessGenerator:
         project_info = ProjectInfo(source=[project_file])
 
         # Create generator and call method
-        generator = HarnessGenerator("gpt-4o")
-        result = generator.create_harness(project_info)
+        generator = Harnesser("gpt-4o")
+        result = generator.harness(project_info)
 
         # Assertions
         assert result == "Generated harness code"
@@ -78,6 +78,6 @@ class TestHarnessGenerator:
         project_info = ProjectInfo(source=[project_file])
 
         # Create generator and call method - should raise exception
-        generator = HarnessGenerator("gpt-4o")
+        generator = Harnesser("gpt-4o")
         with pytest.raises(Exception, match="Test exception"):
-            generator.create_harness(project_info)
+            generator.harness(project_info)
