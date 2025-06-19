@@ -48,13 +48,13 @@ class GenerateHarness(dspy.Signature):
         it will be ready for compilation. Add **all** the necessary includes,
         either project-specific or standard libraries like <string.h>,
         <stdint.h> and <stdlib.h>. The function to be fuzzed must be part of the
-        source code. Do not limit in any way the input to the library or format
-        it in a specific way or cap its length for any reason. These edge cases
-        should be handled by the library itself, not the harness. On the other
-        hand, do not write code that will most probably crash irregardless of
-        the library under test. The point is for a function of the library under
-        test to crash, not the harness itself. Use and take advantage of any
-        custom structs that the library declares.  """
+        source code. Do not limit in any way the input or its size for any
+        reason. Any edge cases should be handled by the library itself, not
+        the harness. On the other hand, do not write code that will most
+        probably crash irregardless of the library under test. The point is for
+        a function of the library under test to crash, not the harness
+        itself. Use and take advantage of any custom structs that the library
+        declares.  """
     )
 
 
