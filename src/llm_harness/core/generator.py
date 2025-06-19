@@ -82,6 +82,19 @@ class HarnessGenerator:
             )
             sys.exit(-3)
 
+        try:
+            lm = dspy.LM(
+                f"openai/{self.model}",
+                cache=False,
+                temperature=1.0,
+                max_tokens=5000,
+            )
+            dspy.configure(lm=lm)
+
+        except Exception as e:
+            logger.error(f"Error instantiating LLM: {e}")
+            raise
+
     def create_harness(self, project_info: ProjectInfo) -> str:
         """
         Calls the LLM to create a harness for the project.
@@ -95,14 +108,6 @@ class HarnessGenerator:
         logger.info("Calling LLM to generate a harness...")
 
         try:
-            lm = dspy.LM(
-                f"openai/{self.model}",
-                cache=False,
-                temperature=1.0,
-                max_tokens=5000,
-            )
-            dspy.configure(lm=lm)
-
             source = project_info.get_source()
             static = project_info.get_static_analysis()
             readme = project_info.get_readme()
@@ -181,14 +186,6 @@ class HarnessFixer:
         logger.info("Calling LLM to fix harness...")
 
         try:
-            # lm = dspy.LM(
-            #     f"openai/{self.model}",
-            #     cache=False,
-            #     temperature=1.0,
-            #     max_tokens=5000,
-            # )
-            # dspy.configure(lm=lm)
-
             source = project_info.get_source()
 
             if runs:
