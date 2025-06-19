@@ -102,7 +102,7 @@ else
     benchmark="benchmarks/repos-mini.txt"
 fi
 
-timestamp=$(date +"%Y-%m-%d_%H:%M:%S")
+timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 module="ChainOfThought"
 timeout="1"
 basename="${BENCHMARK}/${timestamp}__${module}__${model}__${timeout}m"
