@@ -19,7 +19,7 @@ import pytest
 import os
 from unittest import mock
 from llm_harness.core.analyzer import ProjectAnalyzer
-from llm_harness.core.generator import HarnessGenerator
+from llm_harness.core.generator import Harnesser
 from llm_harness.io.file_manager import FileManager
 
 
@@ -92,8 +92,8 @@ def test_end_to_end_flow(
         analyzer = ProjectAnalyzer(project_path)
         project_info = analyzer.collect_project_info()
 
-        generator = HarnessGenerator("gpt-4o")
-        harness = generator.create_harness(project_info)
+        generator = Harnesser("gpt-4o")
+        harness = generator.harness(project_info)
 
         file_manager = FileManager(project_path)
         result_path = file_manager.write_harness(harness)

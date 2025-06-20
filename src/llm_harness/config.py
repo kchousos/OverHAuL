@@ -32,12 +32,8 @@ class Config:
 
     # List of available models
     AVAILABLE_MODELS = [
-        # "o4-mini",
-        # "o3-mini",
-        # "o3",
-        # "o3-pro",
-        "o1",
-        "o1-pro",
+        "o3-mini",
+        "o3",
         "gpt-4o",
         "gpt-4o-mini",
         "gpt-4.1",
@@ -62,13 +58,13 @@ class Config:
     # Default files to include if none specified
     DEFAULT_FILES = ["*.c", "*.h", "*.h.in"]
 
-    # Files to be ignored
+    # File regexps to be ignored
     IGNORED_FILES = [
         "*test.c",
         "*unit.c",
         "main.c",
-        "benchmark.c",
-        "benchmarks.c",
+        "*benchmark*.c",
+        "*example*.c",
     ]
     IGNORED_DIRS = [
         "test",
@@ -81,8 +77,9 @@ class Config:
         "benchmarks",
     ]
 
+    DEFAULT_CLONE_DIR = "output"
+
     # Harness directory name
-    # Defaults to project's root directory
     HARNESS_DIR = "harnesses"
 
     # Harness default filename
@@ -96,9 +93,12 @@ class Config:
     ]  # needed for fuzzing
     EXECUTABLE_FILENAME = "harness"
 
-    MIN_EXECUTION_TIME = 5  # minutes
+    MIN_EXECUTION_TIME = 5 * 60  # seconds
 
-    EXECUTION_TIMEOUT = 20  # seconds
+    EXECUTION_TIMEOUT = 1 * 60  # seconds
+
+    # Max iterations for the feedback loop between LLM and compilation/harness output
+    MAX_ITERATIONS = 5
 
     @staticmethod
     def load_env() -> str | None:

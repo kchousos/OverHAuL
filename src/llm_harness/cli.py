@@ -29,7 +29,7 @@ from dataclasses import dataclass
 from loguru import logger
 from llm_harness.config import Config
 from llm_harness.core.analyzer import ProjectAnalyzer
-from llm_harness.core.generator import HarnessGenerator
+from llm_harness.core.harnesser import Harnesser
 from llm_harness.core.builder import HarnessBuilder
 from llm_harness.core.evaluator import HarnessEvaluator
 from llm_harness.io.file_manager import FileManager
@@ -69,6 +69,7 @@ def shallow_clone(
     """
     Clone a Git repository with depth 1 and optionally checkout a specific commit.
     Also initializes and updates submodules.
+    After cloning and all operations, deletes the .git directory.
 
     Args:
         repo_url (str): The repository URL.
@@ -117,6 +118,14 @@ def shallow_clone(
         stderr=subprocess.DEVNULL,
     )
 
+    git_dir = os.path.join(destination, ".git")
+    if os.path.exists(git_dir):
+        shutil.rmtree(git_dir)
+
+    github_dir = os.path.join(destination, ".github")
+    if os.path.exists(github_dir):
+        shutil.rmtree(github_dir)
+
 
 def parse_arguments() -> Arguments:
     """
@@ -158,11 +167,19 @@ def parse_arguments() -> Arguments:
         help="File patterns to include in analysis (e.g. *.c *.h)",
     )
 
+    parser.add_argument(
+        "-o",
+        "--output-dir",
+        default=Config.DEFAULT_CLONE_DIR,
+        type=str,
+        help=f"Directory to clone the project into. Defaults to {Config.DEFAULT_CLONE_DIR}",
+    )
+
     args = parser.parse_args()
 
     # Clone repo under the project's name
     project_path = get_repo_name(args.repo)
-    project_path = os.path.join("projects", project_path)
+    project_path = os.path.join(args.output_dir, project_path)
     logger.info(f"Cloning project's repo in the {project_path} directory...")
     shallow_clone(args.repo, project_path, args.commit)
 
@@ -189,29 +206,60 @@ def main() -> int:
     Returns:
         bool: Whether the harness is up to par to be merged to the project.
     """
+    # 1. Get user options
     args = parse_arguments()
     project_path, model = args.project_path, args.model
 
+    # 2. Read project source and analyze it
     analyzer = ProjectAnalyzer(project_path)
     project_info = analyzer.collect_project_info()
 
-    generator = HarnessGenerator(model=model)
-    harness = generator.create_harness(project_info=project_info)
-
+    harnesser = Harnesser(model=model)
     file_manager = FileManager(project_path)
-    _ = file_manager.write_harness(harness)
-
     builder = HarnessBuilder(project_path)
-    _, success = builder.build_harness()
-    if not success:
-        logger.error("Exiting...")
-        sys.exit(-1)
-
     evaluator = HarnessEvaluator(project_path)
-    accepted = evaluator.evaulate_harness()
 
-    if accepted is False:
-        logger.error("The generated harness is not up to par.")
+    acceptable = False
+
+    # 3. Harnessing feedback loop
+    for i in range(Config.MAX_ITERATIONS):
+        logger.info(f"Iteration {i + 1} of harnessing...")
+
+        # 3a. Create/update harness
+        harness = harnesser.harness(project_info=project_info)
+
+        # 3b. Integrate harness to project
+        file_manager.write_harness(harness)
+
+        # 3c. Build harness
+        error, compiled = builder.build_harness()
+        project_info.compiles = compiled
+        # 3c1. If harness does not compile correctly, regenerate it
+        if not compiled:
+            logger.warning("Could not compile harness. Reiterating...")
+            project_info.error = error
+            continue  # Go to 3a again
+
+        # 3d. Run and evaluate harness
+        output, accepted = evaluator.evaulate_harness()
+        # 3d1. If harness does not pass evaluation, regenerate it
+        if not accepted:
+            logger.warning("Harness does not pass evaluation. Reiterating...")
+            project_info.output = output
+            continue  # Go to 3a again
+        else:
+            acceptable = True
+            break
+
+    # 4. Summary
+    compiles = project_info.get_compilation_status()
+    if not compiles:
+        logger.error("Could not generate a compilable harness. Exiting...")
+        sys.exit(-1)
+    elif not acceptable:
+        logger.error(
+            "The generated harness did not pass the evaluation. Exiting..."
+        )
         sys.exit(-2)
 
     logger.info("All done!")

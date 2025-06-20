@@ -21,6 +21,7 @@ Builds the generated harness.
 
 import os
 import subprocess
+import fnmatch
 from loguru import logger
 from typing import final
 from llm_harness.config import Config
@@ -40,10 +41,10 @@ class HarnessBuilder:
             project_path (str): Path to the project directory.
         """
         self.project_path = project_path
-        self.cc = Config().CC
-        self.cflags = Config().CFLAGS
-        self.executable = Config().EXECUTABLE_FILENAME
-        self.harness_dir = Config().HARNESS_DIR
+        self.cc = Config.CC
+        self.cflags = Config.CFLAGS
+        self.executable = Config.EXECUTABLE_FILENAME
+        self.harness_dir = Config.HARNESS_DIR
 
     def build_harness(
         self, harness_filename: str | None = Config.HARNESS_FILENAME
@@ -60,21 +61,32 @@ class HarnessBuilder:
         logger.info("Building harness...")
 
         if not harness_filename:
-            harness_filename = Config().HARNESS_FILENAME
+            harness_filename = Config.HARNESS_FILENAME
 
         harness_filename = os.path.join(self.harness_dir, harness_filename)
 
         # Collect source files recursively
         source_files = [harness_filename]
 
-        for root, _, files in os.walk(self.project_path):
+        for root, dirs, files in os.walk(self.project_path):
+            # Modify dirs in-place to skip hidden directories
+            dirs[:] = [d for d in dirs if not d.startswith(".")]
+
             for f in files:
+                if f.startswith("."):
+                    continue  # Skip hidden files
+                full_path = os.path.join(root, f)
+                dir_components = root.split(os.sep)
+
                 if (
-                    f not in Config.IGNORED_FILES
+                    not any(
+                        fnmatch.fnmatch(f, pattern)
+                        for pattern in Config.IGNORED_FILES
+                    )
                     and f != os.path.basename(harness_filename)
                     and f.endswith(".c")
                     and not any(
-                        ignored in os.path.join(root, f)
+                        ignored in dir_components
                         for ignored in Config.IGNORED_DIRS
                     )
                 ):  # Get the relative path of the file from project_path
@@ -85,7 +97,7 @@ class HarnessBuilder:
 
         # Collect Include directories recursively
         include_dirs = set(Config.DEFAULT_DIRS)
-        for root, dirs, files in os.walk(self.project_path):
+        for root, _, files in os.walk(self.project_path):
             if not any(
                 part.startswith(".")
                 for part in os.path.relpath(root, self.project_path).split(
@@ -124,7 +136,4 @@ class HarnessBuilder:
 
         except subprocess.CalledProcessError as e:
             logger.error("Error during harness compilation")
-            logger.error(
-                f"Standard Output:\n{e.stdout}\nStandard Error:\n{e.stderr}"
-            )
             return f"Error {e.returncode}: {e.stderr}", False

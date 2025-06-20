@@ -1,10 +1,12 @@
 [project]
 name = "llm-harness"
-version = "1.0.0"
+version = "1.0.2"
 description = "LLM-generated harnesses for your C/C++ project."
 authors = [{ name = "Konstantinos Chousos", email = "kon.chousos@gmail.com" }]
 requires-python = ">=3.10,<3.13"
 readme = "README.md"
+license = "GPL-3.0"
+license-files = ["LICENCSE*"]
 dependencies = [
     "dspy (>=2.6.17,<3.0.0)",
     "argparse (>=1.4.0,<2.0.0)",
@@ -76,3 +78,4 @@ convention = "google"
 reportUnusedCallResult = "none"
 reportAny = "none"
 reportMissingTypeStubs = "none"
+reportUnknownMemberType = "none"

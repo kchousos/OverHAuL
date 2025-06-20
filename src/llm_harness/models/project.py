@@ -38,8 +38,12 @@ class ProjectInfo:
     source: list[ProjectFile]
     static: str | None = None
     readme: str | None = None
+    error: str | None = None
+    harness: str | None = None
+    output: str | None = None
+    compiles: bool = False
 
-    def get_concatenated_content(self) -> str:
+    def get_source(self) -> str:
         """
         Returns the concatenated content of all project files.
 
@@ -59,3 +63,15 @@ class ProjectInfo:
 
     def get_readme(self) -> str | None:
         return self.readme
+
+    def get_error(self) -> str | None:
+        return self.error
+
+    def get_harness(self) -> str | None:
+        return self.harness
+
+    def get_output(self) -> str | None:
+        return self.output
+
+    def get_compilation_status(self) -> bool:
+        return self.compiles

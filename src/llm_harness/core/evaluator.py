@@ -41,18 +41,20 @@ class HarnessEvaluator:
         self.project_path = project_path
         self.executable = Config().EXECUTABLE_FILENAME
 
-    def _list_crash_files(self) -> set[str]:
+    def _list_crash_files(self) -> set[tuple[str, float]]:
         """
-        List all crash-* files in the given directory.
+        List all crash-* files in the given directory along with their creation time.
 
-        Args:
-            directory (str): The directory to search for crash files.
+        Returns:
+            Set[Tuple[str, float]]: A set of tuples (filename, creation_time).
         """
         return {
-            f for f in os.listdir(self.project_path) if f.startswith("crash-")
+            (f, os.path.getctime(os.path.join(self.project_path, f)))
+            for f in os.listdir(self.project_path)
+            if f.startswith("crash-")
         }
 
-    def evaulate_harness(self) -> bool:
+    def evaulate_harness(self) -> tuple[str, bool]:
         """
         Runs and evaluates the LLM-generated harness.
 
@@ -65,25 +67,27 @@ class HarnessEvaluator:
 
         before = self._list_crash_files()
 
+        harness_output = ""
+
         logger.info("Starting execution of harness...")
 
         start_time = time.time()
 
         try:
-            subprocess.run(
+            captured_output = subprocess.run(
                 execution_command,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
                 check=False,
+                capture_output=True,
                 cwd=self.project_path,
                 timeout=Config().EXECUTION_TIMEOUT,
             )
             end_time = time.time()
-        except subprocess.TimeoutExpired:
+            harness_output = str(captured_output.stdout)
+        except subprocess.TimeoutExpired as e:
             logger.error(
                 f"Execution timed out after {Config().EXECUTION_TIMEOUT} seconds."
             )
-            return False
+            return f"Error: {e.stderr}", False
 
         runtime = end_time - start_time
         logger.info(f"Harness execution completed in {runtime:.2f} seconds.")
@@ -91,18 +95,39 @@ class HarnessEvaluator:
         after = self._list_crash_files()
         testcases = after - before
 
+        empty = False
+        if len(testcases) > 0:
+            # newest testcase
+            case, _ = max(
+                testcases, key=lambda x: x[1]
+            )  # x[0] is filename, x[1] is ctime
+            result = subprocess.run(
+                ["xxd", case],
+                capture_output=True,
+                text=True,
+                cwd=self.project_path,
+            )
+            if result.stdout.strip() == "":
+                empty = True
+
         # Check if new testcases were created
         if len(testcases) == 0:
+            error = "No new testcases were generated.\n\n"
             logger.error("No new testcases were generated.")
-            return False
+            return error + harness_output, False
+        # Check if testcase is valid
+        elif empty:
+            error = "Testcase is invalid (empty xxd output).\n\n"
+            logger.error("Testcase is invalid (empty xxd output).")
+            return error + harness_output, False
+        # Check runtime
+        elif runtime < Config().MIN_EXECUTION_TIME and len(testcases) == 0:
+            error = "Harness does not execute correctly.\n\n"
+            logger.error("Harness does not execute correctly.")
+            return error + harness_output, False
         else:
             logger.info(
                 f"New testcases created ({len(testcases)}): {testcases}"
             )
 
-        # Minimum runtime
-        if runtime / 60 < Config().MIN_EXECUTION_TIME and testcases is None:
-            logger.error("Harness does not execute correctly.")
-            return False
-
-        return True
+        return harness_output, True
