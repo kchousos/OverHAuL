@@ -29,9 +29,11 @@ from llm_harness.config import Config
 
 class GenerateHarness(dspy.Signature):
     """
-    You are an experienced C/C++ software engineer.
-    Generate a libFuzzer-compatible harness for the given C project that is
-    ready for compilation and finds succesfully a bug in the project.
+    You are an experienced C/C++ security testing engineer. You must write a
+    libFuzzer-compatible `int LLVMFuzzerTestOneInput(const uint8_t *data, size_t
+    size)` harness for a function of the given C project. Your goal is for the
+    harness to be ready for compilation and for it to find successfully a bug in
+    the function-under-test.
     """
 
     source: str = dspy.InputField(
@@ -61,7 +63,13 @@ class GenerateHarness(dspy.Signature):
 
 class FixHarness(dspy.Signature):
     """
-    Fix the harness provided, given its compilation errors.
+    You are an experienced C/C++ security testing engineer. Given a
+    libFuzzer-compatible harness that fails to compile and its compilation
+    errors, rewrite it so that it compiles successfully. Analyze the compilation
+    errors carefully and find the root causes. Add any missing #includes like
+    <string.h>, <stdint.h> and <stdlib.h> and #define required macros or
+    constants in the fuzz target. If needed, re-declare functions or struct
+    types.
     """
 
     source: str = dspy.InputField(
@@ -77,8 +85,13 @@ class FixHarness(dspy.Signature):
 
 class ImproveHarness(dspy.Signature):
     f"""
-    The provided harness does not find any bug/crash, even after running
-    for {Config.EXECUTION_TIMEOUT} seconds. Improve it so that it does.
+    You are an experienced C/C++ security testing engineer. Given a
+    libFuzzer-compatible harness that does not find any bug/does not crash (even
+    after running for {Config.EXECUTION_TIMEOUT} seconds), you are called to
+    rewrite it and improve it so that a bug can be found more easily. Determine
+    the information you need to write an effective fuzz target and understand
+    constraints and edge cases in the source code to do it more
+    effectively. Reply only with the source code --- without backticks.
     """
 
     source: str = dspy.InputField(
