@@ -190,4 +190,4 @@ minutes=$(( (SECONDS % 3600) / 60 ))
 seconds=$((SECONDS % 60))
 log INFO "Total runtime: ${hours}h ${minutes}m ${seconds}s"
 
-} | tee /dev/tty | sed -e 's/\x1B\[0;3[0-9]m//g' -e 's/\x1B\[0m//g' >> "$LOG_FILE"
+} | tee /dev/tty 2>/dev/null | sed -e 's/\x1B\[0;3[0-9]m//g' -e 's/\x1B\[0m//g' >> "$LOG_FILE"
