@@ -105,8 +105,8 @@ fi
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 module="ChainOfThought"
 timeout="1"
-basename="${BENCHMARK}/${timestamp}__${module}__${model}__${timeout}m"
-OUT_DIR="benchmarks/results/${basename}"
+basename="${BENCHMARK}__${timestamp}__${module}__${model}__${timeout}m"
+OUT_DIR="benchmark_results/${basename}"
 mkdir -p "$OUT_DIR"
 LOG_FILE="${OUT_DIR}/results.log"
 
