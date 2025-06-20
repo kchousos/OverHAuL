@@ -17,14 +17,8 @@ jobs:
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Compress benchmark results
-        run: |
-          mkdir -p artifacts
-          zip -r artifacts/benchmark-results.zip benchmarks/results
-
-      - name: Upload artifact
+      - name: Upload benchmark results
         uses: actions/upload-artifact@v4
         with:
           name: benchmark-results-${{ steps.vars.outputs.sha_short }}
-          path: artifacts/benchmark-results.zip
-          
+          path: benchmarks/results/*
