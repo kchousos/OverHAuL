@@ -52,6 +52,9 @@
                                 <a class="variable" href="#Config.IGNORED_DIRS">IGNORED_DIRS</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Config.DEFAULT_CLONE_DIR">DEFAULT_CLONE_DIR</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Config.HARNESS_DIR">HARNESS_DIR</a>
                         </li>
                         <li>
@@ -71,6 +74,9 @@
                         </li>
                         <li>
                                 <a class="variable" href="#Config.EXECUTION_TIMEOUT">EXECUTION_TIMEOUT</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Config.MAX_ITERATIONS">MAX_ITERATIONS</a>
                         </li>
                         <li>
                                 <a class="function" href="#Config.load_env">load_env</a>
@@ -135,73 +141,73 @@
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>
 </span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>    <span class="c1"># List of available models</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>    <span class="n">AVAILABLE_MODELS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>        <span class="c1"># &quot;o4-mini&quot;,</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>        <span class="c1"># &quot;o3-mini&quot;,</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="c1"># &quot;o3&quot;,</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="c1"># &quot;o3-pro&quot;,</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>        <span class="s2">&quot;o1&quot;</span><span class="p">,</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>        <span class="s2">&quot;o1-pro&quot;</span><span class="p">,</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>        <span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>        <span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>        <span class="s2">&quot;gpt-4.1&quot;</span><span class="p">,</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>        <span class="s2">&quot;gpt-4.1-mini&quot;</span><span class="p">,</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>    <span class="p">]</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>
-</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>    <span class="c1"># Default model if none provided</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>    <span class="n">DEFAULT_MODEL</span> <span class="o">=</span> <span class="s2">&quot;gpt-4.1-mini&quot;</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>    <span class="n">DEFAULT_DIRS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>        <span class="s2">&quot;.&quot;</span><span class="p">,</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>        <span class="s2">&quot;src&quot;</span><span class="p">,</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>        <span class="s2">&quot;source&quot;</span><span class="p">,</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>        <span class="s2">&quot;sources&quot;</span><span class="p">,</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>        <span class="s2">&quot;include&quot;</span><span class="p">,</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="s2">&quot;lib&quot;</span><span class="p">,</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="s2">&quot;deps&quot;</span><span class="p">,</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>        <span class="s2">&quot;dependencies&quot;</span><span class="p">,</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>        <span class="s2">&quot;contrib&quot;</span><span class="p">,</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>    <span class="p">]</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>    <span class="c1"># Default files to include if none specified</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>    <span class="n">DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*.c&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h.in&quot;</span><span class="p">]</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>
-</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>    <span class="c1"># Files to be ignored</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>    <span class="n">IGNORED_FILES</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>        <span class="s2">&quot;*test.c&quot;</span><span class="p">,</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>        <span class="s2">&quot;*unit.c&quot;</span><span class="p">,</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>        <span class="s2">&quot;main.c&quot;</span><span class="p">,</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>        <span class="s2">&quot;benchmark.c&quot;</span><span class="p">,</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>        <span class="s2">&quot;benchmarks.c&quot;</span><span class="p">,</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>    <span class="p">]</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>    <span class="n">IGNORED_DIRS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>        <span class="s2">&quot;test&quot;</span><span class="p">,</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>        <span class="s2">&quot;tests&quot;</span><span class="p">,</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>        <span class="s2">&quot;example&quot;</span><span class="p">,</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>        <span class="s2">&quot;examples&quot;</span><span class="p">,</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>        <span class="s2">&quot;demo&quot;</span><span class="p">,</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>        <span class="s2">&quot;demos&quot;</span><span class="p">,</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="s2">&quot;benchmark&quot;</span><span class="p">,</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>        <span class="s2">&quot;benchmarks&quot;</span><span class="p">,</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="p">]</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>    <span class="c1"># Harness directory name</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>    <span class="c1"># Defaults to project&#39;s root directory</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>    <span class="n">HARNESS_DIR</span> <span class="o">=</span> <span class="s2">&quot;harnesses&quot;</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>        <span class="s2">&quot;o3-mini&quot;</span><span class="p">,</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>        <span class="s2">&quot;o3&quot;</span><span class="p">,</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>        <span class="s2">&quot;gpt-4.1&quot;</span><span class="p">,</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>        <span class="s2">&quot;gpt-4.1-mini&quot;</span><span class="p">,</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>    <span class="p">]</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>    <span class="c1"># Default model if none provided</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>    <span class="n">DEFAULT_MODEL</span> <span class="o">=</span> <span class="s2">&quot;gpt-4.1-mini&quot;</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>    <span class="n">DEFAULT_DIRS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>        <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>        <span class="s2">&quot;src&quot;</span><span class="p">,</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>        <span class="s2">&quot;source&quot;</span><span class="p">,</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>        <span class="s2">&quot;sources&quot;</span><span class="p">,</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>        <span class="s2">&quot;include&quot;</span><span class="p">,</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>        <span class="s2">&quot;lib&quot;</span><span class="p">,</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>        <span class="s2">&quot;deps&quot;</span><span class="p">,</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>        <span class="s2">&quot;dependencies&quot;</span><span class="p">,</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>        <span class="s2">&quot;contrib&quot;</span><span class="p">,</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>    <span class="p">]</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>    <span class="c1"># Default files to include if none specified</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>    <span class="n">DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*.c&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h.in&quot;</span><span class="p">]</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>    <span class="c1"># File regexps to be ignored</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>    <span class="n">IGNORED_FILES</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>        <span class="s2">&quot;*test.c&quot;</span><span class="p">,</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>        <span class="s2">&quot;*unit.c&quot;</span><span class="p">,</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>        <span class="s2">&quot;main.c&quot;</span><span class="p">,</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>        <span class="s2">&quot;*benchmark*.c&quot;</span><span class="p">,</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>        <span class="s2">&quot;*example*.c&quot;</span><span class="p">,</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>    <span class="p">]</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>    <span class="n">IGNORED_DIRS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>        <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>        <span class="s2">&quot;tests&quot;</span><span class="p">,</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>        <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>        <span class="s2">&quot;examples&quot;</span><span class="p">,</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>        <span class="s2">&quot;demo&quot;</span><span class="p">,</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>        <span class="s2">&quot;demos&quot;</span><span class="p">,</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>        <span class="s2">&quot;benchmark&quot;</span><span class="p">,</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>        <span class="s2">&quot;benchmarks&quot;</span><span class="p">,</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>    <span class="p">]</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>    <span class="n">DEFAULT_CLONE_DIR</span> <span class="o">=</span> <span class="s2">&quot;output&quot;</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="c1"># Harness directory name</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>    <span class="n">HARNESS_DIR</span> <span class="o">=</span> <span class="s2">&quot;harnesses&quot;</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>    <span class="c1"># Harness default filename</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>    <span class="n">HARNESS_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness.c&quot;</span>
 </span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    <span class="c1"># Harness default filename</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    <span class="n">HARNESS_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness.c&quot;</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>    <span class="c1"># Default C compilation options</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>    <span class="n">CC</span> <span class="o">=</span> <span class="s2">&quot;clang&quot;</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>    <span class="n">CFLAGS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="s2">&quot;-g&quot;</span><span class="p">,</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>        <span class="s2">&quot;-fsanitize=fuzzer,address,undefined&quot;</span><span class="p">,</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="p">]</span>  <span class="c1"># needed for fuzzing</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>    <span class="n">EXECUTABLE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness&quot;</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># minutes</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># seconds</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    <span class="c1"># Default C compilation options</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    <span class="n">CC</span> <span class="o">=</span> <span class="s2">&quot;clang&quot;</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>    <span class="n">CFLAGS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>        <span class="s2">&quot;-g&quot;</span><span class="p">,</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>        <span class="s2">&quot;-fsanitize=fuzzer,address,undefined&quot;</span><span class="p">,</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>    <span class="p">]</span>  <span class="c1"># needed for fuzzing</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>    <span class="n">EXECUTABLE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness&quot;</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>    <span class="c1"># Max iterations for the feedback loop between LLM and compilation/harness output</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>    <span class="n">MAX_ITERATIONS</span> <span class="o">=</span> <span class="mi">5</span>
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>    <span class="nd">@staticmethod</span>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -232,73 +238,73 @@
 </span><span id="Config-33"><a href="#Config-33"><span class="linenos"> 33</span></a>
 </span><span id="Config-34"><a href="#Config-34"><span class="linenos"> 34</span></a>    <span class="c1"># List of available models</span>
 </span><span id="Config-35"><a href="#Config-35"><span class="linenos"> 35</span></a>    <span class="n">AVAILABLE_MODELS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="Config-36"><a href="#Config-36"><span class="linenos"> 36</span></a>        <span class="c1"># &quot;o4-mini&quot;,</span>
-</span><span id="Config-37"><a href="#Config-37"><span class="linenos"> 37</span></a>        <span class="c1"># &quot;o3-mini&quot;,</span>
-</span><span id="Config-38"><a href="#Config-38"><span class="linenos"> 38</span></a>        <span class="c1"># &quot;o3&quot;,</span>
-</span><span id="Config-39"><a href="#Config-39"><span class="linenos"> 39</span></a>        <span class="c1"># &quot;o3-pro&quot;,</span>
-</span><span id="Config-40"><a href="#Config-40"><span class="linenos"> 40</span></a>        <span class="s2">&quot;o1&quot;</span><span class="p">,</span>
-</span><span id="Config-41"><a href="#Config-41"><span class="linenos"> 41</span></a>        <span class="s2">&quot;o1-pro&quot;</span><span class="p">,</span>
-</span><span id="Config-42"><a href="#Config-42"><span class="linenos"> 42</span></a>        <span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
-</span><span id="Config-43"><a href="#Config-43"><span class="linenos"> 43</span></a>        <span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
-</span><span id="Config-44"><a href="#Config-44"><span class="linenos"> 44</span></a>        <span class="s2">&quot;gpt-4.1&quot;</span><span class="p">,</span>
-</span><span id="Config-45"><a href="#Config-45"><span class="linenos"> 45</span></a>        <span class="s2">&quot;gpt-4.1-mini&quot;</span><span class="p">,</span>
-</span><span id="Config-46"><a href="#Config-46"><span class="linenos"> 46</span></a>    <span class="p">]</span>
-</span><span id="Config-47"><a href="#Config-47"><span class="linenos"> 47</span></a>
-</span><span id="Config-48"><a href="#Config-48"><span class="linenos"> 48</span></a>    <span class="c1"># Default model if none provided</span>
-</span><span id="Config-49"><a href="#Config-49"><span class="linenos"> 49</span></a>    <span class="n">DEFAULT_MODEL</span> <span class="o">=</span> <span class="s2">&quot;gpt-4.1-mini&quot;</span>
-</span><span id="Config-50"><a href="#Config-50"><span class="linenos"> 50</span></a>
-</span><span id="Config-51"><a href="#Config-51"><span class="linenos"> 51</span></a>    <span class="n">DEFAULT_DIRS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="Config-52"><a href="#Config-52"><span class="linenos"> 52</span></a>        <span class="s2">&quot;.&quot;</span><span class="p">,</span>
-</span><span id="Config-53"><a href="#Config-53"><span class="linenos"> 53</span></a>        <span class="s2">&quot;src&quot;</span><span class="p">,</span>
-</span><span id="Config-54"><a href="#Config-54"><span class="linenos"> 54</span></a>        <span class="s2">&quot;source&quot;</span><span class="p">,</span>
-</span><span id="Config-55"><a href="#Config-55"><span class="linenos"> 55</span></a>        <span class="s2">&quot;sources&quot;</span><span class="p">,</span>
-</span><span id="Config-56"><a href="#Config-56"><span class="linenos"> 56</span></a>        <span class="s2">&quot;include&quot;</span><span class="p">,</span>
-</span><span id="Config-57"><a href="#Config-57"><span class="linenos"> 57</span></a>        <span class="s2">&quot;lib&quot;</span><span class="p">,</span>
-</span><span id="Config-58"><a href="#Config-58"><span class="linenos"> 58</span></a>        <span class="s2">&quot;deps&quot;</span><span class="p">,</span>
-</span><span id="Config-59"><a href="#Config-59"><span class="linenos"> 59</span></a>        <span class="s2">&quot;dependencies&quot;</span><span class="p">,</span>
-</span><span id="Config-60"><a href="#Config-60"><span class="linenos"> 60</span></a>        <span class="s2">&quot;contrib&quot;</span><span class="p">,</span>
-</span><span id="Config-61"><a href="#Config-61"><span class="linenos"> 61</span></a>    <span class="p">]</span>
-</span><span id="Config-62"><a href="#Config-62"><span class="linenos"> 62</span></a>
-</span><span id="Config-63"><a href="#Config-63"><span class="linenos"> 63</span></a>    <span class="c1"># Default files to include if none specified</span>
-</span><span id="Config-64"><a href="#Config-64"><span class="linenos"> 64</span></a>    <span class="n">DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*.c&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h.in&quot;</span><span class="p">]</span>
-</span><span id="Config-65"><a href="#Config-65"><span class="linenos"> 65</span></a>
-</span><span id="Config-66"><a href="#Config-66"><span class="linenos"> 66</span></a>    <span class="c1"># Files to be ignored</span>
-</span><span id="Config-67"><a href="#Config-67"><span class="linenos"> 67</span></a>    <span class="n">IGNORED_FILES</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="Config-68"><a href="#Config-68"><span class="linenos"> 68</span></a>        <span class="s2">&quot;*test.c&quot;</span><span class="p">,</span>
-</span><span id="Config-69"><a href="#Config-69"><span class="linenos"> 69</span></a>        <span class="s2">&quot;*unit.c&quot;</span><span class="p">,</span>
-</span><span id="Config-70"><a href="#Config-70"><span class="linenos"> 70</span></a>        <span class="s2">&quot;main.c&quot;</span><span class="p">,</span>
-</span><span id="Config-71"><a href="#Config-71"><span class="linenos"> 71</span></a>        <span class="s2">&quot;benchmark.c&quot;</span><span class="p">,</span>
-</span><span id="Config-72"><a href="#Config-72"><span class="linenos"> 72</span></a>        <span class="s2">&quot;benchmarks.c&quot;</span><span class="p">,</span>
-</span><span id="Config-73"><a href="#Config-73"><span class="linenos"> 73</span></a>    <span class="p">]</span>
-</span><span id="Config-74"><a href="#Config-74"><span class="linenos"> 74</span></a>    <span class="n">IGNORED_DIRS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="Config-75"><a href="#Config-75"><span class="linenos"> 75</span></a>        <span class="s2">&quot;test&quot;</span><span class="p">,</span>
-</span><span id="Config-76"><a href="#Config-76"><span class="linenos"> 76</span></a>        <span class="s2">&quot;tests&quot;</span><span class="p">,</span>
-</span><span id="Config-77"><a href="#Config-77"><span class="linenos"> 77</span></a>        <span class="s2">&quot;example&quot;</span><span class="p">,</span>
-</span><span id="Config-78"><a href="#Config-78"><span class="linenos"> 78</span></a>        <span class="s2">&quot;examples&quot;</span><span class="p">,</span>
-</span><span id="Config-79"><a href="#Config-79"><span class="linenos"> 79</span></a>        <span class="s2">&quot;demo&quot;</span><span class="p">,</span>
-</span><span id="Config-80"><a href="#Config-80"><span class="linenos"> 80</span></a>        <span class="s2">&quot;demos&quot;</span><span class="p">,</span>
-</span><span id="Config-81"><a href="#Config-81"><span class="linenos"> 81</span></a>        <span class="s2">&quot;benchmark&quot;</span><span class="p">,</span>
-</span><span id="Config-82"><a href="#Config-82"><span class="linenos"> 82</span></a>        <span class="s2">&quot;benchmarks&quot;</span><span class="p">,</span>
-</span><span id="Config-83"><a href="#Config-83"><span class="linenos"> 83</span></a>    <span class="p">]</span>
-</span><span id="Config-84"><a href="#Config-84"><span class="linenos"> 84</span></a>
-</span><span id="Config-85"><a href="#Config-85"><span class="linenos"> 85</span></a>    <span class="c1"># Harness directory name</span>
-</span><span id="Config-86"><a href="#Config-86"><span class="linenos"> 86</span></a>    <span class="c1"># Defaults to project&#39;s root directory</span>
-</span><span id="Config-87"><a href="#Config-87"><span class="linenos"> 87</span></a>    <span class="n">HARNESS_DIR</span> <span class="o">=</span> <span class="s2">&quot;harnesses&quot;</span>
+</span><span id="Config-36"><a href="#Config-36"><span class="linenos"> 36</span></a>        <span class="s2">&quot;o3-mini&quot;</span><span class="p">,</span>
+</span><span id="Config-37"><a href="#Config-37"><span class="linenos"> 37</span></a>        <span class="s2">&quot;o3&quot;</span><span class="p">,</span>
+</span><span id="Config-38"><a href="#Config-38"><span class="linenos"> 38</span></a>        <span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+</span><span id="Config-39"><a href="#Config-39"><span class="linenos"> 39</span></a>        <span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">,</span>
+</span><span id="Config-40"><a href="#Config-40"><span class="linenos"> 40</span></a>        <span class="s2">&quot;gpt-4.1&quot;</span><span class="p">,</span>
+</span><span id="Config-41"><a href="#Config-41"><span class="linenos"> 41</span></a>        <span class="s2">&quot;gpt-4.1-mini&quot;</span><span class="p">,</span>
+</span><span id="Config-42"><a href="#Config-42"><span class="linenos"> 42</span></a>    <span class="p">]</span>
+</span><span id="Config-43"><a href="#Config-43"><span class="linenos"> 43</span></a>
+</span><span id="Config-44"><a href="#Config-44"><span class="linenos"> 44</span></a>    <span class="c1"># Default model if none provided</span>
+</span><span id="Config-45"><a href="#Config-45"><span class="linenos"> 45</span></a>    <span class="n">DEFAULT_MODEL</span> <span class="o">=</span> <span class="s2">&quot;gpt-4.1-mini&quot;</span>
+</span><span id="Config-46"><a href="#Config-46"><span class="linenos"> 46</span></a>
+</span><span id="Config-47"><a href="#Config-47"><span class="linenos"> 47</span></a>    <span class="n">DEFAULT_DIRS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="Config-48"><a href="#Config-48"><span class="linenos"> 48</span></a>        <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+</span><span id="Config-49"><a href="#Config-49"><span class="linenos"> 49</span></a>        <span class="s2">&quot;src&quot;</span><span class="p">,</span>
+</span><span id="Config-50"><a href="#Config-50"><span class="linenos"> 50</span></a>        <span class="s2">&quot;source&quot;</span><span class="p">,</span>
+</span><span id="Config-51"><a href="#Config-51"><span class="linenos"> 51</span></a>        <span class="s2">&quot;sources&quot;</span><span class="p">,</span>
+</span><span id="Config-52"><a href="#Config-52"><span class="linenos"> 52</span></a>        <span class="s2">&quot;include&quot;</span><span class="p">,</span>
+</span><span id="Config-53"><a href="#Config-53"><span class="linenos"> 53</span></a>        <span class="s2">&quot;lib&quot;</span><span class="p">,</span>
+</span><span id="Config-54"><a href="#Config-54"><span class="linenos"> 54</span></a>        <span class="s2">&quot;deps&quot;</span><span class="p">,</span>
+</span><span id="Config-55"><a href="#Config-55"><span class="linenos"> 55</span></a>        <span class="s2">&quot;dependencies&quot;</span><span class="p">,</span>
+</span><span id="Config-56"><a href="#Config-56"><span class="linenos"> 56</span></a>        <span class="s2">&quot;contrib&quot;</span><span class="p">,</span>
+</span><span id="Config-57"><a href="#Config-57"><span class="linenos"> 57</span></a>    <span class="p">]</span>
+</span><span id="Config-58"><a href="#Config-58"><span class="linenos"> 58</span></a>
+</span><span id="Config-59"><a href="#Config-59"><span class="linenos"> 59</span></a>    <span class="c1"># Default files to include if none specified</span>
+</span><span id="Config-60"><a href="#Config-60"><span class="linenos"> 60</span></a>    <span class="n">DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*.c&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h&quot;</span><span class="p">,</span> <span class="s2">&quot;*.h.in&quot;</span><span class="p">]</span>
+</span><span id="Config-61"><a href="#Config-61"><span class="linenos"> 61</span></a>
+</span><span id="Config-62"><a href="#Config-62"><span class="linenos"> 62</span></a>    <span class="c1"># File regexps to be ignored</span>
+</span><span id="Config-63"><a href="#Config-63"><span class="linenos"> 63</span></a>    <span class="n">IGNORED_FILES</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="Config-64"><a href="#Config-64"><span class="linenos"> 64</span></a>        <span class="s2">&quot;*test.c&quot;</span><span class="p">,</span>
+</span><span id="Config-65"><a href="#Config-65"><span class="linenos"> 65</span></a>        <span class="s2">&quot;*unit.c&quot;</span><span class="p">,</span>
+</span><span id="Config-66"><a href="#Config-66"><span class="linenos"> 66</span></a>        <span class="s2">&quot;main.c&quot;</span><span class="p">,</span>
+</span><span id="Config-67"><a href="#Config-67"><span class="linenos"> 67</span></a>        <span class="s2">&quot;*benchmark*.c&quot;</span><span class="p">,</span>
+</span><span id="Config-68"><a href="#Config-68"><span class="linenos"> 68</span></a>        <span class="s2">&quot;*example*.c&quot;</span><span class="p">,</span>
+</span><span id="Config-69"><a href="#Config-69"><span class="linenos"> 69</span></a>    <span class="p">]</span>
+</span><span id="Config-70"><a href="#Config-70"><span class="linenos"> 70</span></a>    <span class="n">IGNORED_DIRS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="Config-71"><a href="#Config-71"><span class="linenos"> 71</span></a>        <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+</span><span id="Config-72"><a href="#Config-72"><span class="linenos"> 72</span></a>        <span class="s2">&quot;tests&quot;</span><span class="p">,</span>
+</span><span id="Config-73"><a href="#Config-73"><span class="linenos"> 73</span></a>        <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+</span><span id="Config-74"><a href="#Config-74"><span class="linenos"> 74</span></a>        <span class="s2">&quot;examples&quot;</span><span class="p">,</span>
+</span><span id="Config-75"><a href="#Config-75"><span class="linenos"> 75</span></a>        <span class="s2">&quot;demo&quot;</span><span class="p">,</span>
+</span><span id="Config-76"><a href="#Config-76"><span class="linenos"> 76</span></a>        <span class="s2">&quot;demos&quot;</span><span class="p">,</span>
+</span><span id="Config-77"><a href="#Config-77"><span class="linenos"> 77</span></a>        <span class="s2">&quot;benchmark&quot;</span><span class="p">,</span>
+</span><span id="Config-78"><a href="#Config-78"><span class="linenos"> 78</span></a>        <span class="s2">&quot;benchmarks&quot;</span><span class="p">,</span>
+</span><span id="Config-79"><a href="#Config-79"><span class="linenos"> 79</span></a>    <span class="p">]</span>
+</span><span id="Config-80"><a href="#Config-80"><span class="linenos"> 80</span></a>
+</span><span id="Config-81"><a href="#Config-81"><span class="linenos"> 81</span></a>    <span class="n">DEFAULT_CLONE_DIR</span> <span class="o">=</span> <span class="s2">&quot;output&quot;</span>
+</span><span id="Config-82"><a href="#Config-82"><span class="linenos"> 82</span></a>
+</span><span id="Config-83"><a href="#Config-83"><span class="linenos"> 83</span></a>    <span class="c1"># Harness directory name</span>
+</span><span id="Config-84"><a href="#Config-84"><span class="linenos"> 84</span></a>    <span class="n">HARNESS_DIR</span> <span class="o">=</span> <span class="s2">&quot;harnesses&quot;</span>
+</span><span id="Config-85"><a href="#Config-85"><span class="linenos"> 85</span></a>
+</span><span id="Config-86"><a href="#Config-86"><span class="linenos"> 86</span></a>    <span class="c1"># Harness default filename</span>
+</span><span id="Config-87"><a href="#Config-87"><span class="linenos"> 87</span></a>    <span class="n">HARNESS_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness.c&quot;</span>
 </span><span id="Config-88"><a href="#Config-88"><span class="linenos"> 88</span></a>
-</span><span id="Config-89"><a href="#Config-89"><span class="linenos"> 89</span></a>    <span class="c1"># Harness default filename</span>
-</span><span id="Config-90"><a href="#Config-90"><span class="linenos"> 90</span></a>    <span class="n">HARNESS_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness.c&quot;</span>
-</span><span id="Config-91"><a href="#Config-91"><span class="linenos"> 91</span></a>
-</span><span id="Config-92"><a href="#Config-92"><span class="linenos"> 92</span></a>    <span class="c1"># Default C compilation options</span>
-</span><span id="Config-93"><a href="#Config-93"><span class="linenos"> 93</span></a>    <span class="n">CC</span> <span class="o">=</span> <span class="s2">&quot;clang&quot;</span>
-</span><span id="Config-94"><a href="#Config-94"><span class="linenos"> 94</span></a>    <span class="n">CFLAGS</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="Config-95"><a href="#Config-95"><span class="linenos"> 95</span></a>        <span class="s2">&quot;-g&quot;</span><span class="p">,</span>
-</span><span id="Config-96"><a href="#Config-96"><span class="linenos"> 96</span></a>        <span class="s2">&quot;-fsanitize=fuzzer,address,undefined&quot;</span><span class="p">,</span>
-</span><span id="Config-97"><a href="#Config-97"><span class="linenos"> 97</span></a>    <span class="p">]</span>  <span class="c1"># needed for fuzzing</span>
-</span><span id="Config-98"><a href="#Config-98"><span class="linenos"> 98</span></a>    <span class="n">EXECUTABLE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness&quot;</span>
-</span><span id="Config-99"><a href="#Config-99"><span class="linenos"> 99</span></a>
-</span><span id="Config-100"><a href="#Config-100"><span class="linenos">100</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># minutes</span>
-</span><span id="Config-101"><a href="#Config-101"><span class="linenos">101</span></a>
-</span><span id="Config-102"><a href="#Config-102"><span class="linenos">102</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># seconds</span>
+</span><span id="Config-89"><a href="#Config-89"><span class="linenos"> 89</span></a>    <span class="c1"># Default C compilation options</span>
+</span><span id="Config-90"><a href="#Config-90"><span class="linenos"> 90</span></a>    <span class="n">CC</span> <span class="o">=</span> <span class="s2">&quot;clang&quot;</span>
+</span><span id="Config-91"><a href="#Config-91"><span class="linenos"> 91</span></a>    <span class="n">CFLAGS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="Config-92"><a href="#Config-92"><span class="linenos"> 92</span></a>        <span class="s2">&quot;-g&quot;</span><span class="p">,</span>
+</span><span id="Config-93"><a href="#Config-93"><span class="linenos"> 93</span></a>        <span class="s2">&quot;-fsanitize=fuzzer,address,undefined&quot;</span><span class="p">,</span>
+</span><span id="Config-94"><a href="#Config-94"><span class="linenos"> 94</span></a>    <span class="p">]</span>  <span class="c1"># needed for fuzzing</span>
+</span><span id="Config-95"><a href="#Config-95"><span class="linenos"> 95</span></a>    <span class="n">EXECUTABLE_FILENAME</span> <span class="o">=</span> <span class="s2">&quot;harness&quot;</span>
+</span><span id="Config-96"><a href="#Config-96"><span class="linenos"> 96</span></a>
+</span><span id="Config-97"><a href="#Config-97"><span class="linenos"> 97</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
+</span><span id="Config-98"><a href="#Config-98"><span class="linenos"> 98</span></a>
+</span><span id="Config-99"><a href="#Config-99"><span class="linenos"> 99</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
+</span><span id="Config-100"><a href="#Config-100"><span class="linenos">100</span></a>
+</span><span id="Config-101"><a href="#Config-101"><span class="linenos">101</span></a>    <span class="c1"># Max iterations for the feedback loop between LLM and compilation/harness output</span>
+</span><span id="Config-102"><a href="#Config-102"><span class="linenos">102</span></a>    <span class="n">MAX_ITERATIONS</span> <span class="o">=</span> <span class="mi">5</span>
 </span><span id="Config-103"><a href="#Config-103"><span class="linenos">103</span></a>
 </span><span id="Config-104"><a href="#Config-104"><span class="linenos">104</span></a>    <span class="nd">@staticmethod</span>
 </span><span id="Config-105"><a href="#Config-105"><span class="linenos">105</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -315,7 +321,7 @@
                             <div id="Config.AVAILABLE_MODELS" class="classattr">
                                 <div class="attr variable">
             <span class="name">AVAILABLE_MODELS</span>        =
-<span class="default_value">[&#39;o1&#39;, &#39;o1-pro&#39;, &#39;gpt-4o&#39;, &#39;gpt-4o-mini&#39;, &#39;gpt-4.1&#39;, &#39;gpt-4.1-mini&#39;]</span>
+<span class="default_value">[&#39;o3-mini&#39;, &#39;o3&#39;, &#39;gpt-4o&#39;, &#39;gpt-4o-mini&#39;, &#39;gpt-4.1&#39;, &#39;gpt-4.1-mini&#39;]</span>
 
         
     </div>
@@ -363,7 +369,7 @@
                             <div id="Config.IGNORED_FILES" class="classattr">
                                 <div class="attr variable">
             <span class="name">IGNORED_FILES</span>        =
-<span class="default_value">[&#39;*test.c&#39;, &#39;*unit.c&#39;, &#39;main.c&#39;, &#39;benchmark.c&#39;, &#39;benchmarks.c&#39;]</span>
+<span class="default_value">[&#39;*test.c&#39;, &#39;*unit.c&#39;, &#39;main.c&#39;, &#39;*benchmark*.c&#39;, &#39;*example*.c&#39;]</span>
 
         
     </div>
@@ -380,6 +386,18 @@
         
     </div>
     <a class="headerlink" href="#Config.IGNORED_DIRS"></a>
+    
+    
+
+                            </div>
+                            <div id="Config.DEFAULT_CLONE_DIR" class="classattr">
+                                <div class="attr variable">
+            <span class="name">DEFAULT_CLONE_DIR</span>        =
+<span class="default_value">&#39;output&#39;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Config.DEFAULT_CLONE_DIR"></a>
     
     
 
@@ -447,7 +465,7 @@
                             <div id="Config.MIN_EXECUTION_TIME" class="classattr">
                                 <div class="attr variable">
             <span class="name">MIN_EXECUTION_TIME</span>        =
-<span class="default_value">5</span>
+<span class="default_value">300</span>
 
         
     </div>
@@ -459,11 +477,23 @@
                             <div id="Config.EXECUTION_TIMEOUT" class="classattr">
                                 <div class="attr variable">
             <span class="name">EXECUTION_TIMEOUT</span>        =
-<span class="default_value">20</span>
+<span class="default_value">60</span>
 
         
     </div>
     <a class="headerlink" href="#Config.EXECUTION_TIMEOUT"></a>
+    
+    
+
+                            </div>
+                            <div id="Config.MAX_ITERATIONS" class="classattr">
+                                <div class="attr variable">
+            <span class="name">MAX_ITERATIONS</span>        =
+<span class="default_value">5</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Config.MAX_ITERATIONS"></a>
     
     
 

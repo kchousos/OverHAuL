@@ -94,55 +94,53 @@
 </span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
 </span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 </span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">loguru</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">final</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_harness.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span>
 </span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
 </span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="k">class</span><span class="w"> </span><span class="nc">FileManager</span><span class="p">:</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">    Handles file operations for the harness generator.</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">        Initialize the file manager.</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">        Args:</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">            project_path (str): Path to the project directory.</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">project_path</span> <span class="o">=</span> <span class="n">project_path</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_DIR</span><span class="p">)</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_harness</span><span class="p">(</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">harness</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">        Writes the harness to the harnesses directory.</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">        Args:</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">            harness (str): The harness code to write.</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">            filename (str, optional): The filename to use.</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">        Returns:</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">            str: Path to the written harness file.</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing harness to project...&quot;</span><span class="p">)</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>            <span class="n">filename</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_FILENAME</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>        <span class="n">harness_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">harness_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">harness</span><span class="p">)</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Harness written to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>            <span class="k">return</span> <span class="n">harness_path</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>        <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error writing harness to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>            <span class="k">raise</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="nd">@final</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="k">class</span><span class="w"> </span><span class="nc">FileManager</span><span class="p">:</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">    Handles file operations for the harness generator.</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">        Initialize the file manager.</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">        Args:</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">            project_path (str): Path to the project directory.</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">project_path</span> <span class="o">=</span> <span class="n">project_path</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_DIR</span><span class="p">)</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_harness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">harness</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">        Writes the harness to the harnesses directory.</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">        Args:</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">            harness (str): The harness code to write.</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">            filename (str, optional): The filename to use.</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">        Returns:</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">            str: Path to the written harness file.</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing harness to project...&quot;</span><span class="p">)</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>        <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>            <span class="n">filename</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_FILENAME</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>        <span class="n">harness_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">harness_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">harness</span><span class="p">)</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Harness written to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>        <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error writing harness to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>            <span class="k">raise</span>
 </span></pre></div>
 
 
@@ -150,7 +148,8 @@
                 <section id="FileManager">
                             <input id="FileManager-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
-            
+                    <div class="decorator decorator-final">@final</div>
+
     <span class="def">class</span>
     <span class="name">FileManager</span>:
 
@@ -158,51 +157,49 @@
 
     </div>
     <a class="headerlink" href="#FileManager"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="FileManager-29"><a href="#FileManager-29"><span class="linenos">29</span></a><span class="k">class</span><span class="w"> </span><span class="nc">FileManager</span><span class="p">:</span>
-</span><span id="FileManager-30"><a href="#FileManager-30"><span class="linenos">30</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="FileManager-31"><a href="#FileManager-31"><span class="linenos">31</span></a><span class="sd">    Handles file operations for the harness generator.</span>
-</span><span id="FileManager-32"><a href="#FileManager-32"><span class="linenos">32</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="FileManager-33"><a href="#FileManager-33"><span class="linenos">33</span></a>
-</span><span id="FileManager-34"><a href="#FileManager-34"><span class="linenos">34</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="FileManager-35"><a href="#FileManager-35"><span class="linenos">35</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="FileManager-36"><a href="#FileManager-36"><span class="linenos">36</span></a><span class="sd">        Initialize the file manager.</span>
-</span><span id="FileManager-37"><a href="#FileManager-37"><span class="linenos">37</span></a>
-</span><span id="FileManager-38"><a href="#FileManager-38"><span class="linenos">38</span></a><span class="sd">        Args:</span>
-</span><span id="FileManager-39"><a href="#FileManager-39"><span class="linenos">39</span></a><span class="sd">            project_path (str): Path to the project directory.</span>
-</span><span id="FileManager-40"><a href="#FileManager-40"><span class="linenos">40</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="FileManager-41"><a href="#FileManager-41"><span class="linenos">41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">project_path</span> <span class="o">=</span> <span class="n">project_path</span>
-</span><span id="FileManager-42"><a href="#FileManager-42"><span class="linenos">42</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_DIR</span><span class="p">)</span>
-</span><span id="FileManager-43"><a href="#FileManager-43"><span class="linenos">43</span></a>
-</span><span id="FileManager-44"><a href="#FileManager-44"><span class="linenos">44</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_harness</span><span class="p">(</span>
-</span><span id="FileManager-45"><a href="#FileManager-45"><span class="linenos">45</span></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">harness</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="FileManager-46"><a href="#FileManager-46"><span class="linenos">46</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="FileManager-47"><a href="#FileManager-47"><span class="linenos">47</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="FileManager-48"><a href="#FileManager-48"><span class="linenos">48</span></a><span class="sd">        Writes the harness to the harnesses directory.</span>
-</span><span id="FileManager-49"><a href="#FileManager-49"><span class="linenos">49</span></a>
-</span><span id="FileManager-50"><a href="#FileManager-50"><span class="linenos">50</span></a><span class="sd">        Args:</span>
-</span><span id="FileManager-51"><a href="#FileManager-51"><span class="linenos">51</span></a><span class="sd">            harness (str): The harness code to write.</span>
-</span><span id="FileManager-52"><a href="#FileManager-52"><span class="linenos">52</span></a><span class="sd">            filename (str, optional): The filename to use.</span>
-</span><span id="FileManager-53"><a href="#FileManager-53"><span class="linenos">53</span></a>
-</span><span id="FileManager-54"><a href="#FileManager-54"><span class="linenos">54</span></a><span class="sd">        Returns:</span>
-</span><span id="FileManager-55"><a href="#FileManager-55"><span class="linenos">55</span></a><span class="sd">            str: Path to the written harness file.</span>
-</span><span id="FileManager-56"><a href="#FileManager-56"><span class="linenos">56</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="FileManager-57"><a href="#FileManager-57"><span class="linenos">57</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing harness to project...&quot;</span><span class="p">)</span>
-</span><span id="FileManager-58"><a href="#FileManager-58"><span class="linenos">58</span></a>
-</span><span id="FileManager-59"><a href="#FileManager-59"><span class="linenos">59</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="FileManager-60"><a href="#FileManager-60"><span class="linenos">60</span></a>
-</span><span id="FileManager-61"><a href="#FileManager-61"><span class="linenos">61</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
-</span><span id="FileManager-62"><a href="#FileManager-62"><span class="linenos">62</span></a>            <span class="n">filename</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_FILENAME</span>
-</span><span id="FileManager-63"><a href="#FileManager-63"><span class="linenos">63</span></a>
-</span><span id="FileManager-64"><a href="#FileManager-64"><span class="linenos">64</span></a>        <span class="n">harness_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-</span><span id="FileManager-65"><a href="#FileManager-65"><span class="linenos">65</span></a>
-</span><span id="FileManager-66"><a href="#FileManager-66"><span class="linenos">66</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="FileManager-67"><a href="#FileManager-67"><span class="linenos">67</span></a>            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">harness_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="FileManager-68"><a href="#FileManager-68"><span class="linenos">68</span></a>                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">harness</span><span class="p">)</span>
-</span><span id="FileManager-69"><a href="#FileManager-69"><span class="linenos">69</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Harness written to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="FileManager-70"><a href="#FileManager-70"><span class="linenos">70</span></a>            <span class="k">return</span> <span class="n">harness_path</span>
-</span><span id="FileManager-71"><a href="#FileManager-71"><span class="linenos">71</span></a>        <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="FileManager-72"><a href="#FileManager-72"><span class="linenos">72</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error writing harness to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="FileManager-73"><a href="#FileManager-73"><span class="linenos">73</span></a>            <span class="k">raise</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="FileManager-29"><a href="#FileManager-29"><span class="linenos">29</span></a><span class="nd">@final</span>
+</span><span id="FileManager-30"><a href="#FileManager-30"><span class="linenos">30</span></a><span class="k">class</span><span class="w"> </span><span class="nc">FileManager</span><span class="p">:</span>
+</span><span id="FileManager-31"><a href="#FileManager-31"><span class="linenos">31</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="FileManager-32"><a href="#FileManager-32"><span class="linenos">32</span></a><span class="sd">    Handles file operations for the harness generator.</span>
+</span><span id="FileManager-33"><a href="#FileManager-33"><span class="linenos">33</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="FileManager-34"><a href="#FileManager-34"><span class="linenos">34</span></a>
+</span><span id="FileManager-35"><a href="#FileManager-35"><span class="linenos">35</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="FileManager-36"><a href="#FileManager-36"><span class="linenos">36</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="FileManager-37"><a href="#FileManager-37"><span class="linenos">37</span></a><span class="sd">        Initialize the file manager.</span>
+</span><span id="FileManager-38"><a href="#FileManager-38"><span class="linenos">38</span></a>
+</span><span id="FileManager-39"><a href="#FileManager-39"><span class="linenos">39</span></a><span class="sd">        Args:</span>
+</span><span id="FileManager-40"><a href="#FileManager-40"><span class="linenos">40</span></a><span class="sd">            project_path (str): Path to the project directory.</span>
+</span><span id="FileManager-41"><a href="#FileManager-41"><span class="linenos">41</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="FileManager-42"><a href="#FileManager-42"><span class="linenos">42</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">project_path</span> <span class="o">=</span> <span class="n">project_path</span>
+</span><span id="FileManager-43"><a href="#FileManager-43"><span class="linenos">43</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_DIR</span><span class="p">)</span>
+</span><span id="FileManager-44"><a href="#FileManager-44"><span class="linenos">44</span></a>
+</span><span id="FileManager-45"><a href="#FileManager-45"><span class="linenos">45</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_harness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">harness</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="FileManager-46"><a href="#FileManager-46"><span class="linenos">46</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="FileManager-47"><a href="#FileManager-47"><span class="linenos">47</span></a><span class="sd">        Writes the harness to the harnesses directory.</span>
+</span><span id="FileManager-48"><a href="#FileManager-48"><span class="linenos">48</span></a>
+</span><span id="FileManager-49"><a href="#FileManager-49"><span class="linenos">49</span></a><span class="sd">        Args:</span>
+</span><span id="FileManager-50"><a href="#FileManager-50"><span class="linenos">50</span></a><span class="sd">            harness (str): The harness code to write.</span>
+</span><span id="FileManager-51"><a href="#FileManager-51"><span class="linenos">51</span></a><span class="sd">            filename (str, optional): The filename to use.</span>
+</span><span id="FileManager-52"><a href="#FileManager-52"><span class="linenos">52</span></a>
+</span><span id="FileManager-53"><a href="#FileManager-53"><span class="linenos">53</span></a><span class="sd">        Returns:</span>
+</span><span id="FileManager-54"><a href="#FileManager-54"><span class="linenos">54</span></a><span class="sd">            str: Path to the written harness file.</span>
+</span><span id="FileManager-55"><a href="#FileManager-55"><span class="linenos">55</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="FileManager-56"><a href="#FileManager-56"><span class="linenos">56</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing harness to project...&quot;</span><span class="p">)</span>
+</span><span id="FileManager-57"><a href="#FileManager-57"><span class="linenos">57</span></a>
+</span><span id="FileManager-58"><a href="#FileManager-58"><span class="linenos">58</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="FileManager-59"><a href="#FileManager-59"><span class="linenos">59</span></a>
+</span><span id="FileManager-60"><a href="#FileManager-60"><span class="linenos">60</span></a>        <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+</span><span id="FileManager-61"><a href="#FileManager-61"><span class="linenos">61</span></a>            <span class="n">filename</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_FILENAME</span>
+</span><span id="FileManager-62"><a href="#FileManager-62"><span class="linenos">62</span></a>
+</span><span id="FileManager-63"><a href="#FileManager-63"><span class="linenos">63</span></a>        <span class="n">harness_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</span><span id="FileManager-64"><a href="#FileManager-64"><span class="linenos">64</span></a>
+</span><span id="FileManager-65"><a href="#FileManager-65"><span class="linenos">65</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="FileManager-66"><a href="#FileManager-66"><span class="linenos">66</span></a>            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">harness_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="FileManager-67"><a href="#FileManager-67"><span class="linenos">67</span></a>                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">harness</span><span class="p">)</span>
+</span><span id="FileManager-68"><a href="#FileManager-68"><span class="linenos">68</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Harness written to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="FileManager-69"><a href="#FileManager-69"><span class="linenos">69</span></a>        <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="FileManager-70"><a href="#FileManager-70"><span class="linenos">70</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error writing harness to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="FileManager-71"><a href="#FileManager-71"><span class="linenos">71</span></a>            <span class="k">raise</span>
 </span></pre></div>
 
 
@@ -220,15 +217,15 @@
 
     </div>
     <a class="headerlink" href="#FileManager.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="FileManager.__init__-34"><a href="#FileManager.__init__-34"><span class="linenos">34</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="FileManager.__init__-35"><a href="#FileManager.__init__-35"><span class="linenos">35</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="FileManager.__init__-36"><a href="#FileManager.__init__-36"><span class="linenos">36</span></a><span class="sd">        Initialize the file manager.</span>
-</span><span id="FileManager.__init__-37"><a href="#FileManager.__init__-37"><span class="linenos">37</span></a>
-</span><span id="FileManager.__init__-38"><a href="#FileManager.__init__-38"><span class="linenos">38</span></a><span class="sd">        Args:</span>
-</span><span id="FileManager.__init__-39"><a href="#FileManager.__init__-39"><span class="linenos">39</span></a><span class="sd">            project_path (str): Path to the project directory.</span>
-</span><span id="FileManager.__init__-40"><a href="#FileManager.__init__-40"><span class="linenos">40</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="FileManager.__init__-41"><a href="#FileManager.__init__-41"><span class="linenos">41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">project_path</span> <span class="o">=</span> <span class="n">project_path</span>
-</span><span id="FileManager.__init__-42"><a href="#FileManager.__init__-42"><span class="linenos">42</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_DIR</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="FileManager.__init__-35"><a href="#FileManager.__init__-35"><span class="linenos">35</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="FileManager.__init__-36"><a href="#FileManager.__init__-36"><span class="linenos">36</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="FileManager.__init__-37"><a href="#FileManager.__init__-37"><span class="linenos">37</span></a><span class="sd">        Initialize the file manager.</span>
+</span><span id="FileManager.__init__-38"><a href="#FileManager.__init__-38"><span class="linenos">38</span></a>
+</span><span id="FileManager.__init__-39"><a href="#FileManager.__init__-39"><span class="linenos">39</span></a><span class="sd">        Args:</span>
+</span><span id="FileManager.__init__-40"><a href="#FileManager.__init__-40"><span class="linenos">40</span></a><span class="sd">            project_path (str): Path to the project directory.</span>
+</span><span id="FileManager.__init__-41"><a href="#FileManager.__init__-41"><span class="linenos">41</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="FileManager.__init__-42"><a href="#FileManager.__init__-42"><span class="linenos">42</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">project_path</span> <span class="o">=</span> <span class="n">project_path</span>
+</span><span id="FileManager.__init__-43"><a href="#FileManager.__init__-43"><span class="linenos">43</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_DIR</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -270,42 +267,39 @@
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">write_harness</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">harness</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
+        <span class="name">write_harness</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">harness</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
 
                 <label class="view-source-button" for="FileManager.write_harness-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#FileManager.write_harness"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="FileManager.write_harness-44"><a href="#FileManager.write_harness-44"><span class="linenos">44</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_harness</span><span class="p">(</span>
-</span><span id="FileManager.write_harness-45"><a href="#FileManager.write_harness-45"><span class="linenos">45</span></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">harness</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="FileManager.write_harness-46"><a href="#FileManager.write_harness-46"><span class="linenos">46</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="FileManager.write_harness-47"><a href="#FileManager.write_harness-47"><span class="linenos">47</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="FileManager.write_harness-48"><a href="#FileManager.write_harness-48"><span class="linenos">48</span></a><span class="sd">        Writes the harness to the harnesses directory.</span>
-</span><span id="FileManager.write_harness-49"><a href="#FileManager.write_harness-49"><span class="linenos">49</span></a>
-</span><span id="FileManager.write_harness-50"><a href="#FileManager.write_harness-50"><span class="linenos">50</span></a><span class="sd">        Args:</span>
-</span><span id="FileManager.write_harness-51"><a href="#FileManager.write_harness-51"><span class="linenos">51</span></a><span class="sd">            harness (str): The harness code to write.</span>
-</span><span id="FileManager.write_harness-52"><a href="#FileManager.write_harness-52"><span class="linenos">52</span></a><span class="sd">            filename (str, optional): The filename to use.</span>
-</span><span id="FileManager.write_harness-53"><a href="#FileManager.write_harness-53"><span class="linenos">53</span></a>
-</span><span id="FileManager.write_harness-54"><a href="#FileManager.write_harness-54"><span class="linenos">54</span></a><span class="sd">        Returns:</span>
-</span><span id="FileManager.write_harness-55"><a href="#FileManager.write_harness-55"><span class="linenos">55</span></a><span class="sd">            str: Path to the written harness file.</span>
-</span><span id="FileManager.write_harness-56"><a href="#FileManager.write_harness-56"><span class="linenos">56</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="FileManager.write_harness-57"><a href="#FileManager.write_harness-57"><span class="linenos">57</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing harness to project...&quot;</span><span class="p">)</span>
-</span><span id="FileManager.write_harness-58"><a href="#FileManager.write_harness-58"><span class="linenos">58</span></a>
-</span><span id="FileManager.write_harness-59"><a href="#FileManager.write_harness-59"><span class="linenos">59</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="FileManager.write_harness-60"><a href="#FileManager.write_harness-60"><span class="linenos">60</span></a>
-</span><span id="FileManager.write_harness-61"><a href="#FileManager.write_harness-61"><span class="linenos">61</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
-</span><span id="FileManager.write_harness-62"><a href="#FileManager.write_harness-62"><span class="linenos">62</span></a>            <span class="n">filename</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_FILENAME</span>
-</span><span id="FileManager.write_harness-63"><a href="#FileManager.write_harness-63"><span class="linenos">63</span></a>
-</span><span id="FileManager.write_harness-64"><a href="#FileManager.write_harness-64"><span class="linenos">64</span></a>        <span class="n">harness_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-</span><span id="FileManager.write_harness-65"><a href="#FileManager.write_harness-65"><span class="linenos">65</span></a>
-</span><span id="FileManager.write_harness-66"><a href="#FileManager.write_harness-66"><span class="linenos">66</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="FileManager.write_harness-67"><a href="#FileManager.write_harness-67"><span class="linenos">67</span></a>            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">harness_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="FileManager.write_harness-68"><a href="#FileManager.write_harness-68"><span class="linenos">68</span></a>                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">harness</span><span class="p">)</span>
-</span><span id="FileManager.write_harness-69"><a href="#FileManager.write_harness-69"><span class="linenos">69</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Harness written to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="FileManager.write_harness-70"><a href="#FileManager.write_harness-70"><span class="linenos">70</span></a>            <span class="k">return</span> <span class="n">harness_path</span>
-</span><span id="FileManager.write_harness-71"><a href="#FileManager.write_harness-71"><span class="linenos">71</span></a>        <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="FileManager.write_harness-72"><a href="#FileManager.write_harness-72"><span class="linenos">72</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error writing harness to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="FileManager.write_harness-73"><a href="#FileManager.write_harness-73"><span class="linenos">73</span></a>            <span class="k">raise</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="FileManager.write_harness-45"><a href="#FileManager.write_harness-45"><span class="linenos">45</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_harness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">harness</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="FileManager.write_harness-46"><a href="#FileManager.write_harness-46"><span class="linenos">46</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="FileManager.write_harness-47"><a href="#FileManager.write_harness-47"><span class="linenos">47</span></a><span class="sd">        Writes the harness to the harnesses directory.</span>
+</span><span id="FileManager.write_harness-48"><a href="#FileManager.write_harness-48"><span class="linenos">48</span></a>
+</span><span id="FileManager.write_harness-49"><a href="#FileManager.write_harness-49"><span class="linenos">49</span></a><span class="sd">        Args:</span>
+</span><span id="FileManager.write_harness-50"><a href="#FileManager.write_harness-50"><span class="linenos">50</span></a><span class="sd">            harness (str): The harness code to write.</span>
+</span><span id="FileManager.write_harness-51"><a href="#FileManager.write_harness-51"><span class="linenos">51</span></a><span class="sd">            filename (str, optional): The filename to use.</span>
+</span><span id="FileManager.write_harness-52"><a href="#FileManager.write_harness-52"><span class="linenos">52</span></a>
+</span><span id="FileManager.write_harness-53"><a href="#FileManager.write_harness-53"><span class="linenos">53</span></a><span class="sd">        Returns:</span>
+</span><span id="FileManager.write_harness-54"><a href="#FileManager.write_harness-54"><span class="linenos">54</span></a><span class="sd">            str: Path to the written harness file.</span>
+</span><span id="FileManager.write_harness-55"><a href="#FileManager.write_harness-55"><span class="linenos">55</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="FileManager.write_harness-56"><a href="#FileManager.write_harness-56"><span class="linenos">56</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing harness to project...&quot;</span><span class="p">)</span>
+</span><span id="FileManager.write_harness-57"><a href="#FileManager.write_harness-57"><span class="linenos">57</span></a>
+</span><span id="FileManager.write_harness-58"><a href="#FileManager.write_harness-58"><span class="linenos">58</span></a>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="FileManager.write_harness-59"><a href="#FileManager.write_harness-59"><span class="linenos">59</span></a>
+</span><span id="FileManager.write_harness-60"><a href="#FileManager.write_harness-60"><span class="linenos">60</span></a>        <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+</span><span id="FileManager.write_harness-61"><a href="#FileManager.write_harness-61"><span class="linenos">61</span></a>            <span class="n">filename</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">HARNESS_FILENAME</span>
+</span><span id="FileManager.write_harness-62"><a href="#FileManager.write_harness-62"><span class="linenos">62</span></a>
+</span><span id="FileManager.write_harness-63"><a href="#FileManager.write_harness-63"><span class="linenos">63</span></a>        <span class="n">harness_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harness_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</span><span id="FileManager.write_harness-64"><a href="#FileManager.write_harness-64"><span class="linenos">64</span></a>
+</span><span id="FileManager.write_harness-65"><a href="#FileManager.write_harness-65"><span class="linenos">65</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="FileManager.write_harness-66"><a href="#FileManager.write_harness-66"><span class="linenos">66</span></a>            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">harness_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="FileManager.write_harness-67"><a href="#FileManager.write_harness-67"><span class="linenos">67</span></a>                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">harness</span><span class="p">)</span>
+</span><span id="FileManager.write_harness-68"><a href="#FileManager.write_harness-68"><span class="linenos">68</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Harness written to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="FileManager.write_harness-69"><a href="#FileManager.write_harness-69"><span class="linenos">69</span></a>        <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="FileManager.write_harness-70"><a href="#FileManager.write_harness-70"><span class="linenos">70</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error writing harness to </span><span class="si">{</span><span class="n">harness_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="FileManager.write_harness-71"><a href="#FileManager.write_harness-71"><span class="linenos">71</span></a>            <span class="k">raise</span>
 </span></pre></div>
 
 

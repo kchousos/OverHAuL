@@ -111,10 +111,18 @@ alt="type check: mypy" /></a></p>
 </code></pre>
 </div></li>
 
+<li><p>Create a virtual environment (optional):</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>python3.10<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv<span class="p">;</span>
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w"> </span><span class="c1"># for bash</span>
+</code></pre>
+</div></li>
+
 <li><p>Install the project:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code>uv<span class="w"> </span>sync
+<pre><span></span><code>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
 </code></pre>
 </div></li>
 </ol>
@@ -132,14 +140,14 @@ alt="type check: mypy" /></a></p>
 <li><p>Execute the main script:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>main.py<span class="w"> </span>&lt;repo-link&gt;
+<pre><span></span><code>llm-harness<span class="w"> </span>&lt;repo-link&gt;
 </code></pre>
 </div></li>
 </ol>
 
 <h3 id="command-line-options">Command-Line Options</h3>
 
-<pre><code>$ uv run python main.py --help
+<pre><code>$ llm-harness --help
 usage: main.py [-h] [-c COMMIT] [-m MODEL] [-f FILES [FILES ...]] repo
 
 Generate fuzzing harnesses for C/C++ projects
