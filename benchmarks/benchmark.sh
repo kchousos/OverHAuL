@@ -160,20 +160,18 @@ while IFS= read -r line || [[ -n "$line" ]]; do
 
     cmd+=(-o "$OUT_DIR")
 
-    log INFO "Generating harness for $repo_name..."
-
     # run llm-harness
     "${cmd[@]}" > /dev/null 2>&1
     status=$?
 
     # Check command exit status and count failures
     if [[ $status -eq 0 ]]; then
-        log SUCCESS "Harness successful"
+        log SUCCESS "${repo_name}: Harness successful"
         ((new_crashes++))
     elif [[ $status -eq 254 ]]; then
-        log WARN "The generated harness didn't produce a crash"
+        log WARN "${repo_name}: The generated harness didn't produce a crash"
     elif [[ $status -eq 255 ]]; then
-        log ERROR "The generated harness did not compile correctly"
+        log ERROR "${repo_name}: The generated harness did not compile correctly"
         ((failures++))
     fi
 

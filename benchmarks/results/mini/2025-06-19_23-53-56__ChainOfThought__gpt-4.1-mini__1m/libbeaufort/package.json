@@ -1,0 +1,14 @@
+{
+  "name": "beaufort",
+  "version": "0.0.2",
+  "repo": "jwerle/libbeaufort",
+  "description": "A C implementation of the Beaufort Cipher",
+  "keywords": ["beaufort", "cipher"],
+  "license": "MIT",
+  "src": [
+    "include/beaufort.h",
+    "src/encrypt.c",
+    "src/decrypt.c",
+    "src/tableau.c"
+  ]
+}
