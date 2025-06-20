@@ -16,7 +16,7 @@
 # along with LLM-Harness.  If not, see <https://www.gnu.org/licenses/>.
 
 """
-Harness generation and fixing functionality.
+Harness generation, fixing and improving functionality using LLMs.
 """
 
 import sys
@@ -29,6 +29,7 @@ from llm_harness.config import Config
 
 class GenerateHarness(dspy.Signature):
     """
+    You are an experienced C/C++ software engineer.
     Generate a libFuzzer-compatible harness for the given C project that is
     ready for compilation and finds succesfully a bug in the project.
     """
