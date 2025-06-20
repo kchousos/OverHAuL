@@ -25,26 +25,26 @@ jobs:
     - name: Install dependencies
       run: uv sync
 
-      - name: Install dependencies using uv
-        run: uv pip install .
+    - name: Install dependencies using uv
+      run: uv pip install .
 
-      - name: Run benchmark
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          chmod +x ./benchmarks/benchmark.sh
-          ./benchmarks/benchmark.sh
+    - name: Run benchmark
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        chmod +x ./benchmarks/benchmark.sh
+        ./benchmarks/benchmark.sh
 
-      - name: Find benchmark directory name
-        id: finddir
-        run: |
-          DIR=$(find benchmark_results -mindepth 1 -maxdepth 1 -type d | head -n 1)
-          BASENAME=$(basename "$DIR")
-          mv "$DIR" "./$BASENAME"
-          echo "artifact_name=$BASENAME" >> "$GITHUB_OUTPUT"
+    - name: Find benchmark directory name
+      id: finddir
+      run: |
+        DIR=$(find benchmark_results -mindepth 1 -maxdepth 1 -type d | head -n 1)
+        BASENAME=$(basename "$DIR")
+        mv "$DIR" "./$BASENAME"
+        echo "artifact_name=$BASENAME" >> "$GITHUB_OUTPUT"
 
-      - name: Upload benchmark artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.move_and_capture.outputs.artifact_name }}
-          path: ${{ steps.move_and_capture.outputs.artifact_name }}
+    - name: Upload benchmark artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ steps.move_and_capture.outputs.artifact_name }}
+        path: ${{ steps.move_and_capture.outputs.artifact_name }}
