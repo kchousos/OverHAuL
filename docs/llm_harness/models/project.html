@@ -64,13 +64,37 @@
                                 <a class="variable" href="#ProjectInfo.readme">readme</a>
                         </li>
                         <li>
-                                <a class="function" href="#ProjectInfo.get_concatenated_content">get_concatenated_content</a>
+                                <a class="variable" href="#ProjectInfo.error">error</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#ProjectInfo.harness">harness</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#ProjectInfo.output">output</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#ProjectInfo.compiles">compiles</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ProjectInfo.get_source">get_source</a>
                         </li>
                         <li>
                                 <a class="function" href="#ProjectInfo.get_static_analysis">get_static_analysis</a>
                         </li>
                         <li>
                                 <a class="function" href="#ProjectInfo.get_readme">get_readme</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ProjectInfo.get_error">get_error</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ProjectInfo.get_harness">get_harness</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ProjectInfo.get_output">get_output</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ProjectInfo.get_compilation_status">get_compilation_status</a>
                         </li>
                 </ul>
 
@@ -138,27 +162,43 @@
 </span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="n">source</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProjectFile</span><span class="p">]</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="n">static</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>    <span class="n">readme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_concatenated_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">        Returns the concatenated content of all project files.</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>    <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>    <span class="n">harness</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="n">output</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="n">compiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">        Returns:</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">            str: Contents of all project files.</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>        <span class="n">file_contents</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">:</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&gt;&gt;&gt;&gt; </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">        Returns the concatenated content of all project files.</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">        Returns:</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">            str: Contents of all project files.</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>        <span class="n">file_contents</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_static_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">static</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_readme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readme</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">:</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&gt;&gt;&gt;&gt; </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_static_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">static</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_readme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readme</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_harness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">harness</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_output</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_compilation_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compiles</span>
 </span></pre></div>
 
 
@@ -254,27 +294,43 @@
 </span><span id="ProjectInfo-39"><a href="#ProjectInfo-39"><span class="linenos">39</span></a>    <span class="n">source</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProjectFile</span><span class="p">]</span>
 </span><span id="ProjectInfo-40"><a href="#ProjectInfo-40"><span class="linenos">40</span></a>    <span class="n">static</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="ProjectInfo-41"><a href="#ProjectInfo-41"><span class="linenos">41</span></a>    <span class="n">readme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="ProjectInfo-42"><a href="#ProjectInfo-42"><span class="linenos">42</span></a>
-</span><span id="ProjectInfo-43"><a href="#ProjectInfo-43"><span class="linenos">43</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_concatenated_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="ProjectInfo-44"><a href="#ProjectInfo-44"><span class="linenos">44</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="ProjectInfo-45"><a href="#ProjectInfo-45"><span class="linenos">45</span></a><span class="sd">        Returns the concatenated content of all project files.</span>
+</span><span id="ProjectInfo-42"><a href="#ProjectInfo-42"><span class="linenos">42</span></a>    <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="ProjectInfo-43"><a href="#ProjectInfo-43"><span class="linenos">43</span></a>    <span class="n">harness</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="ProjectInfo-44"><a href="#ProjectInfo-44"><span class="linenos">44</span></a>    <span class="n">output</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="ProjectInfo-45"><a href="#ProjectInfo-45"><span class="linenos">45</span></a>    <span class="n">compiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 </span><span id="ProjectInfo-46"><a href="#ProjectInfo-46"><span class="linenos">46</span></a>
-</span><span id="ProjectInfo-47"><a href="#ProjectInfo-47"><span class="linenos">47</span></a><span class="sd">        Returns:</span>
-</span><span id="ProjectInfo-48"><a href="#ProjectInfo-48"><span class="linenos">48</span></a><span class="sd">            str: Contents of all project files.</span>
-</span><span id="ProjectInfo-49"><a href="#ProjectInfo-49"><span class="linenos">49</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ProjectInfo-50"><a href="#ProjectInfo-50"><span class="linenos">50</span></a>        <span class="n">file_contents</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="ProjectInfo-51"><a href="#ProjectInfo-51"><span class="linenos">51</span></a>
-</span><span id="ProjectInfo-52"><a href="#ProjectInfo-52"><span class="linenos">52</span></a>        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">:</span>
-</span><span id="ProjectInfo-53"><a href="#ProjectInfo-53"><span class="linenos">53</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&gt;&gt;&gt;&gt; </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="ProjectInfo-54"><a href="#ProjectInfo-54"><span class="linenos">54</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span><span id="ProjectInfo-47"><a href="#ProjectInfo-47"><span class="linenos">47</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="ProjectInfo-48"><a href="#ProjectInfo-48"><span class="linenos">48</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="ProjectInfo-49"><a href="#ProjectInfo-49"><span class="linenos">49</span></a><span class="sd">        Returns the concatenated content of all project files.</span>
+</span><span id="ProjectInfo-50"><a href="#ProjectInfo-50"><span class="linenos">50</span></a>
+</span><span id="ProjectInfo-51"><a href="#ProjectInfo-51"><span class="linenos">51</span></a><span class="sd">        Returns:</span>
+</span><span id="ProjectInfo-52"><a href="#ProjectInfo-52"><span class="linenos">52</span></a><span class="sd">            str: Contents of all project files.</span>
+</span><span id="ProjectInfo-53"><a href="#ProjectInfo-53"><span class="linenos">53</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="ProjectInfo-54"><a href="#ProjectInfo-54"><span class="linenos">54</span></a>        <span class="n">file_contents</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="ProjectInfo-55"><a href="#ProjectInfo-55"><span class="linenos">55</span></a>
-</span><span id="ProjectInfo-56"><a href="#ProjectInfo-56"><span class="linenos">56</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span>
-</span><span id="ProjectInfo-57"><a href="#ProjectInfo-57"><span class="linenos">57</span></a>
-</span><span id="ProjectInfo-58"><a href="#ProjectInfo-58"><span class="linenos">58</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_static_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ProjectInfo-59"><a href="#ProjectInfo-59"><span class="linenos">59</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">static</span>
-</span><span id="ProjectInfo-60"><a href="#ProjectInfo-60"><span class="linenos">60</span></a>
-</span><span id="ProjectInfo-61"><a href="#ProjectInfo-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_readme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ProjectInfo-62"><a href="#ProjectInfo-62"><span class="linenos">62</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readme</span>
+</span><span id="ProjectInfo-56"><a href="#ProjectInfo-56"><span class="linenos">56</span></a>        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">:</span>
+</span><span id="ProjectInfo-57"><a href="#ProjectInfo-57"><span class="linenos">57</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&gt;&gt;&gt;&gt; </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="ProjectInfo-58"><a href="#ProjectInfo-58"><span class="linenos">58</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span><span id="ProjectInfo-59"><a href="#ProjectInfo-59"><span class="linenos">59</span></a>
+</span><span id="ProjectInfo-60"><a href="#ProjectInfo-60"><span class="linenos">60</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span>
+</span><span id="ProjectInfo-61"><a href="#ProjectInfo-61"><span class="linenos">61</span></a>
+</span><span id="ProjectInfo-62"><a href="#ProjectInfo-62"><span class="linenos">62</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_static_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo-63"><a href="#ProjectInfo-63"><span class="linenos">63</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">static</span>
+</span><span id="ProjectInfo-64"><a href="#ProjectInfo-64"><span class="linenos">64</span></a>
+</span><span id="ProjectInfo-65"><a href="#ProjectInfo-65"><span class="linenos">65</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_readme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo-66"><a href="#ProjectInfo-66"><span class="linenos">66</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readme</span>
+</span><span id="ProjectInfo-67"><a href="#ProjectInfo-67"><span class="linenos">67</span></a>
+</span><span id="ProjectInfo-68"><a href="#ProjectInfo-68"><span class="linenos">68</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo-69"><a href="#ProjectInfo-69"><span class="linenos">69</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span>
+</span><span id="ProjectInfo-70"><a href="#ProjectInfo-70"><span class="linenos">70</span></a>
+</span><span id="ProjectInfo-71"><a href="#ProjectInfo-71"><span class="linenos">71</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_harness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo-72"><a href="#ProjectInfo-72"><span class="linenos">72</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">harness</span>
+</span><span id="ProjectInfo-73"><a href="#ProjectInfo-73"><span class="linenos">73</span></a>
+</span><span id="ProjectInfo-74"><a href="#ProjectInfo-74"><span class="linenos">74</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_output</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo-75"><a href="#ProjectInfo-75"><span class="linenos">75</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span>
+</span><span id="ProjectInfo-76"><a href="#ProjectInfo-76"><span class="linenos">76</span></a>
+</span><span id="ProjectInfo-77"><a href="#ProjectInfo-77"><span class="linenos">77</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_compilation_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="ProjectInfo-78"><a href="#ProjectInfo-78"><span class="linenos">78</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compiles</span>
 </span></pre></div>
 
 
@@ -285,7 +341,7 @@
                             <div id="ProjectInfo.__init__" class="classattr">
                                 <div class="attr function">
             
-        <span class="name">ProjectInfo</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">source</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n"><a href="#ProjectFile">ProjectFile</a></span><span class="p">]</span>,</span><span class="param">	<span class="n">static</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">readme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">ProjectInfo</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">source</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n"><a href="#ProjectFile">ProjectFile</a></span><span class="p">]</span>,</span><span class="param">	<span class="n">static</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">readme</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">harness</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">output</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">compiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span>)</span>
 
         
     </div>
@@ -329,31 +385,79 @@
     
 
                             </div>
-                            <div id="ProjectInfo.get_concatenated_content" class="classattr">
-                                        <input id="ProjectInfo.get_concatenated_content-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                            <div id="ProjectInfo.error" class="classattr">
+                                <div class="attr variable">
+            <span class="name">error</span><span class="annotation">: str | None</span>        =
+<span class="default_value">None</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ProjectInfo.error"></a>
+    
+    
+
+                            </div>
+                            <div id="ProjectInfo.harness" class="classattr">
+                                <div class="attr variable">
+            <span class="name">harness</span><span class="annotation">: str | None</span>        =
+<span class="default_value">None</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ProjectInfo.harness"></a>
+    
+    
+
+                            </div>
+                            <div id="ProjectInfo.output" class="classattr">
+                                <div class="attr variable">
+            <span class="name">output</span><span class="annotation">: str | None</span>        =
+<span class="default_value">None</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ProjectInfo.output"></a>
+    
+    
+
+                            </div>
+                            <div id="ProjectInfo.compiles" class="classattr">
+                                <div class="attr variable">
+            <span class="name">compiles</span><span class="annotation">: bool</span>        =
+<span class="default_value">False</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ProjectInfo.compiles"></a>
+    
+    
+
+                            </div>
+                            <div id="ProjectInfo.get_source" class="classattr">
+                                        <input id="ProjectInfo.get_source-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">get_concatenated_content</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
+        <span class="name">get_source</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
 
-                <label class="view-source-button" for="ProjectInfo.get_concatenated_content-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="ProjectInfo.get_source-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#ProjectInfo.get_concatenated_content"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_concatenated_content-43"><a href="#ProjectInfo.get_concatenated_content-43"><span class="linenos">43</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_concatenated_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="ProjectInfo.get_concatenated_content-44"><a href="#ProjectInfo.get_concatenated_content-44"><span class="linenos">44</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="ProjectInfo.get_concatenated_content-45"><a href="#ProjectInfo.get_concatenated_content-45"><span class="linenos">45</span></a><span class="sd">        Returns the concatenated content of all project files.</span>
-</span><span id="ProjectInfo.get_concatenated_content-46"><a href="#ProjectInfo.get_concatenated_content-46"><span class="linenos">46</span></a>
-</span><span id="ProjectInfo.get_concatenated_content-47"><a href="#ProjectInfo.get_concatenated_content-47"><span class="linenos">47</span></a><span class="sd">        Returns:</span>
-</span><span id="ProjectInfo.get_concatenated_content-48"><a href="#ProjectInfo.get_concatenated_content-48"><span class="linenos">48</span></a><span class="sd">            str: Contents of all project files.</span>
-</span><span id="ProjectInfo.get_concatenated_content-49"><a href="#ProjectInfo.get_concatenated_content-49"><span class="linenos">49</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ProjectInfo.get_concatenated_content-50"><a href="#ProjectInfo.get_concatenated_content-50"><span class="linenos">50</span></a>        <span class="n">file_contents</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="ProjectInfo.get_concatenated_content-51"><a href="#ProjectInfo.get_concatenated_content-51"><span class="linenos">51</span></a>
-</span><span id="ProjectInfo.get_concatenated_content-52"><a href="#ProjectInfo.get_concatenated_content-52"><span class="linenos">52</span></a>        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">:</span>
-</span><span id="ProjectInfo.get_concatenated_content-53"><a href="#ProjectInfo.get_concatenated_content-53"><span class="linenos">53</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&gt;&gt;&gt;&gt; </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="ProjectInfo.get_concatenated_content-54"><a href="#ProjectInfo.get_concatenated_content-54"><span class="linenos">54</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-</span><span id="ProjectInfo.get_concatenated_content-55"><a href="#ProjectInfo.get_concatenated_content-55"><span class="linenos">55</span></a>
-</span><span id="ProjectInfo.get_concatenated_content-56"><a href="#ProjectInfo.get_concatenated_content-56"><span class="linenos">56</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span>
+    <a class="headerlink" href="#ProjectInfo.get_source"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_source-47"><a href="#ProjectInfo.get_source-47"><span class="linenos">47</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="ProjectInfo.get_source-48"><a href="#ProjectInfo.get_source-48"><span class="linenos">48</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="ProjectInfo.get_source-49"><a href="#ProjectInfo.get_source-49"><span class="linenos">49</span></a><span class="sd">        Returns the concatenated content of all project files.</span>
+</span><span id="ProjectInfo.get_source-50"><a href="#ProjectInfo.get_source-50"><span class="linenos">50</span></a>
+</span><span id="ProjectInfo.get_source-51"><a href="#ProjectInfo.get_source-51"><span class="linenos">51</span></a><span class="sd">        Returns:</span>
+</span><span id="ProjectInfo.get_source-52"><a href="#ProjectInfo.get_source-52"><span class="linenos">52</span></a><span class="sd">            str: Contents of all project files.</span>
+</span><span id="ProjectInfo.get_source-53"><a href="#ProjectInfo.get_source-53"><span class="linenos">53</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="ProjectInfo.get_source-54"><a href="#ProjectInfo.get_source-54"><span class="linenos">54</span></a>        <span class="n">file_contents</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="ProjectInfo.get_source-55"><a href="#ProjectInfo.get_source-55"><span class="linenos">55</span></a>
+</span><span id="ProjectInfo.get_source-56"><a href="#ProjectInfo.get_source-56"><span class="linenos">56</span></a>        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">:</span>
+</span><span id="ProjectInfo.get_source-57"><a href="#ProjectInfo.get_source-57"><span class="linenos">57</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&gt;&gt;&gt;&gt; </span><span class="si">{</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="ProjectInfo.get_source-58"><a href="#ProjectInfo.get_source-58"><span class="linenos">58</span></a>            <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span><span id="ProjectInfo.get_source-59"><a href="#ProjectInfo.get_source-59"><span class="linenos">59</span></a>
+</span><span id="ProjectInfo.get_source-60"><a href="#ProjectInfo.get_source-60"><span class="linenos">60</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -379,8 +483,8 @@
 
     </div>
     <a class="headerlink" href="#ProjectInfo.get_static_analysis"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_static_analysis-58"><a href="#ProjectInfo.get_static_analysis-58"><span class="linenos">58</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_static_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ProjectInfo.get_static_analysis-59"><a href="#ProjectInfo.get_static_analysis-59"><span class="linenos">59</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">static</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_static_analysis-62"><a href="#ProjectInfo.get_static_analysis-62"><span class="linenos">62</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_static_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo.get_static_analysis-63"><a href="#ProjectInfo.get_static_analysis-63"><span class="linenos">63</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">static</span>
 </span></pre></div>
 
 
@@ -398,8 +502,84 @@
 
     </div>
     <a class="headerlink" href="#ProjectInfo.get_readme"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_readme-61"><a href="#ProjectInfo.get_readme-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_readme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ProjectInfo.get_readme-62"><a href="#ProjectInfo.get_readme-62"><span class="linenos">62</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readme</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_readme-65"><a href="#ProjectInfo.get_readme-65"><span class="linenos">65</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_readme</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo.get_readme-66"><a href="#ProjectInfo.get_readme-66"><span class="linenos">66</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readme</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="ProjectInfo.get_error" class="classattr">
+                                        <input id="ProjectInfo.get_error-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_error</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="ProjectInfo.get_error-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ProjectInfo.get_error"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_error-68"><a href="#ProjectInfo.get_error-68"><span class="linenos">68</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo.get_error-69"><a href="#ProjectInfo.get_error-69"><span class="linenos">69</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="ProjectInfo.get_harness" class="classattr">
+                                        <input id="ProjectInfo.get_harness-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_harness</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="ProjectInfo.get_harness-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ProjectInfo.get_harness"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_harness-71"><a href="#ProjectInfo.get_harness-71"><span class="linenos">71</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_harness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo.get_harness-72"><a href="#ProjectInfo.get_harness-72"><span class="linenos">72</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">harness</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="ProjectInfo.get_output" class="classattr">
+                                        <input id="ProjectInfo.get_output-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_output</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="ProjectInfo.get_output-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ProjectInfo.get_output"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_output-74"><a href="#ProjectInfo.get_output-74"><span class="linenos">74</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_output</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ProjectInfo.get_output-75"><a href="#ProjectInfo.get_output-75"><span class="linenos">75</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="ProjectInfo.get_compilation_status" class="classattr">
+                                        <input id="ProjectInfo.get_compilation_status-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_compilation_status</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+                <label class="view-source-button" for="ProjectInfo.get_compilation_status-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ProjectInfo.get_compilation_status"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ProjectInfo.get_compilation_status-77"><a href="#ProjectInfo.get_compilation_status-77"><span class="linenos">77</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_compilation_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="ProjectInfo.get_compilation_status-78"><a href="#ProjectInfo.get_compilation_status-78"><span class="linenos">78</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compiles</span>
 </span></pre></div>
 
 
