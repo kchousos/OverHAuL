@@ -19,15 +19,17 @@
 Project analysis functionality.
 """
 
-import os
-import sys
-import glob
-import subprocess
-import shutil
 import fnmatch
+import glob
+import os
+import shutil
+import subprocess
+import sys
+
 from loguru import logger
-from llm_harness.models.project import ProjectFile, ProjectInfo
+
 from llm_harness.config import Config
+from llm_harness.models.project import ProjectFile, ProjectInfo
 
 
 class ProjectAnalyzer:

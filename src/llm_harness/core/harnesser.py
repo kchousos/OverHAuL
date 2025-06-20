@@ -19,12 +19,15 @@
 Harness generation, fixing and improving functionality using LLMs.
 """
 
+import os
 import sys
+from typing import final
+
 import dspy
 from loguru import logger
-from typing import final
-from llm_harness.models.project import ProjectInfo
+
 from llm_harness.config import Config
+from llm_harness.models.project import ProjectInfo
 
 
 class GenerateHarness(dspy.Signature):

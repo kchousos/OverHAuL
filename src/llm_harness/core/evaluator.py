@@ -19,10 +19,12 @@
 Runs and evaluates the generated harness.
 """
 
+import os
 import subprocess
 import time
-import os
+
 from loguru import logger
+
 from llm_harness.config import Config
 
 

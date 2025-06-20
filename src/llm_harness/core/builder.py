@@ -19,11 +19,13 @@
 Builds the generated harness.
 """
 
+import fnmatch
 import os
 import subprocess
-import fnmatch
-from loguru import logger
 from typing import final
+
+from loguru import logger
+
 from llm_harness.config import Config
 
 
