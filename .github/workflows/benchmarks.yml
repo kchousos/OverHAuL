@@ -1,7 +1,7 @@
 name: Benchmark
 
 on:
-  push:
+  pull_request:
     branches:
       - master
 
