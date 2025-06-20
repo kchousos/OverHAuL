@@ -1,9 +1,0 @@
-{
-	"name": "sixpack",
-	"version": "1",
-	"repo": "aperezdc/sixpack",
-	"description": "Minimalist SAX-style parser for the HiPack serialization format",
-	"license": "MIT",
-	"keywords": ["hipack", "parser", "serialization"],
-	"src": ["sixpack.h", "sixpack.c"]
-}
