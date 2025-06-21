@@ -20,8 +20,10 @@ File operations for the llm_harness package.
 """
 
 import os
-from loguru import logger
 from typing import final
+
+from loguru import logger
+
 from llm_harness.config import Config
 
 

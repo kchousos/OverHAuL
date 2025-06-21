@@ -19,13 +19,17 @@
 Runs and evaluates the generated harness.
 """
 
+import os
 import subprocess
 import time
-import os
+from typing import final
+
 from loguru import logger
+
 from llm_harness.config import Config
 
 
+@final
 class HarnessEvaluator:
     """
     Runs and evaluates a project's generated harness.
@@ -84,10 +88,10 @@ class HarnessEvaluator:
             end_time = time.time()
             harness_output = str(captured_output.stdout)
         except subprocess.TimeoutExpired as e:
-            logger.error(
+            logger.warning(
                 f"Execution timed out after {Config().EXECUTION_TIMEOUT} seconds."
             )
-            return f"Error: {e.stderr}", False
+            return f"Error: {str(e.stderr)}", False
 
         runtime = end_time - start_time
         logger.info(f"Harness execution completed in {runtime:.2f} seconds.")
@@ -113,17 +117,17 @@ class HarnessEvaluator:
         # Check if new testcases were created
         if len(testcases) == 0:
             error = "No new testcases were generated.\n\n"
-            logger.error("No new testcases were generated.")
+            logger.warning("No new testcases were generated.")
             return error + harness_output, False
         # Check if testcase is valid
         elif empty:
             error = "Testcase is invalid (empty xxd output).\n\n"
-            logger.error("Testcase is invalid (empty xxd output).")
+            logger.warning("Testcase is invalid (empty xxd output).")
             return error + harness_output, False
         # Check runtime
         elif runtime < Config().MIN_EXECUTION_TIME and len(testcases) == 0:
             error = "Harness does not execute correctly.\n\n"
-            logger.error("Harness does not execute correctly.")
+            logger.warning("Harness does not execute correctly.")
             return error + harness_output, False
         else:
             logger.info(

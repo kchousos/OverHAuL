@@ -103,9 +103,10 @@ else
 fi
 
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
-module="ChainOfThought"
-timeout="1"
-basename="${BENCHMARK}__${timestamp}__${module}__${model}__${timeout}m"
+module="ReAct"
+timeout="2"
+iter="3"
+basename="${BENCHMARK}__${timestamp}__${module}__${model}__${timeout}m__${iter}iter"
 OUT_DIR="benchmark_results/${basename}"
 mkdir -p "$OUT_DIR"
 LOG_FILE="${OUT_DIR}/results.log"

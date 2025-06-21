@@ -22,6 +22,7 @@ Configuration management for the llm_harness package.
 import os
 from dataclasses import dataclass
 from typing import final
+
 from dotenv import load_dotenv
 
 
@@ -95,10 +96,10 @@ class Config:
 
     MIN_EXECUTION_TIME = 5 * 60  # seconds
 
-    EXECUTION_TIMEOUT = 1 * 60  # seconds
+    EXECUTION_TIMEOUT = 2 * 60  # seconds
 
     # Max iterations for the feedback loop between LLM and compilation/harness output
-    MAX_ITERATIONS = 5
+    MAX_ITERATIONS = 3
 
     @staticmethod
     def load_env() -> str | None:

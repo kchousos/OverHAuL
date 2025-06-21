@@ -19,19 +19,21 @@
 Command-line interface for llm_harness.
 """
 
+import argparse
 import os
 import re
-import sys
 import shutil
 import subprocess
-import argparse
+import sys
 from dataclasses import dataclass
+
 from loguru import logger
+
 from llm_harness.config import Config
 from llm_harness.core.analyzer import ProjectAnalyzer
-from llm_harness.core.harnesser import Harnesser
 from llm_harness.core.builder import HarnessBuilder
 from llm_harness.core.evaluator import HarnessEvaluator
+from llm_harness.core.harnesser import Harnesser
 from llm_harness.io.file_manager import FileManager
 
 
@@ -214,7 +216,7 @@ def main() -> int:
     analyzer = ProjectAnalyzer(project_path)
     project_info = analyzer.collect_project_info()
 
-    harnesser = Harnesser(model=model)
+    harnesser = Harnesser(model, project_path)
     file_manager = FileManager(project_path)
     builder = HarnessBuilder(project_path)
     evaluator = HarnessEvaluator(project_path)
@@ -262,7 +264,7 @@ def main() -> int:
         )
         sys.exit(-2)
 
-    logger.info("All done!")
+    logger.success("All done!")
     sys.exit(0)
 
 
