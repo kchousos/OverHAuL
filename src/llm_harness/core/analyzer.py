@@ -19,12 +19,9 @@
 Project analysis functionality.
 """
 
-import fnmatch
-import glob
-import os
 import shutil
 import subprocess
-import sys
+from typing import final
 
 from loguru import logger
 
@@ -32,6 +29,7 @@ from llm_harness.config import Config
 from llm_harness.models.project import ProjectInfo
 
 
+@final
 class ProjectAnalyzer:
     """
     Analyzes project files and extracts relevant information.
