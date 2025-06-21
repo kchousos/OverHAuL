@@ -464,14 +464,23 @@
 
             <div class="docstring"><p>Gets a repo's name from its GitHub link.</p>
 
-<p>Arguments:
-    url (str): The link to the repo.</p>
+<h6 id="arguments">Arguments:</h6>
 
-<p>Returns:
-    str: The repo's project name.</p>
+<ul>
+<li><strong>url (str):</strong>  The link to the repo.</li>
+</ul>
 
-<p>Raises:
-    ValueError: If the URL does not contain a valid repo name.</p>
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>str: The repo's project name.</p>
+</blockquote>
+
+<h6 id="raises">Raises:</h6>
+
+<ul>
+<li><strong>ValueError:</strong>  If the URL does not contain a valid repo name.</li>
+</ul>
 </div>
 
 
@@ -556,10 +565,13 @@
 Also initializes and updates submodules.
 After cloning and all operations, deletes the .git directory.</p>
 
-<p>Args:
-    repo_url (str): The repository URL.
-    destination (str): Target directory to clone into.
-    commit (str, optional): Commit hash to checkout after cloning.</p>
+<h6 id="arguments">Arguments:</h6>
+
+<ul>
+<li><strong>repo_url (str):</strong>  The repository URL.</li>
+<li><strong>destination (str):</strong>  Target directory to clone into.</li>
+<li><strong>commit (str, optional):</strong>  Commit hash to checkout after cloning.</li>
+</ul>
 </div>
 
 
@@ -649,8 +661,11 @@ After cloning and all operations, deletes the .git directory.</p>
 
             <div class="docstring"><p>Parses the command-line arguments.</p>
 
-<p>Returns:
-    Arguments: The parsed arguments.</p>
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>Arguments: The parsed arguments.</p>
+</blockquote>
 </div>
 
 
@@ -738,8 +753,11 @@ After cloning and all operations, deletes the .git directory.</p>
             <div class="docstring"><p>Main entry point of the application. Collects project info, calls
 LLM to create and write a harness for the project.</p>
 
-<p>Returns:
-    bool: Whether the harness is up to par to be merged to the project.</p>
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>bool: Whether the harness is up to par to be merged to the project.</p>
+</blockquote>
 </div>
 
 

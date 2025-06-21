@@ -161,10 +161,10 @@
 </span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>            <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>            <span class="n">harness_output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">captured_output</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
 </span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
 </span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>                <span class="sa">f</span><span class="s2">&quot;Execution timed out after </span><span class="si">{</span><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">EXECUTION_TIMEOUT</span><span class="si">}</span><span class="s2"> seconds.&quot;</span>
 </span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>            <span class="p">)</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">False</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">False</span>
 </span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>
 </span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>        <span class="n">runtime</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
 </span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Harness execution completed in </span><span class="si">{</span><span class="n">runtime</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">)</span>
@@ -283,10 +283,10 @@
 </span><span id="HarnessEvaluator-89"><a href="#HarnessEvaluator-89"><span class="linenos"> 89</span></a>            <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </span><span id="HarnessEvaluator-90"><a href="#HarnessEvaluator-90"><span class="linenos"> 90</span></a>            <span class="n">harness_output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">captured_output</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
 </span><span id="HarnessEvaluator-91"><a href="#HarnessEvaluator-91"><span class="linenos"> 91</span></a>        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="HarnessEvaluator-92"><a href="#HarnessEvaluator-92"><span class="linenos"> 92</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+</span><span id="HarnessEvaluator-92"><a href="#HarnessEvaluator-92"><span class="linenos"> 92</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
 </span><span id="HarnessEvaluator-93"><a href="#HarnessEvaluator-93"><span class="linenos"> 93</span></a>                <span class="sa">f</span><span class="s2">&quot;Execution timed out after </span><span class="si">{</span><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">EXECUTION_TIMEOUT</span><span class="si">}</span><span class="s2"> seconds.&quot;</span>
 </span><span id="HarnessEvaluator-94"><a href="#HarnessEvaluator-94"><span class="linenos"> 94</span></a>            <span class="p">)</span>
-</span><span id="HarnessEvaluator-95"><a href="#HarnessEvaluator-95"><span class="linenos"> 95</span></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">False</span>
+</span><span id="HarnessEvaluator-95"><a href="#HarnessEvaluator-95"><span class="linenos"> 95</span></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">False</span>
 </span><span id="HarnessEvaluator-96"><a href="#HarnessEvaluator-96"><span class="linenos"> 96</span></a>
 </span><span id="HarnessEvaluator-97"><a href="#HarnessEvaluator-97"><span class="linenos"> 97</span></a>        <span class="n">runtime</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
 </span><span id="HarnessEvaluator-98"><a href="#HarnessEvaluator-98"><span class="linenos"> 98</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Harness execution completed in </span><span class="si">{</span><span class="n">runtime</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">)</span>
@@ -361,8 +361,11 @@
 
             <div class="docstring"><p>Initialize the evaluator.</p>
 
-<p>Args:
-    project_path (str): Path to the project directory.</p>
+<h6 id="arguments">Arguments:</h6>
+
+<ul>
+<li><strong>project_path (str):</strong>  Path to the project directory.</li>
+</ul>
 </div>
 
 
@@ -430,10 +433,10 @@
 </span><span id="HarnessEvaluator.evaulate_harness-89"><a href="#HarnessEvaluator.evaulate_harness-89"><span class="linenos"> 89</span></a>            <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </span><span id="HarnessEvaluator.evaulate_harness-90"><a href="#HarnessEvaluator.evaulate_harness-90"><span class="linenos"> 90</span></a>            <span class="n">harness_output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">captured_output</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
 </span><span id="HarnessEvaluator.evaulate_harness-91"><a href="#HarnessEvaluator.evaulate_harness-91"><span class="linenos"> 91</span></a>        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="HarnessEvaluator.evaulate_harness-92"><a href="#HarnessEvaluator.evaulate_harness-92"><span class="linenos"> 92</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+</span><span id="HarnessEvaluator.evaulate_harness-92"><a href="#HarnessEvaluator.evaulate_harness-92"><span class="linenos"> 92</span></a>            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
 </span><span id="HarnessEvaluator.evaulate_harness-93"><a href="#HarnessEvaluator.evaulate_harness-93"><span class="linenos"> 93</span></a>                <span class="sa">f</span><span class="s2">&quot;Execution timed out after </span><span class="si">{</span><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">EXECUTION_TIMEOUT</span><span class="si">}</span><span class="s2"> seconds.&quot;</span>
 </span><span id="HarnessEvaluator.evaulate_harness-94"><a href="#HarnessEvaluator.evaulate_harness-94"><span class="linenos"> 94</span></a>            <span class="p">)</span>
-</span><span id="HarnessEvaluator.evaulate_harness-95"><a href="#HarnessEvaluator.evaulate_harness-95"><span class="linenos"> 95</span></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">False</span>
+</span><span id="HarnessEvaluator.evaulate_harness-95"><a href="#HarnessEvaluator.evaulate_harness-95"><span class="linenos"> 95</span></a>            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">False</span>
 </span><span id="HarnessEvaluator.evaulate_harness-96"><a href="#HarnessEvaluator.evaulate_harness-96"><span class="linenos"> 96</span></a>
 </span><span id="HarnessEvaluator.evaulate_harness-97"><a href="#HarnessEvaluator.evaulate_harness-97"><span class="linenos"> 97</span></a>        <span class="n">runtime</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
 </span><span id="HarnessEvaluator.evaulate_harness-98"><a href="#HarnessEvaluator.evaulate_harness-98"><span class="linenos"> 98</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Harness execution completed in </span><span class="si">{</span><span class="n">runtime</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">)</span>
@@ -482,8 +485,11 @@
 
             <div class="docstring"><p>Runs and evaluates the LLM-generated harness.</p>
 
-<p>Returns:
-    bool: Returns whether the harness "passes" the evaluation.</p>
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>bool: Returns whether the harness "passes" the evaluation.</p>
+</blockquote>
 </div>
 
 
