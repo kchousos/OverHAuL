@@ -5,9 +5,8 @@
 Use LLMs to automatically generate fuzzing harnesses for your
 C/C++ project.
     
-<p><a href="https://www.repostatus.org/#wip"><img
-src="https://www.repostatus.org/badges/latest/wip.svg"
-alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public." /></a>
+<p>
+<a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
 <img
 src="https://img.shields.io/badge/Python-%3E%3D%0A3.10-3776AB.svg?logo=python&amp;logoColor=white"
 alt="python" /> <img
@@ -17,12 +16,13 @@ src="https://img.shields.io/github/actions/workflow/status/kchousos/llm-harness/
 alt="GitHub Actions Workflow Status" /> <img
 src="https://img.shields.io/coverallsCoverage/github/kchousos/llm-harness?branch=master"
 alt="Coveralls" />
-<a href="https://docs.astral.sh/ruff/">
-<img src="https://img.shields.io/badge/code%20formatter-ruff-d7ff64"
-alt="code formatter: ruff" /></a> 
-<a href="http://mypy-lang.org/"><img
-src="https://img.shields.io/badge/type%20check-mypy-blue"
-alt="type check: mypy" /></a></p>
+<!-- <a href="https://docs.astral.sh/ruff/"> -->
+<!-- <img src="https://img.shields.io/badge/code%20formatter-ruff-d7ff64" -->
+<!-- alt="code formatter: ruff" /></a>  -->
+<!-- <a href="http://mypy-lang.org/"><img -->
+<!-- src="https://img.shields.io/badge/type%20check-mypy-blue" -->
+<!-- alt="type check: mypy" /></a> -->
+</p>
 
 </div>
 
@@ -32,15 +32,13 @@ alt="type check: mypy" /></a></p>
 - Builds any generated harness and evaluates it.
 - Supports OpenAI's models.
 
-# Getting Started
-
 ## Installation
 
 ### Dependencies
 
 - Python >=3.10
-- [Cppcheck](https://github.com/danmar/cppcheck)
 - [uv](https://docs.astral.sh/uv/)
+- [Cppcheck](https://github.com/danmar/cppcheck) (Optional) 
 
 ### Installation Steps
 
@@ -72,17 +70,26 @@ alt="type check: mypy" /></a></p>
     # cat .env
     OPENAI_API_KEY=<API-key-here>
     ```
+    
+    Or export it as an environment variable:
+
+    ```bash
+    export OPENAI_API_KEY=<API-key-here>
+    ```
+
 2. Execute the main script:
 
     ```bash
     llm-harness <repo-link>
     ```
 
+The cloned repo with the newly generated harness can be found in the `output/` directory.
+
 ### Command-Line Options
 
 ```
 $ llm-harness --help
-usage: main.py [-h] [-c COMMIT] [-m MODEL] [-f FILES [FILES ...]] repo
+usage: llm-harness [-h] [-c COMMIT] [-m MODEL] [-f FILES [FILES ...]] [-o OUTPUT_DIR] repo
 
 Generate fuzzing harnesses for C/C++ projects
 
@@ -94,7 +101,9 @@ options:
   -c COMMIT, --commit COMMIT
                         A specific commit of the project to check out
   -m MODEL, --model MODEL
-                        LLM model to be used. Available: gpt-4.1-mini, o1, o1-pro, gpt-4o, gpt-4o-mini, gpt-4.1, gpt-4.1-mini
+                        LLM model to be used. Available: o3-mini, o3, gpt-4o, gpt-4o-mini, gpt-4.1, gpt-4.1-mini
   -f FILES [FILES ...], --files FILES [FILES ...]
                         File patterns to include in analysis (e.g. *.c *.h)
+  -o OUTPUT_DIR, --output-dir OUTPUT_DIR
+                        Directory to clone the project into. Defaults to output
 ```

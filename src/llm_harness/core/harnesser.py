@@ -38,7 +38,7 @@ def read_tool(path: str) -> str:
         path (str): The relative or absolute path to the file.
 
     Returns:
-        str: The first 4000 characters of the file content, or an error message.
+        str: The file content, or an error message.
     """
     logger.info(f"Reading {path}...")
     try:
