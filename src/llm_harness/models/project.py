@@ -23,46 +23,17 @@ from dataclasses import dataclass
 
 
 @dataclass
-class ProjectFile:
-    """Represents a source file in the project."""
-
-    path: str
-    name: str
-    content: str
-
-
-@dataclass
 class ProjectInfo:
     """Contains information about a project."""
 
-    source: list[ProjectFile]
     static: str | None = None
-    readme: str | None = None
     error: str | None = None
     harness: str | None = None
     output: str | None = None
     compiles: bool = False
 
-    def get_source(self) -> str:
-        """
-        Returns the concatenated content of all project files.
-
-        Returns:
-            str: Contents of all project files.
-        """
-        file_contents = []
-
-        for file in self.source:
-            file_contents.append(f"\n>>>> {file.name}\n")
-            file_contents.append(file.content)
-
-        return "".join(file_contents)
-
     def get_static_analysis(self) -> str | None:
         return self.static
-
-    def get_readme(self) -> str | None:
-        return self.readme
 
     def get_error(self) -> str | None:
         return self.error

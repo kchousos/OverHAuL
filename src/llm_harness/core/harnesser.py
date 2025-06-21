@@ -37,8 +37,10 @@ def create_file_tools(
 ) -> tuple[Callable[[str], str], Callable[[int, bool], str]]:
     """
     Factory function that creates file tools bound to a specific directory.
+
     Args:
         base_dir (str): The path to the project-to-be-harnessed's root.
+
     Returns:
         Tuple[Callable[[str], str], Callable[[int, bool], str]]: A tuple containing:
             - read_tool: Function that reads file contents within the bounded directory
@@ -49,11 +51,15 @@ def create_file_tools(
     # Get absolute path only for security checks
     base_path_abs = base_path.resolve()
 
-    def read_tool(path: str) -> str:
+    def read_tool(path: str, max_chars: int = 4000) -> str:
         """
         Reads the contents of a file within the bounded directory.
+
         Args:
             path (str): The relative path to the file within the bounded directory.
+            max_chars (int): Maximum number of characters to return (to prevent overload).
+                Defaults to 4000.
+
         Returns:
             str: The file content, or an error message.
         """
@@ -65,7 +71,9 @@ def create_file_tools(
             if not str(full_path).startswith(str(base_path_abs)):
                 return f"Error: Path {path} is outside the allowed directory"
             with open(full_path, "r", encoding="utf-8") as f:
-                content = f.read()
+                content = f.read(max_chars)
+                if len(content) == max_chars:
+                    content += "\n[...truncated]"
                 return content
         except Exception as e:
             return f"Error: {str(e)}"
@@ -75,9 +83,11 @@ def create_file_tools(
     ) -> str:
         """
         Returns a JSON list of files in the bounded directory tree.
+
         Args:
             max_files (int, optional): Maximum number of files to list. Defaults to 1000.
             include_hidden (bool, optional): Whether to include hidden files and directories. Defaults to False.
+
         Returns:
             str: JSON-encoded list of relative file paths, or an error message.
         """
@@ -242,9 +252,7 @@ class Harnesser:
             str: The generated harness code.
         """
 
-        # source = project_info.get_source()
         static = project_info.get_static_analysis()
-        # readme = project_info.get_readme()
         error = project_info.get_error()
         if error != None and len(error.splitlines()) > 200:
             error = "\n".join(error.splitlines()[:200]) + "\n...truncated"
@@ -285,4 +293,4 @@ class Harnesser:
                 raise
 
         project_info.harness = answer.new_harness
-        return answer.new_harness
+        return str(answer.new_harness)

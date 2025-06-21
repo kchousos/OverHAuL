@@ -29,7 +29,7 @@ import sys
 from loguru import logger
 
 from llm_harness.config import Config
-from llm_harness.models.project import ProjectFile, ProjectInfo
+from llm_harness.models.project import ProjectInfo
 
 
 class ProjectAnalyzer:
@@ -37,78 +37,18 @@ class ProjectAnalyzer:
     Analyzes project files and extracts relevant information.
     """
 
-    def __init__(self, project_path: str, file_patterns: list[str] = []):
+    def __init__(self, project_path: str):
         """
         Initialize the project analyzer.
 
         Args:
             project_path (str): Path to the project directory.
-            file_patterns (List[str], optional): File patterns to include.
         """
         self.project_path = project_path
-        self.file_patterns = file_patterns or Config.DEFAULT_FILES
-
-    def collect_source_code(self) -> ProjectInfo:
-        """
-        Collects project's source code.
-
-        Returns:
-            ProjectInfo: Information about the project.
-        """
-        logger.info("Reading project and collecting information...")
-
-        files: list[ProjectFile] = []
-
-        project_files = self._find_project_files()
-        if not project_files:
-            logger.error("No project files found!")
-            sys.exit(-1)
-
-        for file_path in project_files:
-            basename = os.path.basename(file_path)
-            if any(
-                fnmatch.fnmatch(basename, pattern)
-                for pattern in Config.IGNORED_FILES
-            ):
-                continue
-            try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    files.append(
-                        ProjectFile(
-                            path=file_path,
-                            name=os.path.basename(file_path),
-                            content=f.read(),
-                        )
-                    )
-            except IOError as e:
-                logger.error(f"Error reading file {file_path}: {e}")
-
-        if not files:
-            logger.error("No project files found!")
-
-        return ProjectInfo(source=files)
-
-    def _find_project_files(self) -> list[str]:
-        """
-        Finds all project files matching the specified patterns.
-
-        Returns:
-            list[str]: List of file paths.
-        """
-        all_files = []
-        for subdir in Config.DEFAULT_DIRS:
-            if subdir in Config.IGNORED_DIRS:
-                continue
-            search_root = os.path.join(self.project_path, subdir)
-            for pattern in self.file_patterns:
-                search_pattern = os.path.join(search_root, pattern)
-                matched_files = glob.glob(search_pattern)
-                all_files.extend(matched_files)
-
-        return all_files
 
     def get_static_analysis(self, backends: list[str] = ["flawfinder"]) -> str:
-        """Concatenates and returns the output of the static analysis backends
+        """
+        Concatenates and returns the output of the static analysis backends
         specified in `backends`.
 
         Args:
@@ -118,14 +58,13 @@ class ProjectAnalyzer:
 
         Returns:
             str: The concatenated output of all the enabled static analysis backends.
-
         """
         static = ""
 
         if "cppcheck" in backends:
             if shutil.which("cppcheck") is None:
-                logger.error("cppcheck not in path. Exiting...")
-                sys.exit(1)
+                logger.warning("cppcheck not in path. Skipping...")
+                return "CPPCheck not available."
 
             static += "=== CPPCheck output ===\n\n"
             output = subprocess.run(
@@ -163,40 +102,17 @@ class ProjectAnalyzer:
 
         return static
 
-    def get_readme(self) -> str | None:
-        """
-        Reads the README file from a project directory if it exists.
-
-        Returns:
-            str | None: The project's README contents, or None if it doesn't exist.
-        """
-        readme_names = [
-            "README",
-            "README.md",
-            "README.txt",
-            "README.rst",
-            "readme",
-            "readme.md",
-            "readme.txt",
-            "readme.rst",
-        ]
-
-        for name in readme_names:
-            readme_path = os.path.join(self.project_path, name)
-            if os.path.isfile(readme_path):
-                with open(readme_path, "r", encoding="utf-8") as f:
-                    return f.read()
-
-        return None
-
     def collect_project_info(self) -> ProjectInfo:
         """
-        Collects information about the project by reading files.
+        Collects information about the project.
+
+        Right now, the only info that is provided by default is the project's
+        static analysis.
 
         Returns:
             ProjectInfo: Information about the project.
         """
-        info = self.collect_source_code()
+
+        info = ProjectInfo()
         info.static = self.get_static_analysis()
-        info.readme = self.get_readme()
         return info
