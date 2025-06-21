@@ -301,7 +301,7 @@
 </span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">ProjectAnalyzer</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
 </span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>    <span class="n">project_info</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">collect_project_info</span><span class="p">()</span>
 </span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>
-</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>    <span class="n">harnesser</span> <span class="o">=</span> <span class="n">Harnesser</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>    <span class="n">harnesser</span> <span class="o">=</span> <span class="n">Harnesser</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">project_path</span><span class="p">)</span>
 </span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>    <span class="n">file_manager</span> <span class="o">=</span> <span class="n">FileManager</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
 </span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>    <span class="n">builder</span> <span class="o">=</span> <span class="n">HarnessBuilder</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
 </span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>    <span class="n">evaluator</span> <span class="o">=</span> <span class="n">HarnessEvaluator</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
@@ -349,7 +349,7 @@
 </span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>        <span class="p">)</span>
 </span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a>
-</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">)</span>
+</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a>    <span class="n">logger</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">)</span>
 </span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="L-269"><a href="#L-269"><span class="linenos">269</span></a>
 </span><span id="L-270"><a href="#L-270"><span class="linenos">270</span></a>
@@ -682,7 +682,7 @@ After cloning and all operations, deletes the .git directory.</p>
 </span><span id="main-217"><a href="#main-217"><span class="linenos">217</span></a>    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">ProjectAnalyzer</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
 </span><span id="main-218"><a href="#main-218"><span class="linenos">218</span></a>    <span class="n">project_info</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">collect_project_info</span><span class="p">()</span>
 </span><span id="main-219"><a href="#main-219"><span class="linenos">219</span></a>
-</span><span id="main-220"><a href="#main-220"><span class="linenos">220</span></a>    <span class="n">harnesser</span> <span class="o">=</span> <span class="n">Harnesser</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+</span><span id="main-220"><a href="#main-220"><span class="linenos">220</span></a>    <span class="n">harnesser</span> <span class="o">=</span> <span class="n">Harnesser</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">project_path</span><span class="p">)</span>
 </span><span id="main-221"><a href="#main-221"><span class="linenos">221</span></a>    <span class="n">file_manager</span> <span class="o">=</span> <span class="n">FileManager</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
 </span><span id="main-222"><a href="#main-222"><span class="linenos">222</span></a>    <span class="n">builder</span> <span class="o">=</span> <span class="n">HarnessBuilder</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
 </span><span id="main-223"><a href="#main-223"><span class="linenos">223</span></a>    <span class="n">evaluator</span> <span class="o">=</span> <span class="n">HarnessEvaluator</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
@@ -730,7 +730,7 @@ After cloning and all operations, deletes the .git directory.</p>
 </span><span id="main-265"><a href="#main-265"><span class="linenos">265</span></a>        <span class="p">)</span>
 </span><span id="main-266"><a href="#main-266"><span class="linenos">266</span></a>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="main-267"><a href="#main-267"><span class="linenos">267</span></a>
-</span><span id="main-268"><a href="#main-268"><span class="linenos">268</span></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">)</span>
+</span><span id="main-268"><a href="#main-268"><span class="linenos">268</span></a>    <span class="n">logger</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">)</span>
 </span><span id="main-269"><a href="#main-269"><span class="linenos">269</span></a>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span></pre></div>
 
