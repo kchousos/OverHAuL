@@ -216,7 +216,7 @@ def main() -> int:
     analyzer = ProjectAnalyzer(project_path)
     project_info = analyzer.collect_project_info()
 
-    harnesser = Harnesser(model=model)
+    harnesser = Harnesser(model, project_path)
     file_manager = FileManager(project_path)
     builder = HarnessBuilder(project_path)
     evaluator = HarnessEvaluator(project_path)
@@ -264,7 +264,7 @@ def main() -> int:
         )
         sys.exit(-2)
 
-    logger.info("All done!")
+    logger.success("All done!")
     sys.exit(0)
 
 

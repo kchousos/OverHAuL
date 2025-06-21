@@ -22,12 +22,14 @@ Runs and evaluates the generated harness.
 import os
 import subprocess
 import time
+from typing import final
 
 from loguru import logger
 
 from llm_harness.config import Config
 
 
+@final
 class HarnessEvaluator:
     """
     Runs and evaluates a project's generated harness.
@@ -115,17 +117,17 @@ class HarnessEvaluator:
         # Check if new testcases were created
         if len(testcases) == 0:
             error = "No new testcases were generated.\n\n"
-            logger.error("No new testcases were generated.")
+            logger.warning("No new testcases were generated.")
             return error + harness_output, False
         # Check if testcase is valid
         elif empty:
             error = "Testcase is invalid (empty xxd output).\n\n"
-            logger.error("Testcase is invalid (empty xxd output).")
+            logger.warning("Testcase is invalid (empty xxd output).")
             return error + harness_output, False
         # Check runtime
         elif runtime < Config().MIN_EXECUTION_TIME and len(testcases) == 0:
             error = "Harness does not execute correctly.\n\n"
-            logger.error("Harness does not execute correctly.")
+            logger.warning("Harness does not execute correctly.")
             return error + harness_output, False
         else:
             logger.info(

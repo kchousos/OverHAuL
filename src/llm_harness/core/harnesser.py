@@ -22,7 +22,8 @@ Harness generation, fixing and improving functionality using LLMs.
 import json
 import os
 import sys
-from typing import final
+from pathlib import Path
+from typing import Callable, final
 
 import dspy
 from loguru import logger
@@ -31,50 +32,75 @@ from llm_harness.config import Config
 from llm_harness.models.project import ProjectInfo
 
 
-def read_tool(path: str) -> str:
-    """Reads the contents of a file.
-
-    Args:
-        path (str): The relative or absolute path to the file.
-
-    Returns:
-        str: The file content, or an error message.
+def create_file_tools(
+    base_dir: str,
+) -> tuple[Callable[[str], str], Callable[[int, bool], str]]:
     """
-    logger.info(f"Reading {path}...")
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            content = f.read()
-            return content
-    except Exception as e:
-        return f"Error: {str(e)}"
-
-
-def file_index_tool(
-    max_files: int = 1000, include_hidden: bool = False
-) -> str:
-    """Returns a JSON list of files in the current directory tree.
-
+    Factory function that creates file tools bound to a specific directory.
     Args:
-        max_files (int, optional): Maximum number of files to list. Defaults to 1000.
-        include_hidden (bool, optional): Whether to include hidden files and directories. Defaults to False.
-
+        base_dir (str): The path to the project-to-be-harnessed's root.
     Returns:
-        str: JSON-encoded list of relative file paths, or an error message.
+        Tuple[Callable[[str], str], Callable[[int, bool], str]]: A tuple containing:
+            - read_tool: Function that reads file contents within the bounded directory
+            - file_index_tool: Function that lists files within the bounded directory
     """
-    logger.info("Indexing output/tinycc...")
-    file_list = []
-    try:
-        for root, dirs, files in os.walk("output/tinycc"):
-            if not include_hidden:
-                dirs[:] = [d for d in dirs if not d.startswith(".")]
-                files = [f for f in files if not f.startswith(".")]
-            for file in files:
-                file_list.append(os.path.relpath(os.path.join(root, file)))
-                if len(file_list) >= max_files:
-                    return json.dumps(file_list + ["...truncated"])
-        return json.dumps(file_list)
-    except Exception as e:
-        return f"Error: {str(e)}"
+    # Keep as Path object but don't resolve to absolute path
+    base_path = Path(base_dir)
+    # Get absolute path only for security checks
+    base_path_abs = base_path.resolve()
+
+    def read_tool(path: str) -> str:
+        """
+        Reads the contents of a file within the bounded directory.
+        Args:
+            path (str): The relative path to the file within the bounded directory.
+        Returns:
+            str: The file content, or an error message.
+        """
+        logger.info(f"Reading {base_path / path}...")
+        try:
+            # Resolve the full path and ensure it's within base_dir
+            full_path = (base_path / path).resolve()
+            # Security check: ensure the resolved path is within base_dir
+            if not str(full_path).startswith(str(base_path_abs)):
+                return f"Error: Path {path} is outside the allowed directory"
+            with open(full_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                return content
+        except Exception as e:
+            return f"Error: {str(e)}"
+
+    def file_index_tool(
+        max_files: int = 1000, include_hidden: bool = False
+    ) -> str:
+        """
+        Returns a JSON list of files in the bounded directory tree.
+        Args:
+            max_files (int, optional): Maximum number of files to list. Defaults to 1000.
+            include_hidden (bool, optional): Whether to include hidden files and directories. Defaults to False.
+        Returns:
+            str: JSON-encoded list of relative file paths, or an error message.
+        """
+        logger.info(f"Indexing {base_path}...")
+        file_list = []
+        try:
+            for root, dirs, files in os.walk(base_path):
+                if not include_hidden:
+                    dirs[:] = [d for d in dirs if not d.startswith(".")]
+                    files = [f for f in files if not f.startswith(".")]
+                for file in files:
+                    # Get path relative to base_dir
+                    rel_path = os.path.relpath(
+                        os.path.join(root, file), base_path
+                    )
+                    file_list.append(rel_path)
+                    if len(file_list) >= max_files:
+                        return json.dumps(file_list + ["...truncated"])
+            return json.dumps(file_list)
+        except Exception as e:
+            return f"Error: {str(e)}"
+
+    return read_tool, file_index_tool
 
 
 class GenerateHarness(dspy.Signature):
@@ -97,13 +123,16 @@ class GenerateHarness(dspy.Signature):
         it will be ready for compilation. Add **all** the necessary includes,
         either project-specific or standard libraries like <string.h>,
         <stdint.h> and <stdlib.h>. The function to be fuzzed must be part of the
-        source code. Do not limit in any way the input or its size for any
-        reason, e.g. avoiding large stack usage. Any edge cases should be
-        handled by the library itself, not the harness. On the other hand, do
-        not write code that will most probably crash irregardless of the library
-        under test. The point is for a function of the library under test to
-        crash, not the harness itself. Use and take advantage of any custom
-        structs that the library declares.  """
+        source code. **Do not truncate the input to a smaller size that the
+        original**, e.g. for avoiding large stack usage or to avoid excessive
+        buffers. Opt to using the heap when possible to increase the chance of
+        exposing memory errors of the library, e.g. mmap instead of declaring
+        buf[1024]. Any edge cases should be handled by the library itself, not
+        the harness. On the other hand, do not write code that will most
+        probably crash irregardless of the library under test. The point is for
+        a function of the library under test to crash, not the harness
+        itself. Use and take advantage of any custom structs that the library
+        declares.  """
     )
 
 
@@ -121,8 +150,8 @@ class FixHarness(dspy.Signature):
     old_harness: str = dspy.InputField(desc="The harnes to be fixed.")
     error: str = dspy.InputField(desc="The compilaton error of the harness.")
     new_harness: str = dspy.OutputField(
-        desc="The newly created harness with the necessary modifications for \
-        correct compilation."
+        desc="""The newly created harness with the necessary modifications for
+        correct compilation."""
     )
 
 
@@ -142,8 +171,9 @@ class ImproveHarness(dspy.Signature):
     )
     output: str = dspy.InputField(desc="The output of the harness' execution.")
     new_harness: str = dspy.OutputField(
-        desc="The newly created harness with the necessary modifications for \
-        quicker bug-finding."
+        desc="""The newly created harness with the necessary modifications for
+        quicker bug-finding. If the provided harness has unnecessary input
+        limitations regarding size or format etc., remove them."""
     )
 
 
@@ -158,12 +188,13 @@ class Harnesser:
     All of the above are done by an LLM using Chain of Thought prompting.
     """
 
-    def __init__(self, model: str):
+    def __init__(self, model: str, project_path: str):
         """
         Initialize the harness generator.
 
         Args:
             model (str): The model to be used for LLM.
+            project_path (str): Path to the project directory.
         """
         self.model = model
 
@@ -189,6 +220,8 @@ class Harnesser:
         except Exception as e:
             logger.error(f"Error instantiating LLM: {e}")
             raise
+
+        read_tool, file_index_tool = create_file_tools(project_path)
 
         self.generator = dspy.ReAct(
             GenerateHarness, tools=[read_tool, file_index_tool]
