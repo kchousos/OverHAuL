@@ -19,6 +19,7 @@
 Harness generation, fixing and improving functionality using LLMs.
 """
 
+import json
 import os
 import sys
 from typing import final
@@ -30,6 +31,52 @@ from llm_harness.config import Config
 from llm_harness.models.project import ProjectInfo
 
 
+def read_tool(path: str) -> str:
+    """Reads the contents of a file.
+
+    Args:
+        path (str): The relative or absolute path to the file.
+
+    Returns:
+        str: The first 4000 characters of the file content, or an error message.
+    """
+    logger.info(f"Reading {path}...")
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read()
+            return content
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def file_index_tool(
+    max_files: int = 1000, include_hidden: bool = False
+) -> str:
+    """Returns a JSON list of files in the current directory tree.
+
+    Args:
+        max_files (int, optional): Maximum number of files to list. Defaults to 1000.
+        include_hidden (bool, optional): Whether to include hidden files and directories. Defaults to False.
+
+    Returns:
+        str: JSON-encoded list of relative file paths, or an error message.
+    """
+    logger.info("Indexing output/tinycc...")
+    file_list = []
+    try:
+        for root, dirs, files in os.walk("output/tinycc"):
+            if not include_hidden:
+                dirs[:] = [d for d in dirs if not d.startswith(".")]
+                files = [f for f in files if not f.startswith(".")]
+            for file in files:
+                file_list.append(os.path.relpath(os.path.join(root, file)))
+                if len(file_list) >= max_files:
+                    return json.dumps(file_list + ["...truncated"])
+        return json.dumps(file_list)
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
 class GenerateHarness(dspy.Signature):
     """
     You are an experienced C/C++ security testing engineer. You must write a
@@ -39,10 +86,6 @@ class GenerateHarness(dspy.Signature):
     the function-under-test.
     """
 
-    source: str = dspy.InputField(
-        desc="The source files of the project, concatenated."
-    )
-    readme: str = dspy.InputField(desc="The README of the project.")
     static: str = dspy.InputField(
         desc=""" Output of static analysis tools for the project. If you find it
         helpful, write your harness so that it leverages some of the potential
@@ -75,9 +118,6 @@ class FixHarness(dspy.Signature):
     types.
     """
 
-    source: str = dspy.InputField(
-        desc="The source files of the project, concatenated."
-    )
     old_harness: str = dspy.InputField(desc="The harnes to be fixed.")
     error: str = dspy.InputField(desc="The compilaton error of the harness.")
     new_harness: str = dspy.OutputField(
@@ -97,9 +137,6 @@ class ImproveHarness(dspy.Signature):
     effectively. Reply only with the source code --- without backticks.
     """
 
-    source: str = dspy.InputField(
-        desc="The source files of the project, concatenated."
-    )
     old_harness: str = dspy.InputField(
         desc="The harness to be improved so it can find a bug more quickly."
     )
@@ -153,9 +190,13 @@ class Harnesser:
             logger.error(f"Error instantiating LLM: {e}")
             raise
 
-        self.generator = dspy.ChainOfThought(GenerateHarness)
-        self.fixer = dspy.ChainOfThought(FixHarness)
-        self.improver = dspy.ChainOfThought(ImproveHarness)
+        self.generator = dspy.ReAct(
+            GenerateHarness, tools=[read_tool, file_index_tool]
+        )
+        self.fixer = dspy.ReAct(FixHarness, tools=[read_tool, file_index_tool])
+        self.improver = dspy.ReAct(
+            ImproveHarness, tools=[read_tool, file_index_tool]
+        )
 
     def harness(self, project_info: ProjectInfo) -> str:
         """
@@ -168,10 +209,12 @@ class Harnesser:
             str: The generated harness code.
         """
 
-        source = project_info.get_source()
+        # source = project_info.get_source()
         static = project_info.get_static_analysis()
-        readme = project_info.get_readme()
+        # readme = project_info.get_readme()
         error = project_info.get_error()
+        if error != None and len(error.splitlines()) > 200:
+            error = "\n".join(error.splitlines()[:200]) + "\n...truncated"
         output = project_info.get_output()
         old_harness = project_info.get_harness()
         compiles = project_info.get_compilation_status()
@@ -180,9 +223,7 @@ class Harnesser:
         if not old_harness:
             logger.info("Calling LLM to generate a harness...")
             try:
-                answer = self.generator(
-                    source=source, readme=readme, static=static
-                )
+                answer = self.generator(static=static)
             except Exception as e:
                 logger.error(f"Error generating harness: {e}")
                 raise
@@ -192,7 +233,6 @@ class Harnesser:
             logger.info("Calling LLM to fix harness...")
             try:
                 answer = self.fixer(
-                    source=source,
                     error=error,
                     old_harness=old_harness,
                 )
@@ -204,7 +244,6 @@ class Harnesser:
             logger.info("Calling LLM to improve harness...")
             try:
                 answer = self.improver(
-                    source=source,
                     output=output,
                     old_harness=old_harness,
                 )
