@@ -137,5 +137,5 @@ class HarnessBuilder:
             return completed_process.stdout, True
 
         except subprocess.CalledProcessError as e:
-            logger.error("Error during harness compilation")
+            logger.warning("Error during harness compilation")
             return f"Error {e.returncode}: {e.stderr}", False
