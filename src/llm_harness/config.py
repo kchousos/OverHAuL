@@ -89,8 +89,8 @@ class Config:
     # Default C compilation options
     CC = "clang"
     CFLAGS = [
-        "-g",
-        "-fsanitize=fuzzer,address,undefined",
+        "-g3",
+        "-fsanitize=fuzzer,address,undefined,leak",
     ]  # needed for fuzzing
     EXECUTABLE_FILENAME = "harness"
 
