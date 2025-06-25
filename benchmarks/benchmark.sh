@@ -1,12 +1,12 @@
 #!/bin/bash
 
 
-# Benchmarking Script for LLM-Harness
+# Benchmarking Script for OverHAuL
 #
-# This script is intended for the evaluation of LLM-Harness.
+# This script is intended for the evaluation of OverHAuL.
 # It is not part of the project’s core implementation and should not be considered production code.
 #
-# This script reads repo links from ./repos.txt and runs LLM-Harness on them.
+# This script reads repo links from ./repos.txt and runs OverHAuL on them.
 # The result provides a count summary of:
 #     1. Projects where a crash was found.
 #     2. Projects where the harness compiled succesfully but did not find a crash.
@@ -133,7 +133,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     commit=$(echo "$line" | awk '{print $2}')
 
     # Build base command
-    cmd=(llm-harness "$repo")
+    cmd=(overhaul "$repo")
 
     # Add commit if present
     if [[ -n "$commit" ]]; then
@@ -161,7 +161,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
 
     cmd+=(-o "$OUT_DIR")
 
-    # run llm-harness
+    # run overhaul
     "${cmd[@]}" > /dev/null 2>&1
     status=$?
 

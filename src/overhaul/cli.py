@@ -1,22 +1,22 @@
 # Copyright (C) 2025 Konstantinos Chousos
 #
-# This file is part of LLM-Harness.
+# This file is part of OverHAuL.
 #
-# LLM-Harness is free software: you can redistribute it and/or modify
+# OverHAuL is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# LLM-Harness is distributed in the hope that it will be useful,
+# OverHAuL is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with LLM-Harness.  If not, see <https://www.gnu.org/licenses/>.
+# along with OverHAuL.  If not, see <https://www.gnu.org/licenses/>.
 
 """
-Command-line interface for llm_harness.
+Command-line interface for overhaul.
 """
 
 import argparse
@@ -29,12 +29,12 @@ from dataclasses import dataclass
 
 from loguru import logger
 
-from llm_harness.config import Config
-from llm_harness.core.analyzer import ProjectAnalyzer
-from llm_harness.core.builder import HarnessBuilder
-from llm_harness.core.evaluator import HarnessEvaluator
-from llm_harness.core.harnesser import Harnesser
-from llm_harness.io.file_manager import FileManager
+from overhaul.config import Config
+from overhaul.core.analyzer import ProjectAnalyzer
+from overhaul.core.builder import HarnessBuilder
+from overhaul.core.evaluator import HarnessEvaluator
+from overhaul.core.harnesser import Harnesser
+from overhaul.io.file_manager import FileManager
 
 
 @dataclass
@@ -119,10 +119,6 @@ def shallow_clone(
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
-
-    git_dir = os.path.join(destination, ".git")
-    if os.path.exists(git_dir):
-        shutil.rmtree(git_dir)
 
     github_dir = os.path.join(destination, ".github")
     if os.path.exists(github_dir):

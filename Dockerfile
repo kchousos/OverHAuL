@@ -38,5 +38,5 @@ ENV FORCE_COLOR=1
 ENV TERM=xterm-256color
 
 # Use the CLI command
-ENTRYPOINT ["llm-harness"]
+ENTRYPOINT ["overhaul"]
 CMD ["--help"]

@@ -1,19 +1,19 @@
 # Copyright (C) 2025 Konstantinos Chousos
 #
-# This file is part of LLM-Harness.
+# This file is part of OverHAuL.
 #
-# LLM-Harness is free software: you can redistribute it and/or modify
+# OverHAuL is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# LLM-Harness is distributed in the hope that it will be useful,
+# OverHAuL is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with LLM-Harness.  If not, see <https://www.gnu.org/licenses/>.
+# along with OverHAuL.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 Harness generation, fixing and improving functionality using LLMs.
@@ -28,8 +28,8 @@ from typing import Callable, final
 import dspy
 from loguru import logger
 
-from llm_harness.config import Config
-from llm_harness.models.project import ProjectInfo
+from overhaul.config import Config
+from overhaul.models.project import ProjectInfo
 
 
 def create_file_tools(
@@ -132,17 +132,17 @@ class GenerateHarness(dspy.Signature):
         code, do not format it in a markdown code cell with backticks, so that
         it will be ready for compilation. Add **all** the necessary includes,
         either project-specific or standard libraries like <string.h>,
-        <stdint.h> and <stdlib.h>. The function to be fuzzed must be part of the
-        source code. **Do not truncate the input to a smaller size that the
-        original**, e.g. for avoiding large stack usage or to avoid excessive
-        buffers. Opt to using the heap when possible to increase the chance of
-        exposing memory errors of the library, e.g. mmap instead of declaring
-        buf[1024]. Any edge cases should be handled by the library itself, not
-        the harness. On the other hand, do not write code that will most
-        probably crash irregardless of the library under test. The point is for
-        a function of the library under test to crash, not the harness
-        itself. Use and take advantage of any custom structs that the library
-        declares.  """
+        <stdint.h> and <stdlib.h>. **The function to be fuzzed must be part of
+        the source code**, do not write a harness for your own functions. **Do
+        not truncate the input to a smaller size that the original**, e.g. for
+        avoiding large stack usage or to avoid excessive buffers. Opt to using
+        the heap when possible to increase the chance of exposing memory errors
+        of the library, e.g. mmap instead of declaring buf[1024]. Any edge cases
+        should be handled by the library itself, not the harness. On the other
+        hand, do not write code that will most probably crash irregardless of
+        the library under test. The point is for a function of the library under
+        test to crash, not the harness itself. Use and take advantage of any
+        custom structs that the library declares.  """
     )
 
 

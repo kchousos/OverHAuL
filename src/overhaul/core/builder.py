@@ -1,19 +1,19 @@
 # Copyright (C) 2025 Konstantinos Chousos
 #
-# This file is part of LLM-Harness.
+# This file is part of OverHAuL.
 #
-# LLM-Harness is free software: you can redistribute it and/or modify
+# OverHAuL is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# LLM-Harness is distributed in the hope that it will be useful,
+# OverHAuL is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with LLM-Harness.  If not, see <https://www.gnu.org/licenses/>.
+# along with OverHAuL.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 Builds the generated harness.
@@ -26,7 +26,7 @@ from typing import final
 
 from loguru import logger
 
-from llm_harness.config import Config
+from overhaul.config import Config
 
 
 @final
@@ -137,5 +137,5 @@ class HarnessBuilder:
             return completed_process.stdout, True
 
         except subprocess.CalledProcessError as e:
-            logger.error("Error during harness compilation")
+            logger.warning("Error during harness compilation")
             return f"Error {e.returncode}: {e.stderr}", False
