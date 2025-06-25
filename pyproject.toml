@@ -1,7 +1,7 @@
 [project]
-name = "llm-harness"
+name = "OverHAuL"
 version = "1.1.0"
-description = "LLM-generated harnesses for your C/C++ project."
+description = "LLM-generated harnesses for your C project."
 authors = [{ name = "Konstantinos Chousos", email = "kon.chousos@gmail.com" }]
 requires-python = ">=3.10,<3.13"
 readme = "README.md"
@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-llm-harness = "llm_harness.cli:main"
+overhaul = "overhaul.cli:main"
 
 [dependency-groups]
 docs = ["pdoc>=15.0.2,<16"]
@@ -36,7 +36,7 @@ module = "dspy.*"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "llm_harness.*"
+module = "overhaul.*"
 disallow_any_generics = true
 disallow_incomplete_defs = true
 disallow_untyped_calls = true
@@ -50,16 +50,16 @@ warn_return_any = true
 warn_unused_ignores = true
 
 [tool.hatch.build.targets.sdist]
-include = ["src/llm_harness"]
+include = ["src/overhaul"]
 
 [tool.hatch.build.targets.wheel]
-include = ["src/llm_harness"]
+include = ["src/overhaul"]
 
 [tool.hatch.build.targets.wheel.sources]
 "src" = ""
 
 [tool.hatch.build.targets.wheel.shared-data]
-"llm_harness/py.typed" = "llm_harness/py.typed"
+"overhaul/py.typed" = "overhaul/py.typed"
 
 [build-system]
 requires = ["hatchling"]

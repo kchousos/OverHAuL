@@ -795,49 +795,6 @@ wheels = [
 ]
 
 [[package]]
-name = "llm-harness"
-version = "1.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "argparse" },
-    { name = "dspy" },
-    { name = "flawfinder" },
-    { name = "loguru" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "basedpyright" },
-    { name = "mypy" },
-    { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
-    { name = "ruff" },
-]
-docs = [
-    { name = "pdoc" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "argparse", specifier = ">=1.4.0,<2.0.0" },
-    { name = "dspy", specifier = ">=2.6.17,<3.0.0" },
-    { name = "flawfinder", specifier = ">=2.0.19" },
-    { name = "loguru", specifier = ">=0.7.3,<0.8.0" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "basedpyright", specifier = ">=1.29.2" },
-    { name = "mypy", specifier = ">=1.15.0" },
-    { name = "pre-commit", specifier = ">=4.2.0,<5" },
-    { name = "pytest", specifier = ">=8.3.5,<9" },
-    { name = "pytest-cov", specifier = ">=6.1.1,<7" },
-    { name = "ruff", specifier = ">=0.11.6,<0.12" },
-]
-docs = [{ name = "pdoc", specifier = ">=15.0.2,<16" }]
-
-[[package]]
 name = "loguru"
 version = "0.7.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1154,6 +1111,49 @@ sdist = { url = "https://files.pythonhosted.org/packages/82/d9/33ebab30601481346
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d9/dd/0b593d1a5ee431b33a1fdf4ddb5911c312ed3bb598ef9e17457af2ee7b34/optuna-4.3.0-py3-none-any.whl", hash = "sha256:0ea1a01c99c09cbdf3e2dcd9af01dea86778d9fa20ca26f0238a98e7462d8dcb", size = 386567, upload_time = "2025-04-14T05:07:40.867Z" },
 ]
+
+[[package]]
+name = "overhaul"
+version = "1.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "argparse" },
+    { name = "dspy" },
+    { name = "flawfinder" },
+    { name = "loguru" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "basedpyright" },
+    { name = "mypy" },
+    { name = "pre-commit" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+    { name = "ruff" },
+]
+docs = [
+    { name = "pdoc" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "argparse", specifier = ">=1.4.0,<2.0.0" },
+    { name = "dspy", specifier = ">=2.6.17,<3.0.0" },
+    { name = "flawfinder", specifier = ">=2.0.19" },
+    { name = "loguru", specifier = ">=0.7.3,<0.8.0" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "basedpyright", specifier = ">=1.29.2" },
+    { name = "mypy", specifier = ">=1.15.0" },
+    { name = "pre-commit", specifier = ">=4.2.0,<5" },
+    { name = "pytest", specifier = ">=8.3.5,<9" },
+    { name = "pytest-cov", specifier = ">=6.1.1,<7" },
+    { name = "ruff", specifier = ">=0.11.6,<0.12" },
+]
+docs = [{ name = "pdoc", specifier = ">=15.0.2,<16" }]
 
 [[package]]
 name = "packaging"

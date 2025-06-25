@@ -31,7 +31,7 @@ jobs:
       run: uv sync --all-extras --dev
 
     - name: Run tests
-      run: uv run python -Im pytest -v --cov=llm_harness --cov=main.py --cov-report=xml --junitxml=test-results.xml
+      run: uv run python -Im pytest -v --cov=overhaul --cov=main.py --cov-report=xml --junitxml=test-results.xml
 
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2

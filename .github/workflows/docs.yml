@@ -29,7 +29,7 @@ jobs:
     - name: Install the project
       run: uv sync --all-extras --group docs
     - name: Create docs
-      run: uv run pdoc llm_harness --docformat google --output-dir docs/
+      run: uv run pdoc overhaul --docformat google --output-dir docs/
       
     # Set up Git identity for committing
     - name: Configure Git

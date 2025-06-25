@@ -1,20 +1,19 @@
-<h1 align="center">LLM-Harness (TBD)</h1>
+<h1 align="center">OverHAuL</h1>
 
 <div align="center">
 
-Use LLMs to automatically generate fuzzing harnesses for your
-C/C++ project.
-    
+Generate fuzzing harnesses for your C projects with the help of LLMs.
+
 <p>
 <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
 <img
 src="https://img.shields.io/badge/Python-%3E%3D%0A3.10-3776AB.svg?logo=python&amp;logoColor=white"
 alt="python" /> <img
-src="https://img.shields.io/github/license/kchousos/llm-harness"
+src="https://img.shields.io/github/license/kchousos/overhaul"
 alt="GitHub License" /> <img
-src="https://img.shields.io/github/actions/workflow/status/kchousos/llm-harness/tests.yml?label=tests"
+src="https://img.shields.io/github/actions/workflow/status/kchousos/overhaul/tests.yml?label=tests"
 alt="GitHub Actions Workflow Status" /> <img
-src="https://img.shields.io/coverallsCoverage/github/kchousos/llm-harness?branch=master"
+src="https://img.shields.io/coverallsCoverage/github/kchousos/overhaul?branch=master"
 alt="Coveralls" />
 <!-- <a href="https://docs.astral.sh/ruff/"> -->
 <!-- <img src="https://img.shields.io/badge/code%20formatter-ruff-d7ff64" -->
@@ -26,27 +25,20 @@ alt="Coveralls" />
 
 </div>
 
-- Collects information of your project structure and files.
-- Gives relevant context to LLM.
-- Automatically writes generated harness.
-- Builds any generated harness and evaluates it.
-- Supports OpenAI's models.
-
 ## Installation
 
 ### Dependencies
 
 - Python >=3.10
 - [uv](https://docs.astral.sh/uv/)
-- [Cppcheck](https://github.com/danmar/cppcheck) (Optional) 
 
 ### Installation Steps
 
 1. Clone the repository and cd into it:
 
     ```bash
-    git clone https://github.com/kchousos/llm-harness.git;
-    cd llm-harness
+    git clone https://github.com/kchousos/overhaul.git;
+    cd overhaul
     ```
 
 2. Create a virtual environment (optional):
@@ -80,7 +72,7 @@ alt="Coveralls" />
 2. Execute the main script:
 
     ```bash
-    llm-harness <repo-link>
+    overhaul <repo-link>
     ```
 
 The cloned repo with the newly generated harness can be found in the `output/` directory.
@@ -88,8 +80,8 @@ The cloned repo with the newly generated harness can be found in the `output/` d
 ### Command-Line Options
 
 ```
-$ llm-harness --help
-usage: llm-harness [-h] [-c COMMIT] [-m MODEL] [-f FILES [FILES ...]] [-o OUTPUT_DIR] repo
+$ overhaul --help
+usage: overhaul [-h] [-c COMMIT] [-m MODEL] [-f FILES [FILES ...]] [-o OUTPUT_DIR] repo
 
 Generate fuzzing harnesses for C/C++ projects
 

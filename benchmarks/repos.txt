@@ -1,4 +1,4 @@
-# List of C libraries for testing LLM-Harness. Used by `benchmark.sh`.
+# List of C libraries for testing OverHAuL. Used by `benchmark.sh`.
 
 https://github.com/dvhar/dateparse/ 3552f0ff88c510861cd2335f14258f4409621fe5
 https://github.com/clibs/buffer
