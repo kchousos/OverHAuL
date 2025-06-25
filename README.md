@@ -1,8 +1,8 @@
-<h1 align="center">OverHAuL</h1>
+<h1 align="center">OverHAuL: Harness Automation with LLMs</h1>
 
 <div align="center">
 
-Generate fuzzing harnesses for your C projects with the help of LLMs.
+Transform your code security — one harness at a time.
 
 <p>
 <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
@@ -24,6 +24,8 @@ alt="Coveralls" />
 </p>
 
 </div>
+
+**OverHAuL** (*Harness Automation with LLMs*) is a system for automatically generating libFuzzer-compatible harnesses for C projects using ReAct-style LLM agents. It iteratively builds harnesses tailored for effective fuzzing through tool-assisted reasoning — all without manual intervention. OverHAuL's goal is to make fuzzing accessible and immediate, reducing friction and accelerating the path to safer software.
 
 ## Installation
 
