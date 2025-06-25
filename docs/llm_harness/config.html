@@ -205,10 +205,10 @@
 </span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>
 </span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
 </span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>    <span class="c1"># Max iterations for the feedback loop between LLM and compilation/harness output</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>    <span class="n">MAX_ITERATIONS</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>    <span class="n">MAX_ITERATIONS</span> <span class="o">=</span> <span class="mi">3</span>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="nd">@staticmethod</span>
 </span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -302,10 +302,10 @@
 </span><span id="Config-97"><a href="#Config-97"><span class="linenos"> 97</span></a>
 </span><span id="Config-98"><a href="#Config-98"><span class="linenos"> 98</span></a>    <span class="n">MIN_EXECUTION_TIME</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
 </span><span id="Config-99"><a href="#Config-99"><span class="linenos"> 99</span></a>
-</span><span id="Config-100"><a href="#Config-100"><span class="linenos">100</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
+</span><span id="Config-100"><a href="#Config-100"><span class="linenos">100</span></a>    <span class="n">EXECUTION_TIMEOUT</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
 </span><span id="Config-101"><a href="#Config-101"><span class="linenos">101</span></a>
 </span><span id="Config-102"><a href="#Config-102"><span class="linenos">102</span></a>    <span class="c1"># Max iterations for the feedback loop between LLM and compilation/harness output</span>
-</span><span id="Config-103"><a href="#Config-103"><span class="linenos">103</span></a>    <span class="n">MAX_ITERATIONS</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="Config-103"><a href="#Config-103"><span class="linenos">103</span></a>    <span class="n">MAX_ITERATIONS</span> <span class="o">=</span> <span class="mi">3</span>
 </span><span id="Config-104"><a href="#Config-104"><span class="linenos">104</span></a>
 </span><span id="Config-105"><a href="#Config-105"><span class="linenos">105</span></a>    <span class="nd">@staticmethod</span>
 </span><span id="Config-106"><a href="#Config-106"><span class="linenos">106</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -478,7 +478,7 @@
                             <div id="Config.EXECUTION_TIMEOUT" class="classattr">
                                 <div class="attr variable">
             <span class="name">EXECUTION_TIMEOUT</span>        =
-<span class="default_value">60</span>
+<span class="default_value">120</span>
 
         
     </div>
@@ -490,7 +490,7 @@
                             <div id="Config.MAX_ITERATIONS" class="classattr">
                                 <div class="attr variable">
             <span class="name">MAX_ITERATIONS</span>        =
-<span class="default_value">5</span>
+<span class="default_value">3</span>
 
         
     </div>
