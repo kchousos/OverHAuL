@@ -1,4 +1,4 @@
-<h1 align="center">OverHAuL: Harness Automation with LLMs</h1>
+<h1 align="center">OverHAuL</h1>
 
 <div align="center">
 
