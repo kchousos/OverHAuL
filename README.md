@@ -13,7 +13,7 @@ src="https://img.shields.io/github/license/kchousos/overhaul"
 alt="GitHub License" /> <img
 src="https://img.shields.io/github/actions/workflow/status/kchousos/overhaul/tests.yml?label=tests"
 alt="GitHub Actions Workflow Status" /> <img
-src="https://img.shields.io/coverallsCoverage/github/kchousos/overhaul?branch=master"
+src="https://img.shields.io/coverallsCoverage/github/kchousos/OverHAuL?branch=master"
 alt="Coveralls" />
 <!-- <a href="https://docs.astral.sh/ruff/"> -->
 <!-- <img src="https://img.shields.io/badge/code%20formatter-ruff-d7ff64" -->
