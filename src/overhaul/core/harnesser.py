@@ -74,7 +74,7 @@ def create_file_tools(
                 content = f.read(max_chars)
                 if len(content) == max_chars:
                     content += "\n[...truncated]"
-                return content
+                return f"Successfully read file: {full_path}\n Content:\n{content}\n"
         except Exception as e:
             return f"Error: {str(e)}"
 
@@ -120,7 +120,8 @@ class GenerateHarness(dspy.Signature):
     size)` harness for a function of the given C project. Your goal is for the
     harness to be ready for compilation and for it to find successfully a bug in
     the function-under-test. Write verbose (within reason) and helpful comments
-    on each step/decision you take/make.
+    on each step/decision you take/make, especially if you use "weird" constants
+    or values that have something to do with the project.
     """
 
     static: str = dspy.InputField(
@@ -256,7 +257,7 @@ class Harnesser:
 
         static = project_info.get_static_analysis()
         error = project_info.get_error()
-        if error != None and len(error.splitlines()) > 200:
+        if error is not None and len(error.splitlines()) > 200:
             error = "\n".join(error.splitlines()[:200]) + "\n...truncated"
         output = project_info.get_output()
         old_harness = project_info.get_harness()
