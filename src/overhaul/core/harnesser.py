@@ -119,7 +119,8 @@ class GenerateHarness(dspy.Signature):
     libFuzzer-compatible `int LLVMFuzzerTestOneInput(const uint8_t *data, size_t
     size)` harness for a function of the given C project. Your goal is for the
     harness to be ready for compilation and for it to find successfully a bug in
-    the function-under-test.
+    the function-under-test. Write verbose (within reason) and helpful comments
+    on each step/decision you take/make.
     """
 
     static: str = dspy.InputField(
@@ -154,7 +155,7 @@ class FixHarness(dspy.Signature):
     errors carefully and find the root causes. Add any missing #includes like
     <string.h>, <stdint.h> and <stdlib.h> and #define required macros or
     constants in the fuzz target. If needed, re-declare functions or struct
-    types.
+    types. Add verbose comments to explain what you changed and why.
     """
 
     old_harness: str = dspy.InputField(desc="The harnes to be fixed.")
@@ -174,6 +175,7 @@ class ImproveHarness(dspy.Signature):
     the information you need to write an effective fuzz target and understand
     constraints and edge cases in the source code to do it more
     effectively. Reply only with the source code --- without backticks.
+    Add verbose comments to explain what you changed and why.
     """
 
     old_harness: str = dspy.InputField(
