@@ -124,6 +124,19 @@ class HarnessBuilder:
             self.executable,
         ]
 
+        # Save compilation command as a build script
+        script_path = (
+            f"{self.project_path}/{Config.COMPILATION_SCRIPT_FILENAME}"
+        )
+
+        # Write to the file
+        with open(script_path, "w") as file:
+            file.write("#!/bin/bash\n")  # Shebang line for shell script
+            file.write(" ".join(compilation_command) + "\n")
+
+        # Make the script executable
+        os.chmod(script_path, 0o755)
+
         logger.info(f"Starting compilation of harness: {harness_filename}")
         try:
             completed_process = subprocess.run(
