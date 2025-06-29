@@ -75,8 +75,8 @@ class HarnessBuilder:
             dirs[:] = [d for d in dirs if not d.startswith(".")]
 
             for f in files:
-                if f.startswith("."):
-                    continue  # Skip hidden files
+                if f.startswith(".") or f.startswith("harness"):
+                    continue  # Skip hidden files and past harness attempts
                 full_path = os.path.join(root, f)
                 dir_components = root.split(os.sep)
 
