@@ -58,6 +58,19 @@ class HarnessEvaluator:
             if f.startswith("crash-")
         }
 
+    def _list_leak_files(self) -> set[tuple[str, float]]:
+        """
+        List all leak-* files in the given directory along with their creation time.
+
+        Returns:
+            Set[Tuple[str, float]]: A set of tuples (filename, creation_time).
+        """
+        return {
+            (f, os.path.getctime(os.path.join(self.project_path, f)))
+            for f in os.listdir(self.project_path)
+            if f.startswith("leak-")
+        }
+
     def evaulate_harness(self) -> tuple[str, bool]:
         """
         Runs and evaluates the LLM-generated harness.
@@ -69,7 +82,8 @@ class HarnessEvaluator:
 
         execution_command = f"./{self.executable}"
 
-        before = self._list_crash_files()
+        before_crashes = self._list_crash_files()
+        before_leaks = self._list_leak_files()
 
         harness_output = ""
 
@@ -96,8 +110,8 @@ class HarnessEvaluator:
         runtime = end_time - start_time
         logger.info(f"Harness execution completed in {runtime:.2f} seconds.")
 
-        after = self._list_crash_files()
-        testcases = after - before
+        after_crashes = self._list_crash_files()
+        testcases = after_crashes - before_crashes
 
         empty = False
         if len(testcases) > 0:
@@ -114,8 +128,34 @@ class HarnessEvaluator:
             if result.stdout.strip() == "":
                 empty = True
 
+        after_leaks = self._list_leak_files()
+        leaks = after_leaks - before_leaks
+
+        leak = None
+        leak_content = None
+        if len(leaks) > 0:
+            # newest leak
+            leak, _ = max(
+                leaks, key=lambda x: x[1]
+            )  # x[0] is filename, x[1] is ctime
+            leak_content = subprocess.run(
+                ["xxd", leak],
+                capture_output=True,
+                text=True,
+                cwd=self.project_path,
+            )
+            if leak_content.stdout.strip() == "":
+                leak = None
+
+        # Leak file was generated
+        if leak:
+            error = f"Leak file was generated with content: {str(leak_content)}.\n\n"
+            logger.warning(
+                f"Leak file was generated with content: {str(leak_content)}."
+            )
+            return error + harness_output, False
         # Check if new testcases were created
-        if len(testcases) == 0:
+        elif len(testcases) == 0:
             error = "No new testcases were generated.\n\n"
             logger.warning("No new testcases were generated.")
             return error + harness_output, False

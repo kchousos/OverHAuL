@@ -134,17 +134,20 @@ class GenerateHarness(dspy.Signature):
         code, do not format it in a markdown code cell with backticks, so that
         it will be ready for compilation. Add **all** the necessary includes,
         either project-specific or standard libraries like <string.h>,
-        <stdint.h> and <stdlib.h>. **The function to be fuzzed must be part of
-        the source code**, do not write a harness for your own functions. **Do
-        not truncate the input to a smaller size that the original**, e.g. for
-        avoiding large stack usage or to avoid excessive buffers. Opt to using
-        the heap when possible to increase the chance of exposing memory errors
-        of the library, e.g. mmap instead of declaring buf[1024]. Any edge cases
-        should be handled by the library itself, not the harness. On the other
-        hand, do not write code that will most probably crash irregardless of
-        the library under test. The point is for a function of the library under
-        test to crash, not the harness itself. Use and take advantage of any
-        custom structs that the library declares.  """
+        <stdint.h> and <stdlib.h>. **The function to be fuzzed absolutely must
+        be part of the source code**, do not write a harness for your own
+        functions or speculate about existing ones. You must be sure that the
+        function that is fuzzed exists in the source code. Use your read tool to
+        read the source code. **Do not truncate the input to a smaller size that
+        the original**, e.g. for avoiding large stack usage or to avoid
+        excessive buffers. Opt to using the heap when possible to increase the
+        chance of exposing memory errors of the library, e.g. mmap instead of
+        declaring buf[1024]. Any edge cases should be handled by the library
+        itself, not the harness. On the other hand, do not write code that will
+        most probably crash irregardless of the library under test. The point is
+        for a function of the library under test to crash, not the harness
+        itself. Use and take advantage of any custom structs that the library
+        declares.  """
     )
 
 
@@ -171,12 +174,13 @@ class ImproveHarness(dspy.Signature):
     f"""
     You are an experienced C/C++ security testing engineer. Given a
     libFuzzer-compatible harness that does not find any bug/does not crash (even
-    after running for {Config.EXECUTION_TIMEOUT} seconds), you are called to
-    rewrite it and improve it so that a bug can be found more easily. Determine
+    after running for {Config.EXECUTION_TIMEOUT} seconds) or has memory leaks
+    (generates leak files), you are called to rewrite it and improve it so that
+    a bug can be found more easily and/or memory is managed correctly. Determine
     the information you need to write an effective fuzz target and understand
     constraints and edge cases in the source code to do it more
-    effectively. Reply only with the source code --- without backticks.
-    Add verbose comments to explain what you changed and why.
+    effectively. Reply only with the source code --- without backticks.  Add
+    verbose comments to explain what you changed and why.
     """
 
     old_harness: str = dspy.InputField(
