@@ -98,7 +98,7 @@ class Config:
 
     MIN_EXECUTION_TIME = 5 * 60  # seconds
 
-    EXECUTION_TIMEOUT = 2 * 60  # seconds
+    EXECUTION_TIMEOUT = 10 * 60  # seconds
 
     # Max iterations for the feedback loop between LLM and compilation/harness output
     MAX_ITERATIONS = 3
