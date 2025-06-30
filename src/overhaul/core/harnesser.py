@@ -74,7 +74,7 @@ def create_file_tools(
                 content = f.read(max_chars)
                 if len(content) == max_chars:
                     content += "\n[...truncated]"
-                return content
+                return f"Successfully read file: {full_path}\n Content:\n{content}\n"
         except Exception as e:
             return f"Error: {str(e)}"
 
@@ -119,7 +119,9 @@ class GenerateHarness(dspy.Signature):
     libFuzzer-compatible `int LLVMFuzzerTestOneInput(const uint8_t *data, size_t
     size)` harness for a function of the given C project. Your goal is for the
     harness to be ready for compilation and for it to find successfully a bug in
-    the function-under-test.
+    the function-under-test. Write verbose (within reason) and helpful comments
+    on each step/decision you take/make, especially if you use "weird" constants
+    or values that have something to do with the project.
     """
 
     static: str = dspy.InputField(
@@ -132,17 +134,20 @@ class GenerateHarness(dspy.Signature):
         code, do not format it in a markdown code cell with backticks, so that
         it will be ready for compilation. Add **all** the necessary includes,
         either project-specific or standard libraries like <string.h>,
-        <stdint.h> and <stdlib.h>. **The function to be fuzzed must be part of
-        the source code**, do not write a harness for your own functions. **Do
-        not truncate the input to a smaller size that the original**, e.g. for
-        avoiding large stack usage or to avoid excessive buffers. Opt to using
-        the heap when possible to increase the chance of exposing memory errors
-        of the library, e.g. mmap instead of declaring buf[1024]. Any edge cases
-        should be handled by the library itself, not the harness. On the other
-        hand, do not write code that will most probably crash irregardless of
-        the library under test. The point is for a function of the library under
-        test to crash, not the harness itself. Use and take advantage of any
-        custom structs that the library declares.  """
+        <stdint.h> and <stdlib.h>. **The function to be fuzzed absolutely must
+        be part of the source code**, do not write a harness for your own
+        functions or speculate about existing ones. You must be sure that the
+        function that is fuzzed exists in the source code. Use your read tool to
+        read the source code. **Do not truncate the input to a smaller size that
+        the original**, e.g. for avoiding large stack usage or to avoid
+        excessive buffers. Opt to using the heap when possible to increase the
+        chance of exposing memory errors of the library, e.g. mmap instead of
+        declaring buf[1024]. Any edge cases should be handled by the library
+        itself, not the harness. On the other hand, do not write code that will
+        most probably crash irregardless of the library under test. The point is
+        for a function of the library under test to crash, not the harness
+        itself. Use and take advantage of any custom structs that the library
+        declares.  """
     )
 
 
@@ -154,7 +159,7 @@ class FixHarness(dspy.Signature):
     errors carefully and find the root causes. Add any missing #includes like
     <string.h>, <stdint.h> and <stdlib.h> and #define required macros or
     constants in the fuzz target. If needed, re-declare functions or struct
-    types.
+    types. Add verbose comments to explain what you changed and why.
     """
 
     old_harness: str = dspy.InputField(desc="The harnes to be fixed.")
@@ -169,11 +174,13 @@ class ImproveHarness(dspy.Signature):
     f"""
     You are an experienced C/C++ security testing engineer. Given a
     libFuzzer-compatible harness that does not find any bug/does not crash (even
-    after running for {Config.EXECUTION_TIMEOUT} seconds), you are called to
-    rewrite it and improve it so that a bug can be found more easily. Determine
+    after running for {Config.EXECUTION_TIMEOUT} seconds) or has memory leaks
+    (generates leak files), you are called to rewrite it and improve it so that
+    a bug can be found more easily and/or memory is managed correctly. Determine
     the information you need to write an effective fuzz target and understand
     constraints and edge cases in the source code to do it more
-    effectively. Reply only with the source code --- without backticks.
+    effectively. Reply only with the source code --- without backticks.  Add
+    verbose comments to explain what you changed and why.
     """
 
     old_harness: str = dspy.InputField(
@@ -254,7 +261,7 @@ class Harnesser:
 
         static = project_info.get_static_analysis()
         error = project_info.get_error()
-        if error != None and len(error.splitlines()) > 200:
+        if error is not None and len(error.splitlines()) > 200:
             error = "\n".join(error.splitlines()[:200]) + "\n...truncated"
         output = project_info.get_output()
         old_harness = project_info.get_harness()

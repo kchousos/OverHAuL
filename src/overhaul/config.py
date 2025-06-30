@@ -86,6 +86,8 @@ class Config:
     # Harness default filename
     HARNESS_FILENAME = "harness.c"
 
+    COMPILATION_SCRIPT_FILENAME = "overhaul.sh"
+
     # Default C compilation options
     CC = "clang"
     CFLAGS = [
