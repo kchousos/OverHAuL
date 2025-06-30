@@ -318,8 +318,11 @@
 
             <div class="docstring"><p>Initialize the project analyzer.</p>
 
-<p>Args:
-    project_path (str): Path to the project directory.</p>
+<h6 id="arguments">Arguments:</h6>
+
+<ul>
+<li><strong>project_path (str):</strong>  Path to the project directory.</li>
+</ul>
 </div>
 
 
@@ -407,13 +410,19 @@
             <div class="docstring"><p>Concatenates and returns the output of the static analysis backends
 specified in <code>backends</code>.</p>
 
-<p>Args:
-    backends (list[str], optional): A list of backends to use for
-    static analysis. Defaults to Flawfinder. Available options: CPPCheck
-    and Flawfinder.</p>
+<h6 id="arguments">Arguments:</h6>
 
-<p>Returns:
-    str: The concatenated output of all the enabled static analysis backends.</p>
+<ul>
+<li><strong>backends (list[str], optional):</strong>  A list of backends to use for</li>
+<li><strong>static analysis. Defaults to Flawfinder. Available options:</strong>  CPPCheck</li>
+<li>and Flawfinder.</li>
+</ul>
+
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>str: The concatenated output of all the enabled static analysis backends.</p>
+</blockquote>
 </div>
 
 
@@ -451,8 +460,11 @@ specified in <code>backends</code>.</p>
 <p>Right now, the only info that is provided by default is the project's
 static analysis.</p>
 
-<p>Returns:
-    ProjectInfo: Information about the project.</p>
+<h6 id="returns">Returns:</h6>
+
+<blockquote>
+  <p>ProjectInfo: Information about the project.</p>
+</blockquote>
 </div>
 
 
