@@ -29,7 +29,7 @@ jobs:
     - name: Include commit hash
       run: |
         HASH=$(git rev-parse --short HEAD)
-        sed -i "s/__COMMIT_HASH__/$HASH/" src/overhaul/__init__.py
+        sed -i "s/__COMMIT_HASH__/$HASH/g" src/overhaul/__init__.py
     - name: Install the project
       run: uv sync --all-extras --group docs
     - name: Create docs
