@@ -12,6 +12,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Skip if commit author is GitHub Actions
+      run: |
+        AUTHOR=$(git log -1 --pretty=format:'%an')
+        if [ "$AUTHOR" = "GitHub Actions" ]; then
+          echo "Skipping benchmark for documentation commit"
+          exit 0
+          fi
+
     - name: Install uv
       uses: astral-sh/setup-uv@v5
       with:
