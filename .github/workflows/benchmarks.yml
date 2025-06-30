@@ -45,7 +45,7 @@ jobs:
 
     - name: Print benchmark's results
       run: |
-        cat benchmark_results/${{ steps.finddir.outputs.artifact_name }}/results.log
+        cat ${{ steps.finddir.outputs.artifact_name }}/results.log
 
     - name: Upload benchmark artifact
       uses: actions/upload-artifact@v4
