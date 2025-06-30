@@ -18,4 +18,6 @@
 """
 .. include:: ../../README.md
    :start-line: 2
+
+Commit: __COMMIT_HASH__
 """
