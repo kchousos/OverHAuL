@@ -19,5 +19,5 @@
 .. include:: ../../README.md
    :start-line: 2
 
-Commit: __COMMIT_HASH__
+Commit: [__COMMIT_HASH__](https://github.com/kchousos/overhaul/commit/__COMMIT_HASH__)
 """
