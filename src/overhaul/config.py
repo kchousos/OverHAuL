@@ -44,6 +44,8 @@ class Config:
     # Default model if none provided
     DEFAULT_MODEL = "gpt-4.1-mini"
 
+    EMBEDDING_MODEL = "text-embedding-ada-002"
+
     DEFAULT_DIRS = [
         ".",
         "src",
@@ -57,7 +59,8 @@ class Config:
     ]
 
     # Default files to include if none specified
-    DEFAULT_FILES = ["*.c", "*.h", "*.h.in"]
+    DEFAULT_FILES = ["*.c", "*.h"]
+    DEFAULT_EXTENSIONS = [".c", ".h"]
 
     # File regexps to be ignored
     IGNORED_FILES = [

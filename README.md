@@ -33,6 +33,7 @@ alt="Coveralls" />
 
 - Python >=3.10
 - [uv](https://docs.astral.sh/uv/)
+- clang-devel
 
 ### Installation Steps
 
