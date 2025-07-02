@@ -44,7 +44,7 @@ class Config:
     # Default model if none provided
     DEFAULT_MODEL = "gpt-4.1-mini"
 
-    EMBEDDING_MODEL = "text-embedding-ada-002"
+    EMBEDDING_MODEL = "text-embedding-3-small"
 
     DEFAULT_DIRS = [
         ".",
