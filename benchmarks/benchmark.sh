@@ -162,7 +162,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     cmd+=(-o "$OUT_DIR")
 
     # run overhaul
-    "${cmd[@]}" # > /dev/null 2>&1
+    "${cmd[@]}" > /dev/null 2>&1
     status=$?
 
     # Check command exit status and count failures
