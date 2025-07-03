@@ -12,8 +12,8 @@ dependencies = [
     "argparse (>=1.4.0,<2.0.0)",
     "loguru (>=0.7.3,<0.8.0)",
     "flawfinder>=2.0.19",
-    "clang>=20.1.5",
     "faiss-cpu>=1.11.0",
+    "libclang>=18.1.1",
 ]
 
 [project.scripts]

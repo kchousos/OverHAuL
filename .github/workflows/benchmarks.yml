@@ -12,24 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install LLVM and Clang
-      run: |
-        sudo apt-get update
-        # Remove any existing LLVM installations
-        sudo apt-get remove -y llvm* clang* || true
-        
-        # Install specific LLVM version (14 is known to work well)
-        sudo apt-get install -y llvm-14 clang-14 libclang-14-dev
-        
-        # Create symlinks for default commands
-        sudo ln -sf /usr/bin/llvm-config-14 /usr/bin/llvm-config
-        sudo ln -sf /usr/bin/clang-14 /usr/bin/clang
-
-    - name: Set environment variables for libclang
-      run: |
-        echo "LIBCLANG_PATH=$(llvm-config --libdir)" >> $GITHUB_ENV
-        echo "LD_LIBRARY_PATH=$(llvm-config --libdir):$LD_LIBRARY_PATH" >> $GITHUB_ENV
-
     - name: Install uv
       uses: astral-sh/setup-uv@v5
       with:
