@@ -49,7 +49,7 @@ def search_vector_store(
     qvec = np.array(embedder([query]), dtype=np.float32)
     if qvec.ndim == 1:
         qvec = qvec.reshape(1, -1)
-        _, Ids = index.search(qvec, topk)
+    _, Ids = index.search(qvec, topk)
     results = []
     for idx in Ids[0]:
         if idx != -1:
@@ -90,16 +90,16 @@ def make_rag_tool(
             index, meta, question, embedder, topk=topk
         )
         if not relevant:
-            return "No relevant code found."
-        answer = "\n\n".join(
-            (
-                f"File: {item['filepath']}\n"
-                f"Signature: {item['signature']}\n"
-                f"Code:\n{item['code']}"
+            answer = "No relevant code found."
+        else:
+            answer = "\n\n".join(
+                (
+                    f"File: {item['filepath']}\n"
+                    f"Signature: {item['signature']}\n"
+                    f"Code:\n{item['code']}"
+                )
+                for item in relevant
             )
-            for item in relevant
-        )
-        logger.debug(answer)
         return answer
 
     return rag_tool

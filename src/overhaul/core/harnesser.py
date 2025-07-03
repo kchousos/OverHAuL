@@ -42,6 +42,12 @@ class GenerateHarness(dspy.Signature):
     function-level chunks of the project. Use it to write better harnesses. Keep
     in mind that it can only reply with function chunks, do not ask it to
     combine stuff.
+
+    The rag_tool does not store any information on which lines the functions
+    are. So do not ask questions based on lines.
+
+    Make sure that you only fuzz an existing function. You will know that a
+    functions exists when the rag_tool returns to you its signature and body.
     """
 
     static: str = dspy.InputField(

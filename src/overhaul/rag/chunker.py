@@ -44,8 +44,6 @@ def extract_chunks(project_path: str) -> list[dict[str, str]]:
     # Limit: At most this many chars per chunk (well under OpenAI's context limit).
     MAX_CHARS = 4000
 
-    cindex.Config.set_library_file("/usr/lib64/libclang.so")
-
     chunks = []
     for root, dirs, files in os.walk(project_path):
         # Skip hidden directories
