@@ -57,17 +57,25 @@ class GenerateHarness(dspy.Signature):
     )
     new_harness: str = dspy.OutputField(
         desc=""" C code for a libFuzzer-compatible harness. Output only the C
-        code, do not format it in a markdown code cell with backticks, so that
-        it will be ready for compilation.
+        code, **DO NOT format it in a markdown code cell with backticks**, so
+        that it will be ready for compilation.
 
         <important>
         
         Add **all** the necessary includes, either project-specific or standard
-        libraries like <string.h>, <stdint.h> and <stdlib.h>. **The function to
-        be fuzzed absolutely must be part of the source code**, do not write a
-        harness for your own functions or speculate about existing ones. You
-        must be sure that the function that is fuzzed exists in the source
-        code. Use your read tool to read the source code.
+        libraries like <string.h>, <stdint.h> and <stdlib.h>. Also include any
+        header files that are part of the project and are probably useful. Most
+        projects have a header file with the same name as the project at the
+        root.
+
+        **The function to be fuzzed absolutely must be part of the source
+        code**, do not write a harness for your own functions or speculate about
+        existing ones. You must be sure that the function that is fuzzed exists
+        in the source code. Use your rag tool to query the source code.
+
+        Do not try to fuzz functions of the project that are static, since they
+        are only visible in the file that they were declared. Choose other
+        user-facing functions instead.
 
         </important>
 
