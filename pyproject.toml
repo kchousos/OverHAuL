@@ -12,6 +12,8 @@ dependencies = [
     "argparse (>=1.4.0,<2.0.0)",
     "loguru (>=0.7.3,<0.8.0)",
     "flawfinder>=2.0.19",
+    "clang>=20.1.5",
+    "faiss-cpu>=1.11.0",
 ]
 
 [project.scripts]
@@ -32,7 +34,7 @@ dev = [
 default-groups = ["docs", "dev"]
 
 [[tool.mypy.overrides]]
-module = "dspy.*"
+module = ["dspy.*", "clang.*", "faiss.*"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]

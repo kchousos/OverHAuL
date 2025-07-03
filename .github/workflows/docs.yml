@@ -3,7 +3,6 @@ on:
   push:
     branches: [ master ]
 permissions:
-  contents: write  # Need write permission to commit back to the repo
   pages: write
   id-token: write
 concurrency:
