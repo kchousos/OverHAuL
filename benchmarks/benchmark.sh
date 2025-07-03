@@ -15,7 +15,7 @@
 # Note: Results may vary depending on the LLM model used and its variance in the harness generation.
 #
 # Usage:
-#     ./benchmark.sh
+#     ./benchmarks/benchmark.sh # From OverHAuL's root
 #
 # Author: Konstantinos Chousos
 
@@ -133,7 +133,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     commit=$(echo "$line" | awk '{print $2}')
 
     # Build base command
-    cmd=(overhaul "$repo")
+    cmd=(uv run overhaul "$repo")
 
     # Add commit if present
     if [[ -n "$commit" ]]; then
