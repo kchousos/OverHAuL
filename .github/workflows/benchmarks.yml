@@ -15,12 +15,17 @@ jobs:
     - name: Install LLVM and Clang
       run: |
         sudo apt-get update
-        sudo apt-get install -y llvm clang python3-clang
-
+        # Install specific version to match Python bindings
+        sudo apt-get install -y llvm-14 clang-14 libclang-14-dev
+        # Create symlinks for default commands
+        sudo ln -sf /usr/bin/llvm-config-14 /usr/bin/llvm-config
+        sudo ln -sf /usr/bin/clang-14 /usr/bin/clang
+        
     - name: Set environment variables for libclang
       run: |
-        echo "LIBCLANG_PATH=$(llvm-config --libdir)" >> $GITHUB_ENV
-        echo "LD_LIBRARY_PATH=$(llvm-config --libdir):$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        # Point to the specific version
+        echo "LIBCLANG_PATH=/usr/lib/llvm-14/lib" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=/usr/lib/llvm-14/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
 
     - name: Install uv
       uses: astral-sh/setup-uv@v5
