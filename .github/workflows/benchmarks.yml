@@ -47,6 +47,29 @@ jobs:
       run: |
         cat ${{ steps.finddir.outputs.artifact_name }}/results.log
 
+    - name: Print benchmark results in summary
+      run: |
+        echo '## 📊 Benchmark Results Summary' >> $GITHUB_STEP_SUMMARY
+        echo '' >> $GITHUB_STEP_SUMMARY
+        echo '| Time | Status | Project | Message |' >> $GITHUB_STEP_SUMMARY
+        echo '|------|--------|---------|---------|' >> $GITHUB_STEP_SUMMARY
+
+        awk '
+          /^[0-9]{4}-[0-9]{2}-[0-9]{2}/ {
+            time = $1 " " $2
+            match($0, /\[(INFO|ERROR|SUCCESS|WARN)\]/, m)
+            status = m[1]
+            emoji = (status == "SUCCESS" ? "✅" : (status == "ERROR" ? "❌" : (status == "WARN" ? "⚠️" : "ℹ️")))
+            sub(/^.*\] /, "", $0)
+            split($0, parts, ": ")
+            project = parts[1]
+            message = parts[2]
+            gsub(/\|/, "\\\\|", project)
+            gsub(/\|/, "\\\\|", message)
+            printf("| %s | %s %s | %s | %s |\n", time, emoji, status, project, message)
+          }
+        ' "${{ steps.finddir.outputs.artifact_name }}/results.log" >> $GITHUB_STEP_SUMMARY
+
     - name: Upload benchmark artifact
       uses: actions/upload-artifact@v4
       with:
