@@ -44,6 +44,8 @@ class Config:
     # Default model if none provided
     DEFAULT_MODEL = "gpt-4.1-mini"
 
+    EMBEDDING_MODEL = "text-embedding-3-small"
+
     DEFAULT_DIRS = [
         ".",
         "src",
@@ -57,7 +59,8 @@ class Config:
     ]
 
     # Default files to include if none specified
-    DEFAULT_FILES = ["*.c", "*.h", "*.h.in"]
+    DEFAULT_FILES = ["*.c", "*.h"]
+    DEFAULT_EXTENSIONS = [".c", ".h"]
 
     # File regexps to be ignored
     IGNORED_FILES = [
@@ -98,7 +101,7 @@ class Config:
 
     MIN_EXECUTION_TIME = 5 * 60  # seconds
 
-    EXECUTION_TIMEOUT = 2 * 60  # seconds
+    EXECUTION_TIMEOUT = 5 * 60  # seconds
 
     # Max iterations for the feedback loop between LLM and compilation/harness output
     MAX_ITERATIONS = 3
