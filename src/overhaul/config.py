@@ -89,6 +89,8 @@ class Config:
     # Harness default filename
     HARNESS_FILENAME = "harness.c"
 
+    HARNESS_OUTPUT = "harness.out"
+
     COMPILATION_SCRIPT_FILENAME = "overhaul.sh"
 
     # Default C compilation options
@@ -104,7 +106,7 @@ class Config:
     EXECUTION_TIMEOUT = 5 * 60  # seconds
 
     # Max iterations for the feedback loop between LLM and compilation/harness output
-    MAX_ITERATIONS = 3
+    MAX_ITERATIONS = 10
 
     @staticmethod
     def load_env() -> str | None:

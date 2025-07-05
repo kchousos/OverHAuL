@@ -100,12 +100,20 @@ class HarnessEvaluator:
                 timeout=Config().EXECUTION_TIMEOUT,
             )
             end_time = time.time()
-            harness_output = str(captured_output.stdout)
+            harness_output = captured_output.stderr.decode(
+                "utf-8", errors="replace"
+            )
         except subprocess.TimeoutExpired as e:
             logger.warning(
                 f"Execution timed out after {Config().EXECUTION_TIMEOUT} seconds."
             )
             return f"Error: {str(e.stderr)}", False
+
+        # save harness output
+        with open(
+            os.path.join(self.project_path, Config.HARNESS_OUTPUT), "w"
+        ) as f:
+            f.write(harness_output)
 
         runtime = end_time - start_time
         logger.info(f"Harness execution completed in {runtime:.2f} seconds.")
