@@ -105,7 +105,7 @@ fi
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 module="ReAct"
 timeout="5"
-iter="3"
+iter="10"
 basename="${BENCHMARK}__${timestamp}__${module}__${model}__${timeout}m__${iter}iter"
 OUT_DIR="benchmark_results/${basename}"
 mkdir -p "$OUT_DIR"
