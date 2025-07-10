@@ -171,7 +171,7 @@ class Harnesser:
                 f"openai/{self.model}",
                 cache=False,
                 temperature=1.0,
-                max_tokens=5000,
+                max_tokens=4000,
             )
             dspy.configure(lm=lm)
 
