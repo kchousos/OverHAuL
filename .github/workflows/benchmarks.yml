@@ -34,7 +34,7 @@ jobs:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         chmod +x ./benchmarks/benchmark.sh
-        uv run ./benchmarks/benchmark.sh -m gpt-4
+        uv run ./benchmarks/benchmark.sh -m gpt-4o
 
     - name: Find benchmark directory name
       id: finddir
