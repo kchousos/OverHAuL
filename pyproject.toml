@@ -1,6 +1,6 @@
 [project]
 name = "OverHAuL"
-version = "1.1.0"
+version = "2.0.0"
 description = "LLM-generated harnesses for your C project."
 authors = [{ name = "Konstantinos Chousos", email = "kon.chousos@gmail.com" }]
 requires-python = ">=3.10,<3.13"
