@@ -2,19 +2,24 @@
 
 <div align="center">
 
-Transform your code security — one harness at a time.
+Improve your code security one harness at a time.
 
 <p>
 <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
+<a href="https://pergamos.lib.uoa.gr/uoa/dl/object/5300250"><img src="https://img.shields.io/badge/uoadl-5300250-blue" alt="uoadl:5300250" /></a>
 <img
 src="https://img.shields.io/badge/Python-%3E%3D%0A3.10-3776AB.svg?logo=python&amp;logoColor=white"
-alt="python" /> <img
+alt="python" /> 
+<img
 src="https://img.shields.io/github/license/kchousos/overhaul"
-alt="GitHub License" /> <img
-src="https://img.shields.io/github/actions/workflow/status/kchousos/overhaul/tests.yml?label=tests"
-alt="GitHub Actions Workflow Status" /> <img
-src="https://img.shields.io/coverallsCoverage/github/kchousos/OverHAuL?branch=master"
-alt="Coveralls" />
+alt="GitHub License" /> 
+<a href="https://kchousos.github.io/OverHAuL"><img alt="Static Badge" src="https://img.shields.io/badge/Docs-click_here-white"></a>
+<!-- <img -->
+<!-- src="https://img.shields.io/github/actions/workflow/status/kchousos/overhaul/tests.yml?label=tests" -->
+<!-- alt="GitHub Actions Workflow Status" />  -->
+<!-- <img -->
+<!-- src="https://img.shields.io/coverallsCoverage/github/kchousos/OverHAuL?branch=master" -->
+<!-- alt="Coveralls" /> -->
 <!-- <a href="https://docs.astral.sh/ruff/"> -->
 <!-- <img src="https://img.shields.io/badge/code%20formatter-ruff-d7ff64" -->
 <!-- alt="code formatter: ruff" /></a>  -->
@@ -32,8 +37,6 @@ alt="Coveralls" />
 ### Dependencies
 
 - Python >=3.10
-- [uv](https://docs.astral.sh/uv/)
-- clang-devel
 
 ### Installation Steps
 
@@ -54,7 +57,7 @@ alt="Coveralls" />
 3. Install the project:
 
     ```bash
-    uv pip install .
+    pip install .
     ```
 
 ## Usage
@@ -102,3 +105,7 @@ options:
   -o OUTPUT_DIR, --output-dir OUTPUT_DIR
                         Directory to clone the project into. Defaults to output
 ```
+
+## Acknowledgments
+
+This project was developed as part of my BSc Thesis, under the supervision of Prof. [Thanassis Avgerinos](https://cgi.di.uoa.gr/~thanassis/). The thesis is [hosted online](https://kchousos.github.io/BSc-Thesis/).
